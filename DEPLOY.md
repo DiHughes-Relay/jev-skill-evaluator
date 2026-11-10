@@ -1,7 +1,7 @@
 # Putting the Jev Skill Evaluator on Vercel
 
-The app is ready for Vercel as-is: the page is in `public/`, the server code is in `api/` (thin wrappers) and
-`lib/core.js`, and `vercel.json` tells Vercel how to run it. Nothing needs to be built.
+The app is ready for Vercel as-is: `server.js` is the entrypoint (Vercel detects it and runs it as a Node app),
+the logic is in `lib/core.js`, and the page is in `public/`. Nothing needs to be built.
 
 ## Before you start
 
@@ -17,7 +17,7 @@ The app is ready for Vercel as-is: the page is in `public/`, the server code is 
 
 1. **GitHub.** The folder goes into a new private GitHub repository (Claude can do this once you say which account:
    your own, DiHughes-Relay, or the RelayGSE organization).
-2. **Vercel → Add New → Project → Import** that repository. Framework preset: **Other**. Leave the build settings at their defaults (no overrides).
+2. **Vercel → Add New → Project → Import** that repository. Let Vercel pick the framework preset it detects for `server.js` (a Node/Express-style server). Leave build settings at their defaults (no overrides).
 3. **Environment variables** (in the import screen, or later under Settings → Environment Variables):
    - `TYPESAFE_API_KEY`: your Jev key
    - `APP_PASSWORD`: a password you'll share with teammates
@@ -29,7 +29,7 @@ The app is ready for Vercel as-is: the page is in `public/`, the server code is 
 
 - Push a change to the repository and Vercel redeploys automatically.
 - Changing the key or password: edit the environment variable in Vercel, then **Redeploy** (Deployments → ⋯ → Redeploy).
-- Each look-for is evaluated in its own request, which keeps every request well inside Vercel's 60-second limit
-  (`vercel.json`). A very long transcript (hundreds of teacher turns) on a multi-turn look-for is the case to watch.
-- Running it on your laptop still works the same way: `node local-server.js`, then http://localhost:4317.
+- Each look-for is evaluated in its own request, which keeps every request short. A very long transcript
+  (hundreds of teacher turns) on a multi-turn look-for is the case to watch for Vercel's time limit.
+- Running it on your laptop still works the same way: `node server.js`, then http://localhost:4317.
   If `APP_PASSWORD` is in your local `.env`, the local copy asks for it too.
