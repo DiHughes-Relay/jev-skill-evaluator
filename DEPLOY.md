@@ -17,7 +17,7 @@ The app is ready for Vercel as-is: the page is in `public/`, the server code is 
 
 1. **GitHub.** The folder goes into a new private GitHub repository (Claude can do this once you say which account:
    your own, DiHughes-Relay, or the RelayGSE organization).
-2. **Vercel → Add New → Project → Import** that repository. Framework preset: **Other**. Leave build settings empty.
+2. **Vercel → Add New → Project → Import** that repository. Framework preset: **Other**. Leave the build settings at their defaults (no overrides).
 3. **Environment variables** (in the import screen, or later under Settings → Environment Variables):
    - `TYPESAFE_API_KEY`: your Jev key
    - `APP_PASSWORD`: a password you'll share with teammates
