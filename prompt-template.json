@@ -1,0 +1,43 @@
+{
+  "model": "jev-latest",
+
+  "scoring_band_definitions": {
+    "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+    "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+    "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+    "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+  },
+
+  "instructions_with_context": "How well did the teacher do on this skill in the transcript_quote? Use turns_before_quote and turns_after_quote only as context; rate only the transcript_quote.",
+
+  "instructions_sequence": "How well did the teacher do on this skill in the transcript_quote? A look-for may unfold across several turns: if the transcript_quote is part of a sequence shown in turns_before_quote or turns_after_quote, rate how well that sequence demonstrates the skill. If the transcript_quote is not part of such a sequence, rate the transcript_quote alone.",
+
+  "instructions_sequence_final": "How well did the teacher do on this skill across the sequence of turns in turns_before_quote that ends with the transcript_quote?",
+
+  "sequence_questions": {
+    "in_sequence": "Is the transcript_quote one step of a sequence of several teacher turns that together demonstrate or attempt this skill?",
+    "in_sequence_criteria": {
+      "true": "Yes: the transcript_quote is part of a multi-turn sequence for this skill",
+      "false": "No: the transcript_quote is unrelated to this skill, or the skill is not spread across several turns here"
+    },
+    "seq_start": "If the transcript_quote is part of such a sequence, which teacher turn starts the sequence?",
+    "seq_end": "If the transcript_quote is part of such a sequence, which teacher turn ends the sequence?"
+  },
+
+  "instructions_lesson": "How well did the teacher do on this skill across the whole lesson_transcript_to_score?",
+
+  "off_topic_non_example": "Monkeys are my favorite animal in the zoo, they are so funny!",
+
+  "questions": {
+    "new_choice_1": {
+      "type": "choice",
+      "instructions": "How well did the teacher do on this skill?",
+      "criteria": {
+        "option_a": "Strong",
+        "option_b": "Attempting",
+        "option_c": "Insufficient",
+        "option_d": "Non-Example"
+      }
+    }
+  }
+}

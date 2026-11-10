@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 60,
+      "includeFiles": "{data/taxonomy.json,data/look-for-scopes.json,prompt-template.json}"
+    }
+  }
+}

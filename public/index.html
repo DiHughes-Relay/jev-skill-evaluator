@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jev Skill Evaluator</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
+    --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --non: #8a8a8f; --non-bg: #f0f0ee;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+  header { padding: 18px 24px 8px; }
+  h1 { font-size: 20px; margin: 0; }
+  .sub { color: var(--muted); font-size: 13px; }
+  main { display: grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 12px 24px 40px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  h2 { font-size: 15px; margin: 0 0 8px; }
+  h2 .n { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; text-align: center; font-size: 12px; line-height: 22px; margin-right: 6px; }
+  input[type=search], textarea, select { width: 100%; font: inherit; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  textarea { min-height: 140px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+  .skills { max-height: 52vh; overflow: auto; margin-top: 8px; border-top: 1px solid var(--line); }
+  .grp { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 10px 0 4px; }
+  label.skill { display: flex; gap: 8px; padding: 4px 2px; cursor: pointer; align-items: flex-start; }
+  label.skill small { color: var(--muted); display: block; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .chip { font-size: 12px; background: #eef2fb; color: var(--accent); border-radius: 12px; padding: 2px 8px; }
+  .chip.req { background: #e9e9ff; } .chip.opt { background: #f2f2f2; color: var(--muted); }
+  button.chip { border: 1px solid transparent; cursor: pointer; padding: 2px 8px; font-size: 12px; }
+  button.chip:hover { border-color: var(--accent); }
+  button.chip.off { background: #fff; color: var(--muted); border: 1px dashed var(--line); text-decoration: line-through; }
+  button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .warn { background: var(--att-bg); color: #6d4600; padding: 8px 10px; border-radius: 6px; font-size: 13px; margin-bottom: 10px; }
+  .turns { max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; font-size: 12px; }
+  .turns div { padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  .turns div.t { background: #f4f7ff; }
+  .turns b { color: var(--muted); font-weight: 600; }
+  .progress { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin: 8px 0; }
+  .progress i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+  .tablewrap { overflow: auto; max-height: 70vh; border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  thead th { position: sticky; top: 0; background: #fafaf8; z-index: 1; font-size: 12px; }
+  th.lf { min-width: 110px; }
+  td.quote { min-width: 280px; max-width: 460px; }
+  td.cell { cursor: pointer; white-space: nowrap; }
+  .seen { min-width: 220px; background: #fbfbf9; border-right: 2px solid var(--line); }
+  thead th.seen { background: #f3f3f0; }
+  .seenitem { margin: 2px 0; font-size: 12px; white-space: nowrap; }
+  td.seqm { color: var(--muted); font-size: 12px; cursor: default; }
+  .span { font-size: 11px; color: var(--accent); margin-top: 2px; }
+  .lessonwide { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; background: #fbfbf9; }
+  .lessonwide h3 { font-size: 13px; margin: 2px 0 6px; }
+  .lessonwide table { width: auto; }
+  .chip .sc { opacity: .65; font-size: 11px; }
+  .b { display: inline-block; border-radius: 4px; padding: 1px 6px; font-weight: 600; font-size: 12px; }
+  .b.Strong { background: var(--strong-bg); color: var(--strong); }
+  .b.Attempting { background: var(--att-bg); color: var(--att); }
+  .b.Insufficient { background: var(--ins-bg); color: var(--ins); }
+  .b.Non-Example { background: var(--non-bg); color: var(--non); }
+  .conf { color: var(--muted); font-size: 11px; margin-left: 4px; }
+  .lowconf { opacity: .55; }
+  tr.summary td { background: #fafaf8; font-size: 12px; }
+  dialog { border: 1px solid var(--line); border-radius: 10px; max-width: 760px; width: 92vw; padding: 18px; }
+  dialog pre { background: #f6f6f4; padding: 10px; border-radius: 6px; max-height: 50vh; overflow: auto; font-size: 11px; white-space: pre-wrap; }
+  .bar { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 13px; }
+  .bar span:first-child { width: 90px; }
+  .bar .track { flex: 1; height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; }
+  .bar .track i { display: block; height: 100%; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Jev Skill Evaluator</h1>
+  <div class="sub">Pick skills from the taxonomy, add a transcript, and Jev rates every teacher turn against each look-for. <span id="snap"></span></div>
+</header>
+<main>
+  <div>
+    <section>
+      <h2><span class="n">1</span>Skills</h2>
+      <input type="search" id="skillSearch" placeholder="Search skills…">
+      <div class="skills" id="skillList"></div>
+      <div class="muted" style="margin-top:8px">Look-fors that will be scored:</div>
+      <div class="chips" id="lfChips"><span class="muted">None yet</span></div>
+      <div class="muted" id="lfHint" style="margin-top:6px" hidden>Click a look-for to skip it, e.g. Multi-Modal Instruction, which can't be seen in a text transcript.</div>
+    </section>
+  </div>
+  <div style="display:grid; gap:16px; align-content:start">
+    <section>
+      <h2><span class="n">2</span>Transcript</h2>
+      <div id="keyWarn" class="warn" hidden>No Jev API key found. Add <code>TYPESAFE_API_KEY=…</code> to the <code>.env</code> file in the app folder and restart.</div>
+      <div class="row" style="margin-top:0">
+        <input type="file" id="file" accept=".txt,.vtt,.srt,.csv,.md,text/plain">
+        <span class="muted">Simulator CSV exports import directly. Or paste below, one turn per line, like <code>Teacher: Take out your notebooks.</code></span>
+      </div>
+      <textarea id="transcript" placeholder="Teacher: Good morning! Take 3 minutes to answer the Do Now on your own.&#10;Student 1: Do we write on the sheet?&#10;Teacher: Yes, write directly on the sheet in pencil."></textarea>
+      <div class="row" id="sessionRow" hidden>
+        <label>Session: <select id="sessionPick" style="width:auto"></select></label>
+      </div>
+      <div class="row">
+        <label>Teacher speaker: <select id="teacherSpeaker" style="width:auto"></select></label>
+        <span class="muted" id="turnCount"></span>
+      </div>
+      <div class="turns" id="turnPreview" hidden></div>
+      <div class="row">
+        <label>Context:
+          <select id="ctx" style="width:auto">
+            <option value="scope" selected>By look-for scope (draft tags)</option>
+            <option value="0">Same for all: none (just the turn)</option>
+            <option value="1">Same for all: 1 turn before and after</option>
+            <option value="2">Same for all: 2 turns before and after</option>
+            <option value="3">Same for all: 3 turns before and after</option>
+          </select></label>
+        <span class="muted" id="ctxHelp"></span>
+      </div>
+      <div class="row">
+        <button class="primary" id="run" disabled>Evaluate</button>
+        <button id="stop" hidden>Stop</button>
+        <span class="muted" id="estimate"></span>
+      </div>
+    </section>
+    <section id="resultsSec" hidden>
+      <h2><span class="n">3</span>Results</h2>
+      <div class="progress"><i id="prog"></i></div>
+      <div class="row" style="margin-top:0; margin-bottom:8px">
+        <label><input type="checkbox" id="hideNon" checked> Hide turns where every look-for is Non-Example</label>
+        <button id="csv">Download CSV</button>
+        <span class="muted" id="status"></span>
+      </div>
+      <div id="lessonWide" class="lessonwide" hidden></div>
+      <div class="tablewrap"><table id="results"></table></div>
+      <div class="muted" style="margin-top:6px">Each cell shows Jev's rating with its probability (e.g. Strong 61%), then Jev's separate confidence in that choice. Faded ratings have confidence under 50%. Click any rating to see all four probabilities and the exact request that was sent.</div>
+    </section>
+  </div>
+</main>
+
+<dialog id="pwDialog">
+  <form id="pwForm" method="dialog">
+    <h2>Password</h2>
+    <p class="muted" id="pwMsg"></p>
+    <input type="password" id="pwInput" autocomplete="current-password" style="width:100%; font:inherit; padding:7px 9px; border:1px solid var(--line); border-radius:6px">
+    <div class="row" style="justify-content:flex-end"><button class="primary" type="submit">Continue</button></div>
+  </form>
+</dialog>
+
+<dialog id="detail">
+  <div id="detailBody"></div>
+  <div class="row" style="justify-content:flex-end"><button onclick="detail.close()">Close</button></div>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Non-Example'];
+const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', 'Non-Example': 'var(--non)' };
+
+let skills = [], selected = new Set(), turns = [], run = null;
+let excluded = new Set();
+try { excluded = new Set(JSON.parse(localStorage.getItem('excludedLookFors') || '[]')); } catch {}
+
+// ---------- skills ----------
+// ---------- API calls (adds the shared password when the app has one) ----------
+const PW_KEY = 'jevAppPassword';
+const getPw = () => { try { return localStorage.getItem(PW_KEY) || ''; } catch { return ''; } };
+function askPassword(wrong) {
+  return new Promise((resolve) => {
+    $('pwMsg').textContent = wrong ? 'That password didn’t work. Try again.' : 'Enter the password your team shared for this app.';
+    $('pwInput').value = '';
+    $('pwDialog').showModal();
+    $('pwForm').onsubmit = (e) => { e.preventDefault(); const v = $('pwInput').value; try { localStorage.setItem(PW_KEY, v); } catch {} $('pwDialog').close(); resolve(v); };
+    $('pwDialog').oncancel = () => resolve(null);
+  });
+}
+async function api(path, opts = {}) {
+  let pw = getPw(), tries = 0;
+  for (;;) {
+    const r = await fetch(path, { ...opts, headers: { ...(opts.headers || {}), 'x-app-password': pw } });
+    if (r.status !== 401) return r;
+    pw = await askPassword(tries++ > 0 || !!getPw());
+    if (pw === null) throw new Error('Password required');
+  }
+}
+
+async function init() {
+  const cfg = await api('/api/config').then((r) => r.json());
+  $('keyWarn').hidden = cfg.hasKey;
+  $('snap').textContent = `Taxonomy snapshot: ${cfg.snapshot_date}.` + (cfg.mock ? ' MOCK MODE — ratings are random.' : '');
+  skills = await api('/api/skills').then((r) => r.json());
+  renderSkills();
+}
+function renderSkills() {
+  const q = $('skillSearch').value.toLowerCase();
+  const groups = {};
+  for (const s of skills) {
+    if (q && !(s.name + ' ' + s.description + ' ' + s.look_fors.map((l) => l.name).join(' ')).toLowerCase().includes(q)) continue;
+    (groups[s.alignment] ||= []).push(s);
+  }
+  $('skillList').innerHTML = Object.keys(groups).sort().map((g) => `<div class="grp">${esc(g)}</div>` + groups[g].map((s) =>
+    `<label class="skill"><input type="checkbox" value="${s.id}" ${selected.has(s.id) ? 'checked' : ''}>
+      <span>${esc(s.name)}<small>${s.look_fors.length} look-fors</small></span></label>`).join('')).join('') || '<div class="muted" style="padding:8px">No matches</div>';
+}
+$('skillSearch').oninput = renderSkills;
+$('skillList').onchange = (e) => {
+  if (e.target.checked) selected.add(e.target.value); else selected.delete(e.target.value);
+  renderChips(); updateEstimate();
+};
+function selectedLookFors() {
+  const m = new Map();
+  for (const s of skills.filter((s) => selected.has(s.id))) for (const l of s.look_fors) if (!m.has(l.id)) m.set(l.id, l);
+  return [...m.values()];
+}
+function activeLookFors() { return selectedLookFors().filter((l) => !excluded.has(l.id)); }
+function renderChips() {
+  const lfs = selectedLookFors();
+  const SC = { single_utterance: 'single', responsive_utterance: 'responsive', multi_turn_move: 'multi-turn', lesson_pattern: 'lesson-wide' };
+  const VIS = { no: ' · not visible in a transcript', partly: ' · only partly visible in a transcript' };
+  $('lfChips').innerHTML = lfs.length ? lfs.map((l) => `<button type="button" class="chip ${l.type === 'Required' ? 'req' : l.type === 'Optional' ? 'opt' : ''} ${excluded.has(l.id) ? 'off' : ''}" data-id="${l.id}" title="${esc(l.type)} · ${esc(SC[l.scope] || '')} (draft)${esc(VIS[l.visible] || '')}${l.visibleNote ? ': ' + esc(l.visibleNote) : ''} · click to ${excluded.has(l.id) ? 'include' : 'skip'}">${excluded.has(l.id) ? '' : '✓ '}${l.visible === 'no' ? '⊘ ' : ''}${esc(l.name)} <span class="sc">${esc(SC[l.scope] || '')}</span></button>`).join('') : '<span class="muted">None yet</span>';
+  $('lfHint').hidden = !lfs.length;
+}
+$('lfChips').onclick = (e) => {
+  const b = e.target.closest('button.chip'); if (!b) return;
+  if (excluded.has(b.dataset.id)) excluded.delete(b.dataset.id); else excluded.add(b.dataset.id);
+  try { localStorage.setItem('excludedLookFors', JSON.stringify([...excluded])); } catch {}
+  renderChips(); updateEstimate();
+};
+
+// ---------- transcript parsing ----------
+// Handles "Speaker: text", "[00:01:02] Speaker: text", "Speaker (00:01): text", and VTT/SRT captions.
+// Standard CSV (quoted fields may contain commas, newlines and "" escapes)
+function parseCsv(text) {
+  const rows = []; let row = [], field = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (c === '"') q = false;
+      else field += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (c !== '\r') field += c;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((f) => f.trim()));
+}
+// Relay Teaching Simulator export: session_id, simulation, grade_level, turn, user_input, ai_response
+function isSimulatorCsv(raw) { return /^﻿?[^\n]*\buser_input\b[^\n]*\bai_response\b/.test(raw); }
+function parseSimulatorCsv(raw) {
+  const [header, ...rows] = parseCsv(raw.replace(/^﻿/, ''));
+  const col = (name) => header.findIndex((h) => h.trim() === name);
+  const iSess = col('session_id'), iSim = col('simulation'), iGrade = col('grade_level'), iTurn = col('turn'), iUser = col('user_input'), iAi = col('ai_response');
+  const sessions = [...new Set(rows.map((r) => r[iSess]))];
+  const sess = $('sessionPick').value && sessions.includes($('sessionPick').value) ? $('sessionPick').value : sessions[0];
+  $('sessionPick').innerHTML = sessions.map((s) => {
+    const r = rows.find((x) => x[iSess] === s);
+    return `<option value="${esc(s)}">${esc((r?.[iSim] || 'Session') + (r?.[iGrade] ? ' · grade ' + r[iGrade] : '') + ' · ' + String(s).slice(0, 8))}</option>`;
+  }).join('');
+  $('sessionPick').value = sess;
+  $('sessionRow').hidden = sessions.length < 2;
+  const out = [];
+  for (const r of rows.filter((x) => x[iSess] === sess).sort((a, b) => Number(a[iTurn]) - Number(b[iTurn]))) {
+    if (r[iUser]?.trim()) out.push({ speaker: 'Teacher', text: r[iUser].trim(), label: r[iTurn] });
+    if (r[iAi]?.trim()) out.push({ speaker: 'Students', text: r[iAi].trim(), label: r[iTurn] });
+  }
+  return out;
+}
+
+function parseTranscript(raw) {
+  if (isSimulatorCsv(raw)) return parseSimulatorCsv(raw);
+  $('sessionRow').hidden = true;
+  const lines = raw.replace(/\r/g, '').split('\n');
+  const out = [];
+  for (let line of lines) {
+    line = line.trim();
+    if (!line || line === 'WEBVTT' || /^\d+$/.test(line) || /-->/.test(line) || /^NOTE\b/.test(line)) continue;
+    line = line.replace(/^\[?\(?\d{1,2}:\d{2}(:\d{2})?(\.\d+)?\)?\]?\s*/, '');           // leading timestamp
+    line = line.replace(/^<v\s+([^>]+)>/, '$1: ').replace(/<\/v>/g, '');                // VTT voice tags
+    const m = line.match(/^([A-Za-z][\w .'’\-]{0,40}?)\s*(?:\(\d{1,2}:\d{2}(?::\d{2})?\))?\s*:\s+(.+)$/);
+    if (m) out.push({ speaker: m[1].trim(), text: m[2].trim() });
+    else if (out.length) out[out.length - 1].text += ' ' + line;                        // continuation line
+    else out.push({ speaker: '', text: line });
+  }
+  return out;
+}
+function refreshTranscript() {
+  const parsed = parseTranscript($('transcript').value);
+  const speakers = [...new Set(parsed.map((p) => p.speaker))];
+  const prev = $('teacherSpeaker').value;
+  const guess = speakers.find((s) => /teacher|^t$|^mr|^ms|^mrs|^dr/i.test(s)) ?? speakers[0];
+  $('teacherSpeaker').innerHTML = speakers.map((s) => `<option value="${esc(s)}">${esc(s || '(no speaker label)')}</option>`).join('');
+  $('teacherSpeaker').value = speakers.includes(prev) ? prev : guess ?? '';
+  const teacher = $('teacherSpeaker').value;
+  turns = parsed.map((p, i) => ({ ...p, index: i, label: p.label ?? String(i + 1), isTeacher: p.speaker === teacher }));
+  const tt = turns.filter((t) => t.isTeacher);
+  $('turnCount').textContent = parsed.length ? `${parsed.length} turns found, ${tt.length} by the teacher` : '';
+  $('turnPreview').hidden = !parsed.length;
+  $('turnPreview').innerHTML = turns.slice(0, 300).map((t) => `<div class="${t.isTeacher ? 't' : ''}" style="white-space:pre-line"><b>${esc(t.label)} · ${esc(t.speaker || '—')}:</b> ${esc(t.text)}</div>`).join('');
+  updateEstimate();
+}
+$('transcript').oninput = refreshTranscript;
+$('teacherSpeaker').onchange = refreshTranscript;
+$('sessionPick').onchange = refreshTranscript;
+$('file').onchange = async (e) => { const f = e.target.files[0]; if (f) { $('transcript').value = await f.text(); refreshTranscript(); } };
+
+function updateEstimate() {
+  const tt = turns.filter((t) => t.isTeacher).length, act = activeLookFors();
+  const byScope = $('ctx').value === 'scope';
+  const lesson = byScope ? act.filter((l) => l.scope === 'lesson_pattern').length : 0;
+  const n = tt ? (act.length - lesson) * tt + lesson : 0;
+  $('ctxHelp').textContent = byScope
+    ? 'Single: just the turn. Responsive: + 2 turns before. Multi-turn: ± 3 turns, rated as a sequence. Lesson-wide: one rating for the whole transcript.'
+    : 'Every look-for gets the same window; Jev rates only the target turn.';
+  $('run').disabled = !n || !!run;
+  $('estimate').textContent = n ? `${n} Jev calls (${tt} teacher turns × ${act.length - lesson} look-fors${lesson ? ` + ${lesson} lesson-wide` : ''})` : !selected.size ? 'Pick at least one skill'
+    : !activeLookFors().length ? 'All look-fors are switched off. Click one above to include it'
+    : 'Add a transcript with at least one teacher turn';
+}
+
+// ---------- context mode ----------
+// 'scope' = each look-for gets the window its draft scope calls for (see data/look-for-scopes.json);
+// a number = that many teacher turns before and after, for every look-for.
+const SCOPE_LABEL = { single_utterance: 'Single utterance', responsive_utterance: 'Responsive', multi_turn_move: 'Multi-turn', lesson_pattern: 'Lesson-wide' };
+try { const c = localStorage.getItem('contextMode'); if (c !== null && [...$('ctx').options].some((o) => o.value === c)) $('ctx').value = c; } catch {}
+$('ctx').onchange = () => { try { localStorage.setItem('contextMode', $('ctx').value); } catch {} updateEstimate(); };
+const modeText = (m) => m === 'scope' ? 'context by look-for scope' : `context ±${m} turns`;
+
+// ---------- evaluation ----------
+let results = {}, finals = {}, seqMembers = {}, pendingEnds = {}, lookFors = [], lessonLookFors = [], evalTurns = [], runMode = 'scope', runTranscript = [], runSkills = [];
+$('run').onclick = async () => {
+  runMode = $('ctx').value;
+  runTranscript = turns.map((t) => ({ index: t.index, label: t.label, speaker: t.speaker, text: t.text, isTeacher: t.isTeacher }));
+  runSkills = [...selected];
+  evalTurns = turns.filter((t) => t.isTeacher);
+  results = {}; finals = {}; seqMembers = {}; pendingEnds = {};
+  // Column list, built here so the order is stable while answers stream in
+  const byScope = runMode === 'scope';
+  const all = activeLookFors().map((l) => ({
+    id: l.id, name: l.name, scope: l.scope, lessonWide: byScope && l.scope === 'lesson_pattern',
+    skills: skills.filter((s) => selected.has(s.id) && s.look_fors.some((x) => x.id === l.id)).map((s) => ({ name: s.name, type: s.look_fors.find((x) => x.id === l.id).type })),
+  }));
+  lookFors = all.filter((l) => !l.lessonWide); lessonLookFors = all.filter((l) => l.lessonWide);
+  $('resultsSec').hidden = false; $('stop').hidden = false; $('status').textContent = 'Starting…';
+  const ctrl = new AbortController(); run = ctrl; updateEstimate();
+  let total = all.reduce((n, l) => n + (l.lessonWide ? 1 : evalTurns.length), 0), done = 0, errors = 0;
+  let lastDraw = 0;
+  const progress = () => {
+    $('prog').style.width = (total ? (100 * done / total) : 0) + '%';
+    $('status').textContent = `${done} / ${total} rated` + (errors ? ` · ${errors} errors` : '');
+    if (Date.now() - lastDraw > 400) { drawTable(); lastDraw = Date.now(); }
+  };
+  const handle = (msg) => {
+    if (msg.kind === 'more') total += msg.add;
+    if (msg.kind === 'sequence') { for (const m of msg.members) if (m !== msg.end) seqMembers[m + '|' + msg.lookForId] = msg; pendingEnds[msg.end + '|' + msg.lookForId] = msg; }
+    // A sequence whose own rating is Non-Example is not really a sequence: its turns keep their own ratings
+    if (msg.kind === 'result' && msg.sequence && msg.label === 'Non-Example') { for (const m of msg.sequence.members) { delete seqMembers[m + '|' + msg.lookForId]; delete pendingEnds[m + '|' + msg.lookForId]; } done++; return; }
+    if (msg.kind === 'result' || msg.kind === 'error') { (msg.sequence ? finals : results)[msg.turn + '|' + msg.lookForId] = msg; done++; if (msg.kind === 'error') errors++; }
+  };
+  // One request per look-for (2 at a time) keeps each request short for the hosted version
+  const evalOne = async (l) => {
+    try {
+      const res = await api('/api/evaluate', { method: 'POST', signal: ctrl.signal, headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skillIds: runSkills, lookForIds: [l.id], transcript: runTranscript, mode: byScope ? 'scope' : Number(runMode) }) });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || `HTTP ${res.status}`);
+      const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+      for (;;) {
+        const { value, done: end } = await reader.read();
+        if (end) break;
+        buf += dec.decode(value, { stream: true });
+        let i;
+        while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); if (line.trim()) handle(JSON.parse(line)); }
+        progress();
+      }
+    } catch (e) {
+      if (e.name === 'AbortError') throw e;
+      // Whole request failed (e.g. timed out): mark this look-for's missing cells as errors
+      const keys = l.lessonWide ? ['lesson'] : evalTurns.map((t) => t.index);
+      for (const k of keys) if (!results[k + '|' + l.id] && !finals[k + '|' + l.id]) { results[k + '|' + l.id] = { kind: 'error', turn: k, lookForId: l.id, error: String(e.message || e) }; done++; errors++; }
+      progress();
+    }
+  };
+  try {
+    const queue = [...all];
+    await Promise.all(Array.from({ length: 2 }, async () => { while (queue.length && !ctrl.signal.aborted) await evalOne(queue.shift()); }));
+    $('status').textContent = ctrl.signal.aborted ? 'Stopped.' : `Done: ${done} ratings, ${modeText(runMode)}` + (errors ? ` · ${errors} errors (click a red ! to see why)` : '');
+  } catch (e) {
+    $('status').textContent = e.name === 'AbortError' ? 'Stopped.' : 'Error: ' + e.message;
+  } finally {
+    run = null; $('stop').hidden = true; drawTable(); updateEstimate();
+  }
+};
+$('stop').onclick = () => run?.abort();
+$('hideNon').onchange = drawTable;
+
+// Look-fors Jev is >50% confident the teacher attempted on this turn (Non-Example = not attempted, so left out)
+function seenCell(cells) {
+  const hits = cells.map((r, k) => ({ r, l: lookFors[k] }))
+    .filter(({ r }) => r?.kind === 'result' && r.label !== 'Non-Example' && r.confidence > 0.5)
+    .sort((a, b) => BANDS.indexOf(a.r.label) - BANDS.indexOf(b.r.label) || b.r.confidence - a.r.confidence);
+  return hits.length
+    ? hits.map(({ r, l }) => `<div class="seenitem"><span class="b ${r.label}">${r.label}</span> ${esc(l.name)}${r.sequence ? ` <span class="muted">(${esc(spanText(r.sequence))})</span>` : ''}</div>`).join('')
+    : '<span class="muted">—</span>';
+}
+
+const spanText = (q) => q.startLabel === q.endLabel ? 'turn ' + q.startLabel : 'turns ' + q.startLabel + '–' + q.endLabel;
+function cellFor(t, l) {
+  const k = t.index + '|' + l.id;
+  if (finals[k]) return finals[k];
+  if (seqMembers[k]) return { kind: 'seqmember', seq: seqMembers[k] };
+  if (pendingEnds[k]) return { kind: 'pending', seq: pendingEnds[k] };
+  return results[k];
+}
+function ratingCell(r, key, lfId) {
+  if (r?.kind === 'seqmember') return `<td class="cell seqm" title="Rated as part of the sequence that ends at turn ${esc(r.seq.endLabel)}">↳ part of ${esc(spanText(r.seq))}</td>`;
+  if (r?.kind === 'pending') return `<td class="cell muted">… rating ${esc(spanText(r.seq))}</td>`;
+  const span = r?.sequence ? `<div class="span">${esc(spanText(r.sequence))}</div>` : '';
+  if (r?.kind === 'result' && span) return `<td class="cell ${r.confidence < 0.5 ? 'lowconf' : ''}" data-k="${key}|${lfId}"><span class="b ${r.label}">${r.label} ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}%</span><span class="conf">conf ${Math.round(r.confidence * 100)}%</span>${span}</td>`;
+  if (r?.kind === 'error' && span) return `<td class="cell" data-k="${key}|${lfId}"><span class="b Insufficient">!</span>${span}</td>`;
+  if (!r) return '<td class="cell muted">…</td>';
+  if (r.kind === 'error') return `<td class="cell" data-k="${key}|${lfId}"><span class="b Insufficient">!</span></td>`;
+  return `<td class="cell ${r.confidence < 0.5 ? 'lowconf' : ''}" data-k="${key}|${lfId}"><span class="b ${r.label}">${r.label} ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}%</span><span class="conf" title="Jev's confidence in this choice">conf ${Math.round(r.confidence * 100)}%</span></td>`;
+}
+const scopeLine = (l) => `${esc([...new Set(l.skills.map((s) => s.type))].join(' / '))} · ${esc(SCOPE_LABEL[l.scope] || '')}`;
+
+function drawTable() {
+  // Lesson-wide look-fors: one rating for the whole transcript
+  $('lessonWide').hidden = !lessonLookFors.length;
+  $('lessonWide').innerHTML = lessonLookFors.length ? `<h3>Lesson-wide look-fors <span class="muted" style="font-weight:400">rated once across the whole transcript</span></h3>
+    <table><tbody>${lessonLookFors.map((l) => `<tr><td style="min-width:240px"><b>${esc(l.name)}</b><div class="muted">${scopeLine(l)}</div></td>${ratingCell(results['lesson|' + l.id], 'lesson', l.id)}</tr>`).join('')}</tbody></table>` : '';
+
+  const hide = $('hideNon').checked;
+  const counts = Object.fromEntries(lookFors.map((l) => [l.id, Object.fromEntries(BANDS.map((b) => [b, 0]))]));
+  let rows = '';
+  for (const t of evalTurns) {
+    const cells = lookFors.map((l) => cellFor(t, l));
+    cells.forEach((r, k) => { if (r?.label) counts[lookFors[k].id][r.label]++; });
+    if (hide && cells.length && cells.every((r) => r && r.kind !== 'seqmember' && r.kind !== 'pending' && r.label === 'Non-Example')) continue;
+    rows += `<tr><td class="muted">${esc(t.label)}</td><td class="quote">${esc(t.text)}</td><td class="seen">${seenCell(cells)}</td>` + cells.map((r, k) => ratingCell(r, t.index, lookFors[k].id)).join('') + '</tr>';
+  }
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
+  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient</div></td><td></td>${lookFors.map((l) => {
+    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span></td>`; }).join('')}</tr>`;
+  $('results').innerHTML = head + '<tbody>' + summary + rows + '</tbody>';
+}
+
+async function showDetail(e) {
+  const td = e.target.closest('td.cell[data-k]'); if (!td) return;
+  const r = finals[td.dataset.k] || results[td.dataset.k]; const [key, lfId] = td.dataset.k.split('|');
+  const l = [...lookFors, ...lessonLookFors].find((x) => x.id === lfId);
+  const t = key === 'lesson' ? null : evalTurns.find((x) => String(x.index) === key);
+  const sent = await api('/api/preview', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lookForId: lfId, skillIds: runSkills, transcript: runTranscript, mode: runMode === 'scope' ? 'scope' : Number(runMode), key, seq: r.sequence ? { start: r.sequence.start, end: r.sequence.end, members: r.sequence.members } : undefined }) }).then((x) => x.json());
+  const crit = sent.questions.new_choice_1.criteria;
+  $('detailBody').innerHTML = `<h2>${esc(l.name)} · ${r.sequence ? 'sequence, ' + esc(spanText(r.sequence)) : t ? 'turn ' + esc(t.label) : 'whole lesson'}</h2>` + (t ? `<p>“${esc(t.text)}”</p>` : '') +
+    `<p class="muted">Scope: ${esc(SCOPE_LABEL[l.scope] || '')} · ${esc(modeText(runMode))}</p>` +
+    (r.kind === 'error' ? `<div class="warn">${esc(r.error)}</div>` :
+      `<p><span class="b ${r.label}">${r.label}</span> <span class="muted">probability ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}% · confidence ${Math.round(r.confidence * 100)}% · ${esc(r.model)} · ${r.tokens ?? '?'} input tokens</span></p>` +
+      Object.entries(r.probabilities || {}).map(([k, p]) => `<div class="bar"><span>${esc(crit[k] || k)}</span><span class="track"><i style="width:${p * 100}%;background:${COLORS[crit[k]] || 'var(--accent)'}"></i></span><span class="muted">${Math.round(p * 100)}%</span></div>`).join('')) +
+    `<details style="margin-top:12px"><summary>Exact request sent to Jev</summary><pre>${esc(JSON.stringify(sent, null, 2))}</pre></details>`;
+  $('detail').showModal();
+}
+$('results').onclick = showDetail;
+$('lessonWide').onclick = showDetail;
+
+$('csv').onclick = () => {
+  const q = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
+  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_non_example', 'error'].join(',')];
+  const row = (turnLabel, text, l, r) => { const p = r.probabilities || {};
+    lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', p.option_a?.toFixed(3) ?? '', p.option_b?.toFixed(3) ?? '', p.option_c?.toFixed(3) ?? '', p.option_d?.toFixed(3) ?? '', q(r.error)].join(',')); };
+  for (const l of lessonLookFors) { const r = results['lesson|' + l.id]; if (r) row('whole lesson', '', l, r); }
+  for (const t of evalTurns) for (const l of lookFors) { const r = cellFor(t, l); if (r && r.kind !== 'pending') row(t.label, t.text, l, r.kind === 'seqmember' ? { ...r, label: '' } : r); }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
+  a.download = 'jev-ratings.csv'; a.click();
+};
+
+init();
+</script>
+</body>
+</html>

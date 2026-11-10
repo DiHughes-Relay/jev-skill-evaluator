@@ -1,0 +1,11 @@
+{
+  "name": "jev-skill-evaluator",
+  "private": true,
+  "description": "Rates teacher transcript turns against Relay taxonomy look-fors using TypeSafe Jev",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

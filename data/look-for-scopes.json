@@ -1,0 +1,1750 @@
+{
+ "draft": true,
+ "created": "2026-11-10",
+ "source": "Draft tags from look-for-scope-tags.csv; NOT part of the official taxonomy",
+ "scopes": {
+  "75f04a7c-9e2e-46d1-931e-e138a0bc0f98": {
+   "name": "Academic Discourse Norms",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "anchor charts and visual norms not in transcript"
+  },
+  "ae7ce964-cf00-483d-bfb3-b7f559a202c0": {
+   "name": "Accurate Sound Production",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "precise pronunciation may not survive text transcription"
+  },
+  "c15c93ee-83c4-401e-8469-80df1614f143": {
+   "name": "Accurate Sound Production (Spanish)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "precise pronunciation may not survive text transcription"
+  },
+  "a563c7d2-8730-4c6d-8cb9-c15502b38fe8": {
+   "name": "Accurate, Automatic Reading",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "reading pace and pauses not in text"
+  },
+  "bc98764b-7c98-4806-bfbb-976405b8def2": {
+   "name": "Acknowledge and Connect",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2ce92cf7-efb9-4f0d-8f54-4a4453c66941": {
+   "name": "Add Emphasis",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "vocal stress and volume not in transcript"
+  },
+  "0ad6e3c5-102d-404e-921d-5b7ab3f6dede": {
+   "name": "Address Entire Problem/Task",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "assigned task scope and written work not in transcript"
+  },
+  "27f95843-bd32-4075-a268-d75184a4bfb0": {
+   "name": "Affective Questions",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "c8f8482f-ce03-42e3-8f1c-4a4c8a93a052": {
+   "name": "Affective Statements",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "73093d65-a102-4edc-9ff6-82e55dacb867": {
+   "name": "Affirmation/Assurance",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "e0ad5213-58c4-471f-ae04-dc2631b70e5a": {
+   "name": "Affirming Non-Verbal Cues",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "gestures and facial expressions not in transcript"
+  },
+  "faaeee19-f0d3-4a16-88fe-62e89c96ca91": {
+   "name": "Align to Lesson / Objective",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "objective and lesson plan not in transcript"
+  },
+  "efced4b0-f7b2-4c1d-a085-1ebe2ce8a701": {
+   "name": "Aligned Practice",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "task materials and objective may be written only"
+  },
+  "f2ebbc19-8377-45c8-981b-213ea6ed5ef6": {
+   "name": "Amplify Text",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "highlighting and markup are visual"
+  },
+  "1536bf21-f6de-46ac-9fe4-58f44d9a0433": {
+   "name": "Annotations",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student markup and circulation not visible"
+  },
+  "611369d5-d64b-470e-b4ba-b4b5cb9a6f6c": {
+   "name": "Anonymous Group Reminders",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a70b2587-3aa9-405c-a306-8f8fac1d9a35": {
+   "name": "Anticipation Guide",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "written guide responses not in transcript"
+  },
+  "4aa43c17-ee42-4293-b3c8-91e01098517a": {
+   "name": "Apply Consonant Spelling Patterns (Spanish)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b4bddef9-33cb-4810-9536-d6f34f1e511d": {
+   "name": "Apply Spelling Patterns",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "ed20ce03-9493-4cd0-96e7-c3365a933862": {
+   "name": "Apply Tilde-Marked Stress (Spanish)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "430bde26-e577-4f0c-8724-ce8840fe765f": {
+   "name": "Apply Vowel Patterns",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "6ed693d1-f131-416d-bb03-e887ebdf563d": {
+   "name": "Ask Caregiver About Student",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "16244bf3-da57-481f-9ab9-35433e633be3": {
+   "name": "Ask, Ask, Ask",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "wait time and hand-raising not visible"
+  },
+  "61804aaa-69dc-4a8f-9e5e-a014c89e91dc": {
+   "name": "Asset-Based Framing",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2ac1f424-0b27-4a19-b079-a8840ef896ab": {
+   "name": "Assign a Buddy",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "students' home languages not stated in transcript"
+  },
+  "4176dafa-5961-422b-ae7e-591314d431da": {
+   "name": "Be Direct",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b7353300-35db-4ed9-90ef-649a5c568f3f": {
+   "name": "Blend Sounds to Read",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "pause length between sounds not in text"
+  },
+  "0fedaec4-71a8-45a0-baf2-f1b16cba53f2": {
+   "name": "Build Personal Rapport",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7df58e5f-2c46-40a0-aa11-7e1d5bbc40d0": {
+   "name": "Caregiver Conversation Affirmation of Student",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "d5bf2227-3828-441e-80ee-96b05f740e68": {
+   "name": "Caregiver Conversation Closing",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "60522213-f6b5-4055-bb46-542d90cb04c5": {
+   "name": "Caregiver Conversation Collaborative Next Step",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "ccbde261-dd38-44a4-b715-924d82c77e62": {
+   "name": "Caregiver Conversation Opening",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "077c83ed-eada-4725-a3fe-ad246dfdd1ae": {
+   "name": "Caregiver Conversation Purpose Statement",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1d2315c1-348a-4187-bb1d-0b332dbd04e0": {
+   "name": "Check What Students Noticed",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "825e49c5-450a-4a5b-b14c-0436ad0a6fd8": {
+   "name": "Checklist",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "no",
+   "note": "physical checklist and marking not visible"
+  },
+  "2e50c8e7-9ba5-450d-b9a3-d48c345e75ad": {
+   "name": "Choral Reading",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "unison and pacing not in text"
+  },
+  "a8a7969a-d637-4465-a240-76bce1c451eb": {
+   "name": "Choral Word Repetition",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "unison timing not in text"
+  },
+  "d8b884cd-5305-4679-8119-cca7e2cc5515": {
+   "name": "Chunk Multisyllabic Words",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "d26fac57-40de-43ee-b29c-4d19565ba58b": {
+   "name": "Circulate",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "no",
+   "note": "physical movement not in transcript"
+  },
+  "0c871a6f-8f8e-4db1-b7f7-bfd355391599": {
+   "name": "Classify Examples and Non-Examples",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "thumbs or sorting responses may be non-verbal"
+  },
+  "c99ba597-3950-4db7-b3bf-1689fa9b2ed3": {
+   "name": "Close the Loop",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "301dc609-7b36-45eb-afcb-fce12e1cbe1f": {
+   "name": "Close the Loop",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2161a90f-c7a5-4d20-8a41-126cfd8eae37": {
+   "name": "Cold Call",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "pause length and hand-raising not visible"
+  },
+  "386cd24f-2ac2-46b1-9df2-6573b08e9a50": {
+   "name": "Communicate High Expectations",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "35e44722-e508-4382-b9e8-ebd2fb6ba51f": {
+   "name": "Compare and Connect",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "displayed student work is visual"
+  },
+  "539fd96f-74b5-47af-929a-c0ae2f2449d7": {
+   "name": "Conceptual Question",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "e59be5a6-9b3e-415c-9074-70369b224bac": {
+   "name": "Concision",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "22403003-a6b5-4b31-bd81-1a49c28cb966": {
+   "name": "Conduct Individual Empathy Interview",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2534fbd2-c846-40d8-8006-dc69066d8e25": {
+   "name": "Connect Learning to Student Interests and Lives",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "20518a83-bc1a-4edb-abe6-699e0603b0b4": {
+   "name": "Connect to Prior Knowledge",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b3d305a3-dd95-4c1c-b96a-ad5edb085821": {
+   "name": "Connect Word Meaning",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "097f072b-c1af-45ce-a6dc-3aac146724f1": {
+   "name": "Connecting Representations",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "graphs and diagrams are visual"
+  },
+  "ee047192-d533-4276-8bba-994ef1486606": {
+   "name": "Create Problem-Solving Opportunities",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "student work time is silent"
+  },
+  "5c9f0d62-bb0a-48cb-96aa-d43db3440981": {
+   "name": "Create Safety for Personal Sharing",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "6034c430-575c-4463-b902-4e82645d2917": {
+   "name": "Criteria for Success",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "visible written checklist not in transcript"
+  },
+  "0b0fc66b-9e11-4892-9aa0-aa3f6ee0edb3": {
+   "name": "Critique, Correct, and Clarify",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "displayed written work is visual"
+  },
+  "e7dda834-c0eb-454f-abb5-41f3734fc614": {
+   "name": "Cue Missing or First Step",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "456adf97-4020-48be-ad39-7f49ebc39048": {
+   "name": "Cue with Anchor Chart or Notes",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "anchor chart content is visual"
+  },
+  "fb40b650-d619-4758-883f-d5d39a17b938": {
+   "name": "Cue with Definition, Rule or Procedure",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "0126d803-f693-402f-b302-372eecd55032": {
+   "name": "Cue with Example",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "84f262f0-997d-4ed5-a442-03bdb69c7aa5": {
+   "name": "Cultivate Student Predictions/Observations",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "written predictions not in transcript"
+  },
+  "abbc3207-0626-4beb-9fab-b0c733d5f7ac": {
+   "name": "Cultivate Student Questions",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "written questions not in transcript"
+  },
+  "49453af9-7bed-4408-9671-c984cdb80783": {
+   "name": "Curious 1:1 Interaction",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student off-task behavior may be non-verbal"
+  },
+  "5ee1f3ae-ad1d-49ab-9f84-2c798f5de513": {
+   "name": "Describe Progress Toward IEP Goals",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "ae0994fc-7047-47af-ac4b-9a599af2397d": {
+   "name": "Directions Check for Understanding",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7f4e0ebb-6039-4eb3-8050-b73b95dd839f": {
+   "name": "Do Not Use Contractions",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b9f36b91-4208-41af-9325-efe6b5da4730": {
+   "name": "Do Not Use Fused Forms",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "bc33c1bd-470c-4009-8d28-ec35ee3437ec": {
+   "name": "Do Not Use Idioms or Slang",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "87c51b92-b823-419f-8821-6510ed5a83b4": {
+   "name": "Echo Reading",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "fluency/expression/prosody not in text"
+  },
+  "f4c44054-1ee2-471d-916d-c26a23177f24": {
+   "name": "Elaborative Text-Dependent Question",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "190262a9-1113-4099-b33c-4eb8c0d1e610": {
+   "name": "Emotional Regulation",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "tone, proximity, pauses not in transcript"
+  },
+  "ccd677b2-3a41-4514-a204-f7731515d8c2": {
+   "name": "Emphasize Collective Success",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "9bfe6b8f-aaea-4835-ac93-2fbed529e486": {
+   "name": "Encourage Academic Risk-Taking",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "f96780aa-57c6-40a7-9daa-6925fd70127d": {
+   "name": "Engage All Students",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "silent written/gestured responses and scanning not visible"
+  },
+  "4013b2a5-5bcd-4a0d-89b0-3482cb339f13": {
+   "name": "Enunciate",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "no",
+   "note": "pronunciation not captured in text"
+  },
+  "f69c90f6-f691-4e36-a755-ce1a37f98b9e": {
+   "name": "Examples and Non-Examples",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "tables/visuals shown not in transcript"
+  },
+  "6915a7e0-7f96-4d97-bfc1-cb5714abcc9b": {
+   "name": "Examples and Non-Examples",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "18b9e0ff-a557-48bf-b40b-64b65eeb03a4": {
+   "name": "Explain Accommodations and Services",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "6a0268c6-4ff8-45aa-b8f5-2c4148514b25": {
+   "name": "Explain IEP Goals",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3a332426-8ac7-4946-9a56-4c83ea675081": {
+   "name": "Explain Impact on General Education Involvement and Placement",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "710e2d96-ed3b-44a9-bcfe-eb1511726d48": {
+   "name": "Explain Unfamiliar Terms",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "ce6d1f9e-0b1b-41bf-b526-5eefe96ac23f": {
+   "name": "Explain Unfamiliar Terms",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "42466777-6614-4048-90a0-9b1873c41d66": {
+   "name": "Explains Equity Impact on Student",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "64d2be1a-1e6a-437d-b235-42694550f49e": {
+   "name": "Explicit Text-Dependent Question",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "source text may not be in transcript"
+  },
+  "b4c2465e-78c3-4e8b-8527-6afea95a6e43": {
+   "name": "Facilitate Identity and Equity Discussions",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3e536b95-58d3-488b-b2ca-f9a68d143d48": {
+   "name": "Facilitate Identity/Interest Survey",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "written/digital survey may not be read aloud"
+  },
+  "8a26392b-2c1c-4f1e-a4ee-4603f6c3299b": {
+   "name": "Facilitate Multimodal Identity Expression",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "objects/symbols/media are visual"
+  },
+  "cdceabc1-5990-43a5-a859-d0cc2ee48c37": {
+   "name": "Facilitate Peer Interview",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2cc4844c-15eb-4f9a-bc99-516c9aee10a3": {
+   "name": "Facilitate Perspectives and Participation",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a48bd05e-91ed-4793-8069-45818fb73683": {
+   "name": "Facilitate Student-to-Student Relationships",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "student nonverbal signals/applause not in text"
+  },
+  "d92b51d9-643e-44ee-9bd5-40618ff9e71e": {
+   "name": "Flag the Tricky Part",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "pointing/marking the word is visual"
+  },
+  "4c50df35-b5d2-49b0-bff2-687c2601266f": {
+   "name": "Follow up Question",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "06473e88-2540-4bad-9dfb-dbe3871887b1": {
+   "name": "Foster Student Ownership of Culture",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "556a1167-a62a-467d-92ae-ea0943b254aa": {
+   "name": "Frame Activity Purpose",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7c9f00a9-c87a-49df-a5e8-4010e94595e6": {
+   "name": "Generate Examples and Non-Examples",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3f135841-4943-4626-b849-ef0fba87d251": {
+   "name": "Gestures for Meaning",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "gestures visible only if narrated"
+  },
+  "fa3595df-c516-4025-8e01-81a54bb8a397": {
+   "name": "Graphic Organizers",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "organizer and student writing not in transcript"
+  },
+  "89716f2c-7e94-4962-a6cb-b57f8336deb0": {
+   "name": "Group Roles",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "285bcdb2-2e3e-4d5e-bc74-76cd52363541": {
+   "name": "Group Words by Pattern",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7433dfd4-73ee-4d8a-bcce-f20d8b719d16": {
+   "name": "Guide Discussion Toward Productive Next Steps",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2499712d-d611-4869-a8fd-0dc1717cc05c": {
+   "name": "Guided Practice",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1c594808-0d08-4613-ae75-418b806ddbdf": {
+   "name": "Highlight Only What Matters",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "pages/images previewed not in transcript"
+  },
+  "7a2e78b4-dc0f-40eb-a142-ab8bdc3d423f": {
+   "name": "Honor Student Identities",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "c09760c8-bb80-43e8-a28b-bca6d2a53db8": {
+   "name": "Hot Potato (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "written steps not in transcript"
+  },
+  "6b59100d-8797-40b6-896d-8b39989d3f76": {
+   "name": "Identifies Equity Concern",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "fc8cdd8c-e1e7-4b1f-be52-ccf019205e63": {
+   "name": "Identify Opportunities to Strengthen the IEP",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "0804371d-70a0-44a4-825e-83cade1cd2d5": {
+   "name": "Implement Student Feedback",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b714ad27-5c95-488b-a43c-1e85815c69d3": {
+   "name": "Implicit Text-Dependent Question",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "source text may not be in transcript"
+  },
+  "67bae473-ecdf-4d05-8b96-e3f424462c7c": {
+   "name": "Inequity Response",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a5cde1c7-72d1-4fc0-9712-6c63ceec6488": {
+   "name": "Introduce Step-by-Step",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "anchor chart and pauses not in transcript"
+  },
+  "9e0300b2-c924-4988-8e0f-2bff36534522": {
+   "name": "Introduce Step-by-Step",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "pauses/timing not in transcript"
+  },
+  "9260bfcf-43d5-4630-9392-12fea52657a4": {
+   "name": "Invite Generative Thinking",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "4bed893e-965b-4d27-be26-0061f6212237": {
+   "name": "Isolate the Target Sound",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "stretched sounds and phonemes poorly captured in text"
+  },
+  "46160b1e-358f-4727-a3ed-5a3953db48eb": {
+   "name": "Isolate the Thinking",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "79c2e7f5-a8ee-4fc9-b5e8-9819028f27d4": {
+   "name": "Jigsaw",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "grouping/movement not visible"
+  },
+  "736942af-d1bf-410b-8b65-a9f4751c272a": {
+   "name": "Keep Sentences Short",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "90012405-103e-466e-b89c-b5a451b14544": {
+   "name": "KWL Chart",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "chart recording is written"
+  },
+  "43c4f1b5-fc99-4055-b904-3522cb1df325": {
+   "name": "Learning Process Choice",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "88f3d16d-6856-48c6-b954-92a1dae0a0c2": {
+   "name": "Learning Product Choice",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "0540b2b2-1989-4768-9c45-6516d339a593": {
+   "name": "Leave Some Mystery",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "book content/ending not in transcript"
+  },
+  "1289902e-0adf-4f44-9af3-f0b5a26a863d": {
+   "name": "Lesson Fidelity",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "requires lesson plan comparison"
+  },
+  "46b49ffb-17ef-43a9-bcf6-ea9541e3feed": {
+   "name": "Leverage the Workspace (Saga)",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "no",
+   "note": "highlighting/circling/stickers are visual"
+  },
+  "ac93c35f-628c-4720-a93f-76183699481b": {
+   "name": "Leverage Translanguaging",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "4701d5d8-3b09-484d-abf2-114996740789": {
+   "name": "Linked Transition",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "5ec0117d-1f13-4ab0-ae4d-aa0fd10e392e": {
+   "name": "Listen In",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "circulating and listening not visible"
+  },
+  "14ee7df0-7b7e-4fae-9287-771c6701bd37": {
+   "name": "Maintain Focus on Student's Strengths and Needs",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "c0b920f4-0f14-440e-aadc-8c99fff61bd6": {
+   "name": "Manipulatives/Visual Representations",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "manipulatives/visuals not in transcript"
+  },
+  "df7d755f-b801-4de0-866d-33d6fe78b7dd": {
+   "name": "Map Letters to Sounds",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "letter display is visual"
+  },
+  "7c2a7cbc-a4f9-48a6-84c5-8a0187ba2a97": {
+   "name": "Map Sounds to Letters",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "written letters not in transcript"
+  },
+  "a5cc2fd6-9ada-456d-b79b-3fd14a1858d6": {
+   "name": "Mathematical Accuracy",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "23cd491a-3504-44c5-99c9-73afbd4288e7": {
+   "name": "Mathematical Conceptual Understanding",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "fbd56d65-f38b-475f-aa03-04092b784ebf": {
+   "name": "Mathematical Vocabulary",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "76b6ad63-3c04-4d05-82ed-29c98680898f": {
+   "name": "Mentor Texts",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "displayed text may not be read aloud"
+  },
+  "83bca104-813b-4896-9ea5-5d311d82f88b": {
+   "name": "Mindful Break",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "duration and student movement not visible"
+  },
+  "2d2644e6-e471-4be1-86da-ceb50192d8b8": {
+   "name": "Model Enthusiasm and Curiosity for Learning",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "tone and affect not in transcript"
+  },
+  "50b1f4ea-dc36-48aa-9d60-3d13a3d1a653": {
+   "name": "Model Identity Awareness and Self-Reflection",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "abb06aa2-7e1f-4da9-90c6-a30870a45aa9": {
+   "name": "Model Language",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "8013eb1c-e397-4231-b07b-5340e7357e6d": {
+   "name": "Model/Demonstrate Task",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "physical demonstration not in transcript"
+  },
+  "52496bc5-d1f2-4aba-948e-ca42cfb0bf42": {
+   "name": "Model/Demonstrate Task",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "physical/visual demos not in transcript"
+  },
+  "d8d72afe-e709-4f19-9d4d-0a77fdbe4c19": {
+   "name": "Multi-Modal Instruction",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "second mode (visual/gesture) not in transcript"
+  },
+  "e56d2f27-98c0-4c4b-ae5e-8e6065da6a76": {
+   "name": "Multi-Modal Instruction",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "clapping/movement not in transcript"
+  },
+  "d98122e1-f307-4fc9-8dca-a4bebc33e1a0": {
+   "name": "Multi-Modal Participation",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "writing/moving responses not in transcript"
+  },
+  "4fc02283-0626-46b9-a0e3-525db599f79b": {
+   "name": "Name the Error or Misconception",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "daad6d6b-f535-4892-8198-00c7275bf742": {
+   "name": "Name Vocabulary Word",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "316e668d-7de1-48ba-885e-281d5562a7c6": {
+   "name": "Narrate Your Thinking",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3573240f-90b9-43ab-9518-f0f2df68887a": {
+   "name": "Navigate Differing Perspectives",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "e415ce5c-f94e-4ac6-b7c1-903e5527fb38": {
+   "name": "Normalize Mistakes as Learning",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7b75faf4-ab39-43fd-bc5e-e35b2263557c": {
+   "name": "Notice and Wonder",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "displayed media and board recording not visible"
+  },
+  "0e4b990f-a566-40ef-8bc7-64c3d85e9dc7": {
+   "name": "Observable Directions",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "2a17cf87-d19f-4888-964d-47c90389e027": {
+   "name": "Observation",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "circulating/scanning not visible; only narration is"
+  },
+  "701adfc3-791b-4a63-899a-f0f732544724": {
+   "name": "Offer Choice to Re-focus",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "off-task behavior often non-verbal"
+  },
+  "64e01614-1f7f-41c7-ad2b-e5de1b068dec": {
+   "name": "Open Middle",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "cc1f33d0-b469-4aa6-9699-708b79d1ff7b": {
+   "name": "Oral Tradition Learning Modes",
+   "scope": "multi_turn_move",
+   "confidence": "low",
+   "visible_in_transcript": "partly",
+   "note": "movement, music, art not in transcript"
+  },
+  "52e32d5d-fd49-46e2-8ace-f3a5e41d21cf": {
+   "name": "Paired Text",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "65a92b2f-afea-4728-a389-074a5a87a85d": {
+   "name": "Partner Reading",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "partner reading is off-mic"
+  },
+  "6f620792-4559-4a0c-b609-2588cbd5dcda": {
+   "name": "Pause",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "pause timing not in text transcript"
+  },
+  "1c76c18e-b979-4744-907b-68175562df3f": {
+   "name": "Peer Feedback",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "written feedback, peer talk, revisions not visible"
+  },
+  "9f5cea79-0fdd-4ecc-8577-36c2ba6fba85": {
+   "name": "Pencils Down (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "8facf656-d79f-4cb9-bdd4-3bb3cecf1aa9": {
+   "name": "Phrase-Cued Texts",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "written cue marks and pauses not visible"
+  },
+  "d5a5ac0f-6f4c-4c12-baaf-c46c118aa9ac": {
+   "name": "Picture Talk",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "shared image not in transcript"
+  },
+  "1e5e865e-d18d-4ae4-9129-13b05f6acddb": {
+   "name": "Playback",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "neutral tone and pause length not visible"
+  },
+  "56372e26-70ec-4a2c-a6be-bc71e09a7adf": {
+   "name": "Point out Cognates",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3a25a0c7-311c-4f6c-b437-3f4321e1f06f": {
+   "name": "Poll",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "hand signals and scanning not visible"
+  },
+  "b9799565-a551-4924-b782-b06e5f72b6a9": {
+   "name": "Positive Narration",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "student actions narrated are visual"
+  },
+  "d823de58-0485-4fb8-a55a-701189ea398a": {
+   "name": "Positive Redirection",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "off-task behavior often non-verbal"
+  },
+  "65460136-8778-4d42-a75f-ccf754f847a6": {
+   "name": "Preempt Anticipated Challenge",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "0c6e9f37-dada-43d4-9dfb-476ecb216b12": {
+   "name": "Private 1:1 Interaction",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "body position and voice volume not in transcript"
+  },
+  "f8a19b0b-afdf-485d-a528-8e1bc9b68cc6": {
+   "name": "Probing Question",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "60ccbbdb-84e0-447d-ad7a-9de8f8737d63": {
+   "name": "Procedural Question",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "485d3c1d-7566-4cc1-ad7a-51485002e913": {
+   "name": "Promote Growth Mindset",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b244196a-52e6-464c-915a-cc13cbfe6b7f": {
+   "name": "Prompt Evaluation or Judgment",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "15ee6739-0c73-4f04-8506-8ba23d698a84": {
+   "name": "Prompt Explanation of Thinking",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "6f9ef377-38e0-45a9-a78c-20f74679d08f": {
+   "name": "Prompt Generalization Assessment",
+   "scope": "responsive_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "d4af5d64-93e5-41cb-aa2d-9839f0631f5d": {
+   "name": "Prompt Interpretation or Explanation",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b87c6080-8996-40a9-baaf-eb471ef324f8": {
+   "name": "Prompt Personal Reflection and Sharing",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1e5963f9-dba0-4221-8b98-95a284f26b59": {
+   "name": "Prompt Recall or Identification",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "4811da91-9928-4378-b27e-68e0c6e832f9": {
+   "name": "Prompt Representation of Thinking",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student drawings/tables not visible"
+  },
+  "39d20a2d-1344-4065-8dd2-e691587d2ff5": {
+   "name": "Prompt Student to Restate or Paraphrase",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "c39274ce-e5de-4bda-8dbb-2c54cd7078f5": {
+   "name": "Quick 1:1 Interaction",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "exchange duration not in text"
+  },
+  "00b41b29-8c54-465e-928e-23f9a92b2409": {
+   "name": "Rally Coach (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "writer's recording not visible"
+  },
+  "bcb8f127-31f0-4a8d-a63c-d2f56ddaa9b0": {
+   "name": "Rationale",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "e2463f43-e8c2-4b68-a511-e59564321bfc": {
+   "name": "Rationale",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7c8f87ef-7ed2-48f3-8980-6b1c966f6c07": {
+   "name": "Read in Phrases",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "phrasing pauses are prosodic"
+  },
+  "23099ef9-78f3-4c01-abfb-8401d3b14c10": {
+   "name": "Read the Word as a Whole",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "automaticity/speed not in text"
+  },
+  "920c73e4-e24c-436c-8678-46e85de4f79d": {
+   "name": "Read with Expression (Prosody)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "intonation and stress not in text"
+  },
+  "c4172af0-8a25-495e-9134-4f5ee84c9be7": {
+   "name": "Readers Theater",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "group rehearsal and expression not visible"
+  },
+  "c0519e78-a436-493c-8b7a-172ac2432d3d": {
+   "name": "Realia / Concrete Objects",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "physical object handling not visible"
+  },
+  "da55cacb-e0bd-456f-8734-dae44f0fb093": {
+   "name": "Reciprocal Teaching (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1335e013-763e-4ad8-8fb5-f2de662c474b": {
+   "name": "Reference or Frame Agenda",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "written agenda not visible"
+  },
+  "178720d8-ad1f-4a5a-b1c9-c461425f5f2e": {
+   "name": "Reference or Frame Learning Goal(s)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "05d1bb36-86da-4f38-b7a5-585e38ddba43": {
+   "name": "Relational Check-In",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "40e5724c-f12d-4715-a41a-0f72dd6aa209": {
+   "name": "Repeat or Paraphrase Key Information",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1d977a67-8b68-4d4a-8994-e75a0a3d7eb3": {
+   "name": "Repeated Reading",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student pace/expression not captured in text"
+  },
+  "a0d38d9e-1293-46c6-81bc-7771d28fcda0": {
+   "name": "Require Reasoning or Justification",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "719cc230-3869-4ac5-a760-976d92a49bad": {
+   "name": "Resource Exploration",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "video/resources and exploration time not visible"
+  },
+  "fc05ec3e-d976-46e2-a79d-725ec0e63f17": {
+   "name": "Right Question (CFU)",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "3b258601-a990-48fb-a106-63e2836cdfc6": {
+   "name": "Right Strategy (CFU)",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "scanning, gestures and boards are visual"
+  },
+  "52642880-2141-49d7-94ae-f4ab51875bb1": {
+   "name": "Right Time (CFU)",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "4c017892-42ae-45f3-819e-f2c5ba936d64": {
+   "name": "Routine Cue",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "non-verbal signals and student execution not visible"
+  },
+  "161bf903-191b-4904-b9e8-ec01acaf7ee6": {
+   "name": "Routine or Procedure Practice",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "students' physical practice not visible"
+  },
+  "6f550fca-7744-4117-a913-3a611ffbf2ac": {
+   "name": "Scaffolding Question",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7d937e1b-d5b8-489c-9837-946bbde48673": {
+   "name": "Scan",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "no",
+   "note": "eye movement and body orientation invisible"
+  },
+  "fc1c9512-8c07-40db-8879-7a41ac8f4319": {
+   "name": "Segment Words into Sounds",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "tapping motions not in transcript"
+  },
+  "f555497b-54e3-48cb-9499-ea2b3d8f0547": {
+   "name": "Semantic Gradients",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "physical arrangement of words is visual"
+  },
+  "d53d1059-a811-4ebb-acd1-49c163881acc": {
+   "name": "Sequential Directions",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "5282b8f5-32d6-49d7-abbf-a6089e67de10": {
+   "name": "Share Student Work",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "displayed work is visual"
+  },
+  "1904ff48-4c10-45de-a9ab-79b059660042": {
+   "name": "Solicit Student Feedback",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "b50a8666-c9be-46a4-8a0a-190f21ebc2c9": {
+   "name": "Sound-to-Movement Mapping",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "claps/stomps/taps not in transcript"
+  },
+  "e256e371-0279-4776-b05a-a03591ef5b1a": {
+   "name": "Speak Slowly",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "speech rate/timing absent from text"
+  },
+  "4428843a-6cb6-44b8-8f39-160328d19f10": {
+   "name": "Specific Directions",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "4d638aa5-c122-4bfe-a146-e3b185dc058b": {
+   "name": "Specific Praise",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "fc8f2ede-81e9-4f14-993f-30e4536500c3": {
+   "name": "Specific Praise",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "observed physical student actions often non-verbal"
+  },
+  "03ad47fa-54cb-4898-81d1-b206cec6b2ba": {
+   "name": "Specific, Actionable Feedback",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student written work not visible"
+  },
+  "231dbe89-c3bd-460a-955b-9a03b71eac90": {
+   "name": "Specific, Actionable Feedback",
+   "scope": "responsive_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "student movements/work not visible"
+  },
+  "ff5a50cc-ff70-43ad-9743-7615e73786f9": {
+   "name": "Stamp Transferable Takeaway",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "7afe78f1-6b70-4ce9-aa7b-ba01016b3d7b": {
+   "name": "Stop & Jot / Everybody Writes",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "student writing not visible"
+  },
+  "23407e7c-6cec-42b6-82f9-442d44d6bbc5": {
+   "name": "Student Agency for Learning Needs",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "students' self-adjustments may be non-verbal"
+  },
+  "c2dc2b91-737f-469f-a0b2-650e626446ed": {
+   "name": "Student Goal-Setting",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "written goals and trackers not visible"
+  },
+  "9c3ca541-f446-45a8-b3a3-4e508bde4302": {
+   "name": "Student Leadership",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a04312a3-87cd-4bd0-9613-f428ffb8cc4b": {
+   "name": "Student Self-Evaluation",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "rubrics and student written work not visible"
+  },
+  "003afb53-c3d9-4453-8577-36f4a29572c8": {
+   "name": "Student Self-Monitoring and Self-Reflection",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "finger ratings and written reflections not visible"
+  },
+  "bc63634f-06ff-4c11-9f4a-2bfc06eabdea": {
+   "name": "Summarize Needs",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1517a017-de3a-4d2b-8e15-103e12b9e1f8": {
+   "name": "Summarize Strengths",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "366cfb2a-5802-44b0-bc24-f8d34a307844": {
+   "name": "Support Shared Responsibility",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "10dabd70-9be2-4dd3-b058-84f751a45f8e": {
+   "name": "Support Student-to-Student Discourse",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "706e7245-7a13-4e02-91a1-a9a2c0e945bb": {
+   "name": "Support/Reminder Non-Verbal Cues",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "no",
+   "note": "gestures and proximity invisible"
+  },
+  "70ac6384-db55-4035-998f-fa71c853383f": {
+   "name": "Surface Multiple Perspectives",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a01ad880-5586-47af-a685-51c63f796d0c": {
+   "name": "Sustain Practices to Support Equity",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "1e9f218c-cf89-4d24-b9ef-29ef2975055c": {
+   "name": "Synonym Work",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "synonym chart is visual"
+  },
+  "7f0d506e-2692-4d5a-8183-ef8732a70266": {
+   "name": "Target the Right Phonological Unit",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a5828c3d-d7ab-4f04-8b60-fcc5f132a028": {
+   "name": "Target the Right Phonological Unit (Spanish)",
+   "scope": "lesson_pattern",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "530686d9-c95f-44f6-b7f0-e54faec31c46": {
+   "name": "Teach in Spanish",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "visuals/gestures supporting meaning not in transcript"
+  },
+  "45f56487-5dfe-4fc4-b750-79ef2cd21a3b": {
+   "name": "Teach Multiple Forms of New Words",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "c53a1564-cff4-4bde-9d99-3174dad89e1d": {
+   "name": "Text Chunking",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "displayed text chunks are visual"
+  },
+  "ec28f7c3-c22b-43c0-8ffa-1790c28ca66b": {
+   "name": "Text Preview",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "cover, pages and images are visual"
+  },
+  "2af216e7-5a0e-4b5e-910f-320df4a5f908": {
+   "name": "Think Ink Pair Share (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "silent think/write time and partner talk not captured"
+  },
+  "52f406d1-5ae5-41bc-8345-ac48e398363c": {
+   "name": "Think, Share, Build (Saga)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "a93266c4-e7eb-40b8-861a-2f2de5de1b0f": {
+   "name": "Total Physical Response (TPR)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "body movements and scanning are visual"
+  },
+  "3e26e9c6-ca3c-4523-afe5-d1f3f6ae205a": {
+   "name": "Total Physical Response (TPR)",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "body movements and scanning are visual"
+  },
+  "14929873-7907-4f64-8abe-d9a678aa09f4": {
+   "name": "Translations",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "translated written materials not visible"
+  },
+  "dacff3d8-052d-4913-b89d-a6f7c6eaa887": {
+   "name": "Turn & Talk / Partner Discussion",
+   "scope": "multi_turn_move",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "simultaneous partner talk not captured"
+  },
+  "d7205e01-b6f1-4532-ac27-3daa36b90e3a": {
+   "name": "Use an Exemplar",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "displayed exemplar is visual"
+  },
+  "fc3fd994-e6fb-41fe-b25b-4a492dc6ccf2": {
+   "name": "Use High Frequency Words",
+   "scope": "lesson_pattern",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "9b86305d-c7a0-4df3-8de8-947767f11a28": {
+   "name": "Vocabulary Notebook",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "notebook writing not visible"
+  },
+  "7eb0bbd2-b99a-4e38-a371-b29427d26892": {
+   "name": "Which One Doesn't Belong",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "mathematical representations are visual"
+  },
+  "4693f7ff-6f12-4b7a-8636-5b664aaf0c3b": {
+   "name": "Whiteboards",
+   "scope": "multi_turn_move",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "board contents and scanning are visual"
+  },
+  "0d0f5bfa-0df2-4ad7-be7e-0b3c06b4ca67": {
+   "name": "Word Banks",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "partly",
+   "note": "displayed word bank is visual"
+  },
+  "8399a101-c1bd-469a-9d1c-5386cceac29e": {
+   "name": "Word in Context",
+   "scope": "single_utterance",
+   "confidence": "high",
+   "visible_in_transcript": "yes",
+   "note": ""
+  },
+  "deaf9976-ab4d-4043-a601-2302448f1503": {
+   "name": "Word Wall Engagement",
+   "scope": "single_utterance",
+   "confidence": "medium",
+   "visible_in_transcript": "partly",
+   "note": "posted word wall is visual"
+  }
+ }
+}
