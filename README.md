@@ -8,13 +8,13 @@ To host it for teammates, see DEPLOY.md (Vercel, with a shared password).
 
 On your laptop:
 1. Copy `.env.example` to `.env` and paste your TypeSafe key after `TYPESAFE_API_KEY=`
-2. In this folder: `node server.js`
+2. In this folder: `node local-server.js`
 3. Open http://localhost:4317
 
-`JEV_MOCK=1 node server.js` runs with random ratings (no key, no cost) for trying the UI.
+`JEV_MOCK=1 node local-server.js` runs with random ratings (no key, no cost) for trying the UI.
 Set `APP_PASSWORD` in `.env` (or in Vercel) to require a password for every API call.
 
-Code layout: `lib/core.js` has all the logic; `server.js` is the local server; `api/*.js` are the Vercel functions.
+Code layout: `lib/core.js` has all the logic; `local-server.js` is the local server (deliberately not named server.js: Vercel would treat that as the whole app); `api/*.js` are the Vercel functions.
 
 ## How each Jev call is built
 One call per (teacher turn × look-for), in exactly the playground shape:

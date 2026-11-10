@@ -1,4 +1,6 @@
-// Jev Skill Evaluator — local app. Run with:  node server.js   then open http://localhost:4317
+// Jev Skill Evaluator — local app (not used on Vercel). Run with:  node local-server.js
+// Named local-server.js on purpose: Vercel auto-detects a root server.js as the whole app.
+//   then open http://localhost:4317
 // No dependencies. Reads TYPESAFE_API_KEY (and optional APP_PASSWORD) from .env in this folder.
 // The same handlers run on Vercel as api/*.js.
 const http = require('http');

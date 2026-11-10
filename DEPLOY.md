@@ -31,5 +31,5 @@ The app is ready for Vercel as-is: the page is in `public/`, the server code is 
 - Changing the key or password: edit the environment variable in Vercel, then **Redeploy** (Deployments → ⋯ → Redeploy).
 - Each look-for is evaluated in its own request, which keeps every request well inside Vercel's 60-second limit
   (`vercel.json`). A very long transcript (hundreds of teacher turns) on a multi-turn look-for is the case to watch.
-- Running it on your laptop still works the same way: `node server.js`, then http://localhost:4317.
+- Running it on your laptop still works the same way: `node local-server.js`, then http://localhost:4317.
   If `APP_PASSWORD` is in your local `.env`, the local copy asks for it too.
