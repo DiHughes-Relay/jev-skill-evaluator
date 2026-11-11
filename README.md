@@ -30,6 +30,13 @@ Code layout: `lib/core.js` has all the logic; `server.js` is the app (page + API
   The page can also show the two earlier variants (step-based with a 4-band "so far" rating; five-band only, where the
   Building rating alone decides sequences) for comparison. Five-band alone confirmed false sequences and split real ones,
   because mid-move turns it was unsure about came back Strong/Attempting/Insufficient (read as "finished") at 30–40%.
+  **Coach trigger** (`coachStep` in `lib/core.js`): a turn is ineffective if any look-for is Insufficient with confidence
+  > 50%. After 2 or 3 ineffective turns (page setting) the coach steps in. A separate **harm check** per turn
+  (`live.harm_check`, one noul question on the turn alone, with the taxonomy's "relational harm" non-examples as examples)
+  over 70% makes the coach step in at once; 50–70% counts as ineffective. The count resets when the look-fors that were
+  Insufficient come back Strong or Attempting, or after 4 turns with nothing ineffective. Per-look-for Harmful ratings aren't
+  used by the coach, because multi-turn look-fors see earlier turns and a harmful turn bleeds into later ratings.
+  `samples/coach-test.txt` is a short transcript with weak directions and put-downs for trying it.
   Logic: `liveTurn` in `lib/core.js`.
 - **How it works** (`/how-it-works.html`): the approach, for engineers (covers the full-transcript method so far).
 

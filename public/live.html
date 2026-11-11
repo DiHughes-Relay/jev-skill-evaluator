@@ -68,6 +68,9 @@
   .lowconf { opacity: .55; }
   .small { font-size: 11px; color: var(--muted); margin-top: 2px; }
   tr.current td { background: #fffbea; }
+  td.coach, th.coach { min-width: 170px; border-right: 2px solid var(--line); }
+  tr.coachrow td { background: #fdecea; }
+  .coachgo { color: var(--ins); }
   dialog { border: 1px solid var(--line); border-radius: 10px; max-width: 780px; width: 92vw; padding: 18px; }
   dialog pre { background: #f6f6f4; padding: 10px; border-radius: 6px; max-height: 45vh; overflow: auto; font-size: 11px; white-space: pre-wrap; }
   .bar { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 13px; }
@@ -105,6 +108,7 @@
             <li><b>How it's going:</b> a five-band rating: Strong, Attempting, Building (partway, on track), Insufficient, Non-Example.</li>
           </ul></li>
         <li>When a sequence <b>completes</b> or <b>ends</b>, it gets one whole-sequence rating.</li>
+        <li><b>Coach:</b> a turn is <b>ineffective</b> if any look-for is Insufficient with confidence over 50%. After 2 or 3 of them (your setting), the coach steps in. A separate <b>harm check</b> on each turn alone (not tied to any look-for) over 70% means it steps in right away; 50–70% counts as ineffective. The count resets when the teacher fixes what went wrong (those look-fors come back Strong or Attempting), or after 4 turns with nothing ineffective. Good ratings on unrelated look-fors don't reset it. Look-fors a transcript can't show don't count.</li>
         <li>Jev never sees the students' reaction to the turn being rated, or anything after it.</li>
       </ul>
     </section>
@@ -124,6 +128,9 @@
         <span class="muted" id="turnCount"></span>
       </div>
       <div class="turns" id="turnPreview" hidden></div>
+      <div class="row">
+        <label>Coach steps in after <select id="coachAfter" style="width:auto"><option value="2">2</option><option value="3" selected>3</option></select> ineffective turns</label>
+      </div>
       <div class="row">
         <button class="primary" id="play" disabled>Play all turns</button>
         <button id="step" disabled>Next turn</button>
@@ -297,10 +304,10 @@ $('file').onchange = async (e) => { const f = e.target.files[0]; if (f) { $('tra
 
 // ---------- the live run ----------
 // State carried from turn to turn, exactly what the simulator would keep: the open multi-turn sequences.
-let rows = [], open = {}, openB = {}, cursor = 0, playing = false, runTranscript = [], runSkills = [], runExcluded = [], lookFors = [];
+let rows = [], open = {}, openB = {}, coach = {}, cursor = 0, playing = false, runTranscript = [], runSkills = [], runExcluded = [], lookFors = [];
 const teacherTurns = () => runTranscript.filter((t) => t.isTeacher);
 function resetRun() {
-  rows = []; open = {}; openB = {}; cursor = 0; playing = false; runTranscript = []; lookFors = [];
+  rows = []; open = {}; openB = {}; coach = {}; cursor = 0; playing = false; runTranscript = []; lookFors = [];
   $('resultsSec').hidden = true; $('reset').hidden = true; $('status').textContent = '';
   updateButtons();
 }
@@ -323,10 +330,10 @@ async function runOne() {
   $('status').textContent = `Rating turn ${t.label} (${cursor + 1} of ${teacherTurns().length})…`;
   const r = await api('/api/live-turn', { method: 'POST', headers: { 'Content-Type': 'application/json' },
     // Only the turns up to and including this one are sent (the server also cuts anything later)
-    body: JSON.stringify({ skillIds: runSkills, excludeLookForIds: runExcluded, transcript: runTranscript.slice(0, t.index + 1), targetIndex: t.index, open, openB }) });
+    body: JSON.stringify({ skillIds: runSkills, excludeLookForIds: runExcluded, transcript: runTranscript.slice(0, t.index + 1), targetIndex: t.index, open, openB, coach, coachAfter: Number($('coachAfter').value) }) });
   if (!r.ok) throw new Error((await r.json()).error || r.statusText);
   const out = await r.json();
-  lookFors = out.lookFors; open = out.open; openB = out.openB || {};
+  lookFors = out.lookFors; open = out.open; openB = out.openB || {}; coach = out.coach || {};
   rows.push({ ...out, turn: t });
   cursor++;
   draw();
@@ -342,6 +349,7 @@ $('play').onclick = async () => {
 };
 $('stop').onclick = () => { playing = false; };
 $('reset').onclick = resetRun;
+$('coachAfter').onchange = () => { if (rows.length) resetRun(); };
 $('compare').onchange = () => rows.length && draw();
 
 // ---------- drawing ----------
@@ -374,6 +382,20 @@ function signal(row, mode = 'hybrid') {
   out.sort((a, b) => a[0] - b[0]);
   return out.length ? out.map(([, h]) => `<div class="sig">${h}</div>`).join('') : '<span class="muted">Nothing named: students respond to the turn as it is</span>';
 }
+// Coach column: see coachStep in lib/core.js for the rule
+const COACH_QUIET = 4;
+function coachCell(row) {
+  const e = row.coachEvent || { type: 'none', count: 0 };
+  const after = Number($('coachAfter').value);
+  const harm = row.harm?.error ? '<div class="small">harm check failed</div>' : `<div class="small" title="One call per turn on the turn alone: is anything here harmful?">harm check ${pct(row.harm?.p)}</div>`;
+  const why = (e.reasons || []).map((x) => `<div class="small"><span class="b ${x.label}">${x.label}</span> ${esc(x.lookFor)} · conf ${pct(x.confidence)}</div>`).join('');
+  if (e.type === 'step_in_now') return `<td class="coach"><b class="coachgo">Coach steps in now</b><div class="small">Harmful, so no waiting</div>${why}${harm}</td>`;
+  if (e.type === 'step_in') return `<td class="coach"><b class="coachgo">Coach steps in</b><div class="small">${e.count} of ${after} ineffective turns</div>${why}${harm}</td>`;
+  if (e.type === 'ineffective') return `<td class="coach"><b>Ineffective: ${e.count} of ${after}</b>${why}${harm}</td>`;
+  if (e.type === 'reset') return `<td class="coach"><span class="muted">${e.why === 'quiet' ? `${COACH_QUIET} turns with nothing ineffective` : 'Teacher fixed it'}: count back to 0</span>${e.why === 'fixed' ? why : ''}${harm}</td>`;
+  return `<td class="coach"><span class="muted">${e.count ? `${e.count} of ${after} so far · still open: ${esc((e.problems || []).join(', '))}` : '—'}</span>${harm}</td>`;
+}
+
 // The same signal, with multi-turn look-fors driven only by the five-band (Building) rating
 function signalB(row) {
   const out = [];
@@ -409,9 +431,9 @@ function cell(row, r) {
 }
 function draw() {
   const compare = $('compare').checked;
-  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">step-based sequences + 5-band rating</div></th>${compare ? '<th class="signal">Earlier: step-based only<div class="muted" style="font-weight:400">4-band “so far” rating</div></th><th class="signal">Earlier: 5-band only<div class="muted" style="font-weight:400">Building rating decides sequences</div></th>' : ''}${lookFors.map((l) =>
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">step-based sequences + 5-band rating</div></th><th class="coach">Coach</th>${compare ? '<th class="signal">Earlier: step-based only<div class="muted" style="font-weight:400">4-band “so far” rating</div></th><th class="signal">Earlier: 5-band only<div class="muted" style="font-weight:400">Building rating decides sequences</div></th>' : ''}${lookFors.map((l) =>
     `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${esc(SC[l.scope] || '')}</div></th>`).join('')}</tr></thead>`;
-  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td>${compare ? `<td class="signal">${signal(row, 'step')}</td><td class="signal">${signalB(row)}</td>` : ''}` +
+  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''} ${/step_in/.test(row.coachEvent?.type) ? 'coachrow' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td>${coachCell(row)}${compare ? `<td class="signal">${signal(row, 'step')}</td><td class="signal">${signalB(row)}</td>` : ''}` +
     lookFors.map((l) => cell(row, row.results.find((r) => r.lookForId === l.id))).join('') + '</tr>').join('');
   $('results').innerHTML = head + '<tbody>' + body + '</tbody>';
   const cur = $('results').querySelector('tr.current'); if (cur && playing) cur.scrollIntoView({ block: 'nearest' });
