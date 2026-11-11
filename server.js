@@ -13,11 +13,12 @@ const routes = {
   '/api/preview': core.handlers.preview,
   '/api/evaluate': core.handlers.evaluate,
   '/api/docs': core.handlers.docs,
+  '/api/live-turn': core.handlers.liveTurn,
 };
 
 // Read the pages once at startup. (On Vercel, files in public/ are also served directly.)
 const readPage = (f) => { try { return fs.readFileSync(path.join(__dirname, 'public', f)); } catch { return null; } };
-const PAGES = { '/': readPage('index.html'), '/index.html': readPage('index.html'), '/how-it-works': readPage('how-it-works.html'), '/how-it-works.html': readPage('how-it-works.html') };
+const PAGES = { '/': readPage('index.html'), '/index.html': readPage('index.html'), '/how-it-works': readPage('how-it-works.html'), '/live': readPage('live.html'), '/live.html': readPage('live.html'), '/how-it-works.html': readPage('how-it-works.html') };
 
 function app(req, res) {
   const url = req.url.split('?')[0];

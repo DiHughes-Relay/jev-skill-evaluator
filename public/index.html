@@ -16,6 +16,8 @@
   header { padding: 18px 24px 8px; }
   h1 { font-size: 20px; margin: 0; }
   .sub { color: var(--muted); font-size: 13px; }
+  .nav { display: flex; gap: 14px; font-size: 13px; margin: 4px 0; }
+  .nav a { color: var(--accent); text-decoration: none; } .nav a.on { color: var(--ink); font-weight: 600; }
   main { display: grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 12px 24px 40px; }
   @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
   section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
@@ -79,7 +81,8 @@
 </head>
 <body>
 <header>
-  <h1>Jev Skill Evaluator <a href="/how-it-works.html" style="font-size:13px;font-weight:400;color:var(--accent);margin-left:10px">How it works →</a></h1>
+  <h1>Jev Skill Evaluator</h1>
+  <div class="nav"><a href="/" class="on">Full transcript</a><a href="/live.html">Turn by turn</a><a href="/how-it-works.html">How it works</a></div>
   <div class="sub">Pick skills from the taxonomy, add a transcript, and Jev rates every teacher turn against each look-for. <span id="snap"></span></div>
 </header>
 <main>

@@ -16,6 +16,17 @@ Set `APP_PASSWORD` in `.env` (or in Vercel) to require a password for every API 
 
 Code layout: `lib/core.js` has all the logic; `server.js` is the app (page + API), used both on your laptop and as Vercel's entrypoint.
 
+## Pages
+- **Full transcript** (`/`): rates a finished transcript, as for end-of-session feedback.
+- **Turn by turn** (`/live.html`): replays a transcript one teacher turn at a time, letting Jev see only that turn
+  and what came before it, as the simulator would have to when deciding how students and the coach respond next.
+  Single and responsive look-fors are rated as in the full run. For multi-turn look-fors, each turn Jev also answers
+  `in_progress` (noul), `step` (which observable behavior this turn carries out), `complete` (noul) and a "so far" rating
+  (`live` section of `prompt-template.json`). The app keeps one open sequence per look-for between turns: a turn continues
+  it when in_progress > 50% and Jev names a step (or in_progress > 70%); two turns without one end it. A sequence that
+  completes or ends gets one whole-sequence rating. Lesson-wide look-fors aren't rated live. Logic: `liveTurn` in `lib/core.js`.
+- **How it works** (`/how-it-works.html`): the approach, for engineers (covers the full-transcript method so far).
+
 ## How it works page
 The app's second page (`/how-it-works.html`, linked from the header) documents the Jev approach for engineers:
 how the taxonomy is pulled in, the exact requests and responses, and why context is sent the way it is.

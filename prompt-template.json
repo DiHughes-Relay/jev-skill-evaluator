@@ -26,6 +26,22 @@
 
   "instructions_lesson": "How well did the teacher do on this skill across the whole lesson_transcript_to_score?",
 
+  "live": {
+    "instructions_so_far": "How well is the teacher doing on this skill so far? The transcript_quote is the teacher's latest turn and turns_before_quote are the turns before it. This skill may unfold across several turns and may not be finished yet: rate only the steps the teacher has taken so far, and do not mark the teacher down for steps that could still come in later turns.",
+    "in_progress": "Is the transcript_quote a step in a sequence of teacher turns that demonstrates or attempts this skill, either starting with the transcript_quote or continuing a sequence from turns_before_quote?",
+    "in_progress_criteria": {
+      "true": "Yes: the transcript_quote starts or continues a sequence for this skill",
+      "false": "No: the transcript_quote is not a step toward this skill"
+    },
+    "step": "Which one of the skill's observable_behaviors does the transcript_quote itself carry out?",
+    "step_none": "None of these",
+    "complete": "With the transcript_quote, has the teacher finished the sequence for this skill, so that no further steps are expected?",
+    "complete_criteria": {
+      "true": "Yes: the transcript_quote is the final step of the sequence",
+      "false": "No: the sequence is still under way, or there is no sequence"
+    }
+  },
+
   "off_topic_non_example": "Monkeys are my favorite animal in the zoo, they are so funny!",
 
   "questions": {

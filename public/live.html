@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turn-by-Turn Evaluator</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
+    --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --non: #8a8a8f; --non-bg: #f0f0ee;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+  header { padding: 18px 24px 8px; }
+  h1 { font-size: 20px; margin: 0; }
+  .nav { display: flex; gap: 14px; font-size: 13px; margin-top: 4px; }
+  .nav a { color: var(--accent); text-decoration: none; } .nav a.on { color: var(--ink); font-weight: 600; }
+  .sub { color: var(--muted); font-size: 13px; margin-top: 4px; max-width: 110ch; }
+  main { display: grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 12px 24px 40px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; padding: 12px 16px 40px; } }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  h2 { font-size: 15px; margin: 0 0 8px; }
+  h2 .n { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; text-align: center; font-size: 12px; line-height: 22px; margin-right: 6px; }
+  input[type=search], textarea, select { width: 100%; font: inherit; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  textarea { min-height: 120px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+  .skills { max-height: 52vh; overflow: auto; margin-top: 8px; border-top: 1px solid var(--line); }
+  .grp { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 10px 0 4px; }
+  label.skill { display: flex; gap: 8px; padding: 4px 2px; cursor: pointer; align-items: flex-start; }
+  label.skill small { color: var(--muted); display: block; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  button.chip { font-size: 12px; background: #eef2fb; color: var(--accent); border-radius: 12px; padding: 2px 8px; border: 1px solid transparent; cursor: pointer; }
+  button.chip.off { background: #fff; color: var(--muted); border: 1px dashed var(--line); text-decoration: line-through; }
+  button.chip.lesson { opacity: .55; }
+  .chip .sc { opacity: .65; font-size: 11px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .warn { background: var(--att-bg); color: #6d4600; padding: 8px 10px; border-radius: 6px; font-size: 13px; margin-bottom: 10px; }
+  .turns { max-height: 180px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; font-size: 12px; }
+  .turns div { padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  .turns div.t { background: #f4f7ff; }
+  .turns b { color: var(--muted); font-weight: 600; }
+  .tablewrap { overflow: auto; max-height: 75vh; border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  thead th { position: sticky; top: 0; background: #fafaf8; z-index: 1; font-size: 12px; }
+  th.lf { min-width: 130px; }
+  td.quote { min-width: 260px; max-width: 420px; }
+  td.cell { cursor: pointer; min-width: 130px; }
+  .signal { min-width: 300px; background: #fbfbf9; border-right: 2px solid var(--line); }
+  thead th.signal { background: #f3f3f0; }
+  .sig { margin: 3px 0; font-size: 12px; }
+  .sig .ic { display: inline-block; width: 16px; text-align: center; }
+  .b { display: inline-block; border-radius: 4px; padding: 1px 6px; font-weight: 600; font-size: 12px; white-space: nowrap; }
+  .b.Strong { background: var(--strong-bg); color: var(--strong); }
+  .b.Attempting { background: var(--att-bg); color: var(--att); }
+  .b.Insufficient { background: var(--ins-bg); color: var(--ins); }
+  .b.Non-Example { background: var(--non-bg); color: var(--non); }
+  .ev { display: inline-block; border-radius: 4px; padding: 1px 6px; font-size: 11px; font-weight: 600; background: #eef2fb; color: var(--accent); }
+  .ev.completed, .ev.ended { background: var(--accent); color: #fff; }
+  .ev.paused, .ev.dropped { background: #f0f0ee; color: var(--muted); }
+  .conf { color: var(--muted); font-size: 11px; margin-left: 4px; }
+  .lowconf { opacity: .55; }
+  .small { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  tr.current td { background: #fffbea; }
+  dialog { border: 1px solid var(--line); border-radius: 10px; max-width: 780px; width: 92vw; padding: 18px; }
+  dialog pre { background: #f6f6f4; padding: 10px; border-radius: 6px; max-height: 45vh; overflow: auto; font-size: 11px; white-space: pre-wrap; }
+  .bar { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 13px; }
+  .bar span:first-child { width: 220px; }
+  .bar .track { flex: 1; height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; }
+  .bar .track i { display: block; height: 100%; background: var(--accent); }
+  .how { font-size: 13px; }
+  .how li { margin: 2px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Jev Skill Evaluator</h1>
+  <div class="nav"><a href="/">Full transcript</a><a href="/live.html" class="on">Turn by turn</a><a href="/how-it-works.html">How it works</a></div>
+  <div class="sub">Simulates scoring <b>during</b> a lesson: each teacher turn is rated using only that turn and what came before it,
+    the way the simulator would have to decide how students and the coach respond next. <span id="snap"></span></div>
+</header>
+<main>
+  <div style="display:grid; gap:16px; align-content:start">
+    <section>
+      <h2><span class="n">1</span>Skills</h2>
+      <input type="search" id="skillSearch" placeholder="Search skills…">
+      <div class="skills" id="skillList"></div>
+      <div class="muted" style="margin-top:8px">Look-fors that will be checked each turn:</div>
+      <div class="chips" id="lfChips"><span class="muted">None yet</span></div>
+      <div class="muted" style="margin-top:6px">Click a look-for to skip it. Lesson-wide look-fors (faded) aren't rated live.</div>
+    </section>
+    <section class="how">
+      <h2>What happens each turn</h2>
+      <ul style="padding-left:18px;margin:0">
+        <li><b>Single-utterance / responsive</b> look-fors: rated as in the full run (the turn, plus 2 turns before for responsive).</li>
+        <li><b>Multi-turn</b> look-fors: Jev says whether this turn starts or continues a sequence, which of the look-for's observable behaviors it carries out, whether the sequence is finished, and how it's going so far.</li>
+        <li>A sequence <b>continues</b> when Jev says it's in one and either names a step or is very sure (&gt; 70%). Two teacher turns without a step <b>end</b> it.</li>
+        <li>When a sequence <b>completes</b> or <b>ends</b>, it gets one whole-sequence rating.</li>
+        <li>Jev never sees the students' reaction to the turn being rated, or anything after it.</li>
+      </ul>
+    </section>
+  </div>
+  <div style="display:grid; gap:16px; align-content:start">
+    <section>
+      <h2><span class="n">2</span>Transcript</h2>
+      <div id="keyWarn" class="warn" hidden>No Jev API key found. Add <code>TYPESAFE_API_KEY=…</code> to the <code>.env</code> file in the app folder and restart.</div>
+      <div class="row" style="margin-top:0">
+        <input type="file" id="file" accept=".txt,.vtt,.srt,.csv,.md,text/plain">
+        <span class="muted">Simulator CSV exports import directly. Or paste, one turn per line, like <code>Teacher: Take out your notebooks.</code></span>
+      </div>
+      <textarea id="transcript" placeholder="Teacher: Good morning! Take 3 minutes to answer the Do Now on your own.&#10;Student 1: Do we write on the sheet?&#10;Teacher: Yes, write directly on the sheet in pencil."></textarea>
+      <div class="row" id="sessionRow" hidden><label>Session: <select id="sessionPick" style="width:auto"></select></label></div>
+      <div class="row">
+        <label>Teacher speaker: <select id="teacherSpeaker" style="width:auto"></select></label>
+        <span class="muted" id="turnCount"></span>
+      </div>
+      <div class="turns" id="turnPreview" hidden></div>
+      <div class="row">
+        <button class="primary" id="play" disabled>Play all turns</button>
+        <button id="step" disabled>Next turn</button>
+        <button id="stop" hidden>Pause</button>
+        <button id="reset" hidden>Start over</button>
+        <span class="muted" id="status"></span>
+      </div>
+    </section>
+    <section id="resultsSec" hidden>
+      <h2><span class="n">3</span>Turn by turn</h2>
+      <div class="tablewrap"><table id="results"></table></div>
+      <div class="muted" style="margin-top:6px">“Signal after this turn” is what the simulator would know when generating the next student and coach responses.
+        Multi-turn cells show the sequence event, Jev's in-progress probability, the step it named, and the “so far” rating. Click any cell for the exact request and all of Jev's answers.</div>
+    </section>
+  </div>
+</main>
+
+<dialog id="pwDialog">
+  <form id="pwForm" method="dialog">
+    <h2>Password</h2>
+    <p class="muted" id="pwMsg"></p>
+    <input type="password" id="pwInput" autocomplete="current-password" style="width:100%; font:inherit; padding:7px 9px; border:1px solid var(--line); border-radius:6px">
+    <div class="row" style="justify-content:flex-end"><button class="primary" type="submit">Continue</button></div>
+  </form>
+</dialog>
+<dialog id="detail">
+  <div id="detailBody"></div>
+  <div class="row" style="justify-content:flex-end"><button onclick="detail.close()">Close</button></div>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Non-Example'];
+const SC = { single_utterance: 'single', responsive_utterance: 'responsive', multi_turn_move: 'multi-turn', lesson_pattern: 'lesson-wide' };
+const pct = (x) => Math.round((x ?? 0) * 100) + '%';
+
+// ---------- API (shared password with the other pages) ----------
+const PW_KEY = 'jevAppPassword';
+const getPw = () => { try { return localStorage.getItem(PW_KEY) || ''; } catch { return ''; } };
+function askPassword(wrong) {
+  return new Promise((resolve) => {
+    $('pwMsg').textContent = wrong ? 'That password didn’t work. Try again.' : 'Enter the password your team shared for this app.';
+    $('pwInput').value = ''; $('pwDialog').showModal();
+    $('pwForm').onsubmit = (e) => { e.preventDefault(); const v = $('pwInput').value; try { localStorage.setItem(PW_KEY, v); } catch {} $('pwDialog').close(); resolve(v); };
+    $('pwDialog').oncancel = () => resolve(null);
+  });
+}
+async function api(path, opts = {}) {
+  let pw = getPw(), tries = 0;
+  for (;;) {
+    const r = await fetch(path, { ...opts, headers: { ...(opts.headers || {}), 'x-app-password': pw } });
+    if (r.status !== 401) return r;
+    pw = await askPassword(tries++ > 0 || !!getPw());
+    if (pw === null) throw new Error('Password required');
+  }
+}
+
+// ---------- skills ----------
+let skills = [], selected = new Set(), turns = [];
+let excluded = new Set();
+try { excluded = new Set(JSON.parse(localStorage.getItem('excludedLookFors') || '[]')); } catch {}
+try { selected = new Set(JSON.parse(localStorage.getItem('liveSkills') || '[]')); } catch {}
+async function init() {
+  const cfg = await api('/api/config').then((r) => r.json());
+  $('keyWarn').hidden = cfg.hasKey;
+  $('snap').textContent = `Taxonomy snapshot: ${cfg.snapshot_date}.` + (cfg.mock ? ' MOCK MODE: ratings are random.' : '');
+  skills = await api('/api/skills').then((r) => r.json());
+  selected = new Set([...selected].filter((id) => skills.some((s) => s.id === id)));
+  renderSkills(); renderChips();
+  try { const saved = localStorage.getItem('liveTranscript'); if (saved && !$('transcript').value) $('transcript').value = saved; } catch {}
+  refreshTranscript();
+}
+function renderSkills() {
+  const q = $('skillSearch').value.toLowerCase(); const groups = {};
+  for (const s of skills) {
+    if (q && !(s.name + ' ' + s.description + ' ' + s.look_fors.map((l) => l.name).join(' ')).toLowerCase().includes(q)) continue;
+    (groups[s.alignment] ||= []).push(s);
+  }
+  $('skillList').innerHTML = Object.keys(groups).sort().map((g) => `<div class="grp">${esc(g)}</div>` + groups[g].map((s) =>
+    `<label class="skill"><input type="checkbox" value="${s.id}" ${selected.has(s.id) ? 'checked' : ''}>
+      <span>${esc(s.name)}<small>${s.look_fors.length} look-fors</small></span></label>`).join('')).join('') || '<div class="muted" style="padding:8px">No matches</div>';
+}
+$('skillSearch').oninput = renderSkills;
+$('skillList').onchange = (e) => {
+  if (e.target.checked) selected.add(e.target.value); else selected.delete(e.target.value);
+  try { localStorage.setItem('liveSkills', JSON.stringify([...selected])); } catch {}
+  renderChips(); updateButtons();
+};
+function selectedLookFors() {
+  const m = new Map();
+  for (const s of skills.filter((s) => selected.has(s.id))) for (const l of s.look_fors) if (!m.has(l.id)) m.set(l.id, l);
+  return [...m.values()];
+}
+const activeLookFors = () => selectedLookFors().filter((l) => !excluded.has(l.id));
+function renderChips() {
+  const lfs = selectedLookFors();
+  $('lfChips').innerHTML = lfs.length ? lfs.map((l) => `<button type="button" class="chip ${excluded.has(l.id) ? 'off' : ''} ${l.scope === 'lesson_pattern' ? 'lesson' : ''}" data-id="${l.id}" title="${esc(l.type)} · ${esc(SC[l.scope] || '')} (draft scope)">${excluded.has(l.id) ? '' : '✓ '}${l.visible === 'no' ? '⊘ ' : ''}${esc(l.name)} <span class="sc">${esc(SC[l.scope] || '')}</span></button>`).join('') : '<span class="muted">None yet</span>';
+}
+$('lfChips').onclick = (e) => {
+  const b = e.target.closest('button.chip'); if (!b) return;
+  if (excluded.has(b.dataset.id)) excluded.delete(b.dataset.id); else excluded.add(b.dataset.id);
+  try { localStorage.setItem('excludedLookFors', JSON.stringify([...excluded])); } catch {}
+  renderChips(); updateButtons();
+};
+
+// ---------- transcript parsing (same formats as the full-transcript page) ----------
+function parseCsv(text) {
+  const rows = []; let row = [], field = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"' && text[i + 1] === '"') { field += '"'; i++; } else if (c === '"') q = false; else field += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (c !== '\r') field += c;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((f) => f.trim()));
+}
+function isSimulatorCsv(raw) { return /^﻿?[^\n]*\buser_input\b[^\n]*\bai_response\b/.test(raw); }
+function parseSimulatorCsv(raw) {
+  const [header, ...rows] = parseCsv(raw.replace(/^﻿/, ''));
+  const col = (name) => header.findIndex((h) => h.trim() === name);
+  const iSess = col('session_id'), iSim = col('simulation'), iGrade = col('grade_level'), iTurn = col('turn'), iUser = col('user_input'), iAi = col('ai_response');
+  const sessions = [...new Set(rows.map((r) => r[iSess]))];
+  const sess = $('sessionPick').value && sessions.includes($('sessionPick').value) ? $('sessionPick').value : sessions[0];
+  $('sessionPick').innerHTML = sessions.map((s) => { const r = rows.find((x) => x[iSess] === s);
+    return `<option value="${esc(s)}">${esc((r?.[iSim] || 'Session') + (r?.[iGrade] ? ' · grade ' + r[iGrade] : '') + ' · ' + String(s).slice(0, 8))}</option>`; }).join('');
+  $('sessionPick').value = sess; $('sessionRow').hidden = sessions.length < 2;
+  const out = [];
+  for (const r of rows.filter((x) => x[iSess] === sess).sort((a, b) => Number(a[iTurn]) - Number(b[iTurn]))) {
+    if (r[iUser]?.trim()) out.push({ speaker: 'Teacher', text: r[iUser].trim(), label: r[iTurn] });
+    if (r[iAi]?.trim()) out.push({ speaker: 'Students', text: r[iAi].trim(), label: r[iTurn] });
+  }
+  return out;
+}
+function parseTranscript(raw) {
+  if (isSimulatorCsv(raw)) return parseSimulatorCsv(raw);
+  $('sessionRow').hidden = true;
+  const out = [];
+  for (let line of raw.replace(/\r/g, '').split('\n')) {
+    line = line.trim();
+    if (!line || line === 'WEBVTT' || /^\d+$/.test(line) || /-->/.test(line) || /^NOTE\b/.test(line)) continue;
+    line = line.replace(/^\[?\(?\d{1,2}:\d{2}(:\d{2})?(\.\d+)?\)?\]?\s*/, '').replace(/^<v\s+([^>]+)>/, '$1: ').replace(/<\/v>/g, '');
+    const m = line.match(/^([A-Za-z][\w .'’\-]{0,40}?)\s*(?:\(\d{1,2}:\d{2}(?::\d{2})?\))?\s*:\s+(.+)$/);
+    if (m) out.push({ speaker: m[1].trim(), text: m[2].trim() });
+    else if (out.length) out[out.length - 1].text += ' ' + line;
+    else out.push({ speaker: '', text: line });
+  }
+  return out;
+}
+function refreshTranscript() {
+  const parsed = parseTranscript($('transcript').value);
+  const speakers = [...new Set(parsed.map((p) => p.speaker))];
+  const prev = $('teacherSpeaker').value;
+  const guess = speakers.find((s) => /teacher|^t$|^mr|^ms|^mrs|^dr/i.test(s)) ?? speakers[0];
+  $('teacherSpeaker').innerHTML = speakers.map((s) => `<option value="${esc(s)}">${esc(s || '(no speaker label)')}</option>`).join('');
+  $('teacherSpeaker').value = speakers.includes(prev) ? prev : guess ?? '';
+  const teacher = $('teacherSpeaker').value;
+  turns = parsed.map((p, i) => ({ ...p, index: i, label: p.label ?? String(i + 1), isTeacher: p.speaker === teacher }));
+  $('turnCount').textContent = parsed.length ? `${parsed.length} turns found, ${turns.filter((t) => t.isTeacher).length} by the teacher` : '';
+  $('turnPreview').hidden = !parsed.length;
+  $('turnPreview').innerHTML = turns.slice(0, 300).map((t) => `<div class="${t.isTeacher ? 't' : ''}" style="white-space:pre-line"><b>${esc(t.label)} · ${esc(t.speaker || '—')}:</b> ${esc(t.text)}</div>`).join('');
+  resetRun();
+}
+$('transcript').oninput = () => { try { localStorage.setItem('liveTranscript', $('transcript').value); } catch {} refreshTranscript(); };$('teacherSpeaker').onchange = refreshTranscript;
+$('sessionPick').onchange = refreshTranscript;
+$('file').onchange = async (e) => { const f = e.target.files[0]; if (f) { $('transcript').value = await f.text(); $('transcript').oninput(); } };
+
+// ---------- the live run ----------
+// State carried from turn to turn, exactly what the simulator would keep: the open multi-turn sequences.
+let rows = [], open = {}, cursor = 0, playing = false, runTranscript = [], runSkills = [], runExcluded = [], lookFors = [];
+const teacherTurns = () => runTranscript.filter((t) => t.isTeacher);
+function resetRun() {
+  rows = []; open = {}; cursor = 0; playing = false; runTranscript = []; lookFors = [];
+  $('resultsSec').hidden = true; $('reset').hidden = true; $('status').textContent = '';
+  updateButtons();
+}
+function updateButtons() {
+  const ready = selected.size && activeLookFors().length && turns.some((t) => t.isTeacher);
+  const done = runTranscript.length && cursor >= teacherTurns().length;
+  $('play').disabled = !ready || playing || done; $('step').disabled = !ready || playing || done;
+  $('stop').hidden = !playing;
+  if (!ready && !rows.length) $('status').textContent = !selected.size ? 'Pick at least one skill' : !activeLookFors().length ? 'All look-fors are switched off' : 'Add a transcript with at least one teacher turn';
+}
+function startIfNeeded() {
+  if (runTranscript.length) return;
+  runTranscript = turns.map((t) => ({ index: t.index, label: t.label, speaker: t.speaker, text: t.text, isTeacher: t.isTeacher }));
+  runSkills = [...selected]; runExcluded = [...excluded];
+  $('resultsSec').hidden = false; $('reset').hidden = false;
+}
+async function runOne() {
+  startIfNeeded();
+  const t = teacherTurns()[cursor];
+  $('status').textContent = `Rating turn ${t.label} (${cursor + 1} of ${teacherTurns().length})…`;
+  const r = await api('/api/live-turn', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    // Only the turns up to and including this one are sent (the server also cuts anything later)
+    body: JSON.stringify({ skillIds: runSkills, excludeLookForIds: runExcluded, transcript: runTranscript.slice(0, t.index + 1), targetIndex: t.index, open }) });
+  if (!r.ok) throw new Error((await r.json()).error || r.statusText);
+  const out = await r.json();
+  lookFors = out.lookFors; open = out.open;
+  rows.push({ ...out, turn: t });
+  cursor++;
+  draw();
+  const avg = Math.round(rows.reduce((s, x) => s + x.ms, 0) / rows.length);
+  $('status').textContent = `${cursor} of ${teacherTurns().length} teacher turns · this turn ${out.ms} ms · average ${avg} ms` + (cursor >= teacherTurns().length ? ' · done' : '');
+}
+$('step').onclick = async () => { try { playing = true; updateButtons(); await runOne(); } catch (e) { $('status').textContent = 'Error: ' + e.message; } finally { playing = false; updateButtons(); } };
+$('play').onclick = async () => {
+  playing = true; updateButtons();
+  try { while (playing && (!runTranscript.length || cursor < teacherTurns().length)) await runOne(); }
+  catch (e) { $('status').textContent = 'Error: ' + e.message; }
+  finally { playing = false; updateButtons(); }
+};
+$('stop').onclick = () => { playing = false; };
+$('reset').onclick = resetRun;
+
+// ---------- drawing ----------
+const spanText = (e) => e.startLabel === e.endLabel ? 'turn ' + e.startLabel : 'turns ' + e.startLabel + '–' + e.endLabel;
+const badge = (r) => r?.label ? `<span class="b ${r.label}">${r.label} ${pct(r.probabilities?.[r.choice])}</span><span class="conf">conf ${pct(r.confidence)}</span>` : '';
+const nameOf = (id) => lookFors.find((l) => l.id === id)?.name || '';
+const stepNo = (r) => r.step && r.step !== 'none' ? Number(r.step.slice(1)) : null;
+const short = (s, n = 70) => { s = String(s || ''); return s.length > n ? `<span title="${esc(s)}">${esc(s.slice(0, n).replace(/\s+\S*$/, ''))}…</span>` : esc(s); };
+
+// What the simulator would know after this turn (input for the next student and coach responses)
+function signal(row) {
+  const out = [];
+  for (const r of row.results) {
+    if (r.kind !== 'result') continue;
+    const n = esc(nameOf(r.lookForId));
+    if (r.scope !== 'multi_turn_move') {
+      if (r.label !== 'Non-Example' && r.confidence > 0.5) out.push([0, `<span class="ic">●</span><span class="b ${r.label}">${r.label}</span> ${n}`]);
+      continue;
+    }
+    const e = r.event; const f = e.finalRating;
+    if (e.type === 'completed' || e.type === 'ended')
+      out.push([0, `<span class="ic">✓</span>${n} ${e.type === 'completed' ? 'completed' : 'ended'} (${esc(spanText(e))}): ${f?.label ? `<span class="b ${f.label}">${f.label}</span> <span class="conf">conf ${pct(f.confidence)}</span>` : '<span class="muted">rating failed</span>'}`]);
+    else if (e.type === 'started' || e.type === 'continuing')
+      out.push([1, `<span class="ic">▶</span>${n} under way since turn ${esc(e.startLabel)} · ${e.steps.length} of ${r.stepCount} steps seen${stepNo(r) ? ` · this turn: <i>${short(r.stepText)}</i>` : ''} · so far <span class="b ${r.label}">${r.label}</span>`]);
+    else if (e.type === 'paused') out.push([2, `<span class="ic">⏸</span><span class="muted">${n} (since turn ${esc(e.startLabel)}) not continued this turn</span>`]);
+    else if (e.type === 'dropped') out.push([3, `<span class="ic">✕</span><span class="muted">${n}, started turn ${esc(e.startLabel)}, didn't continue</span>`]);
+  }
+  out.sort((a, b) => a[0] - b[0]);
+  return out.length ? out.map(([, h]) => `<div class="sig">${h}</div>`).join('') : '<span class="muted">Nothing named: students respond to the turn as it is</span>';
+}
+function cell(row, r) {
+  const key = `${row.turn.index}|${r.lookForId}`;
+  if (r.kind === 'skipped') return '<td class="muted">not rated live</td>';
+  if (r.kind === 'error') return `<td class="cell" data-k="${key}"><span class="b Insufficient">!</span></td>`;
+  if (r.scope !== 'multi_turn_move') return `<td class="cell ${r.confidence < 0.5 ? 'lowconf' : ''}" data-k="${key}">${badge(r)}</td>`;
+  const e = r.event;
+  const ev = e.type === 'none' ? '' : `<span class="ev ${e.type}">${e.type}</span> `;
+  const final = e.finalRating?.label ? `<div style="margin-top:3px">${spanText(e)}: <span class="b ${e.finalRating.label}">${e.finalRating.label}</span></div>` : '';
+  return `<td class="cell" data-k="${key}">${ev}<span class="small">in seq. ${pct(r.inProgress)}</span>
+    <div class="small">${stepNo(r) ? `step ${stepNo(r)} of ${r.stepCount}` : 'no step'} · done ${pct(r.complete)}</div>
+    <div class="${r.confidence < 0.5 ? 'lowconf' : ''}" style="margin-top:2px"><span class="muted">so far</span> ${badge(r)}</div>${final}</td>`;
+}
+function draw() {
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn</th>${lookFors.map((l) =>
+    `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${esc(SC[l.scope] || '')}</div></th>`).join('')}</tr></thead>`;
+  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td>` +
+    lookFors.map((l) => cell(row, row.results.find((r) => r.lookForId === l.id))).join('') + '</tr>').join('');
+  $('results').innerHTML = head + '<tbody>' + body + '</tbody>';
+  const cur = $('results').querySelector('tr.current'); if (cur && playing) cur.scrollIntoView({ block: 'nearest' });
+}
+
+$('results').onclick = (ev) => {
+  const td = ev.target.closest('td.cell[data-k]'); if (!td) return;
+  const [ti, lfId] = td.dataset.k.split('|');
+  const row = rows.find((x) => String(x.turn.index) === ti); const r = row.results.find((x) => x.lookForId === lfId);
+  const crit = r.request?.questions?.new_choice_1?.criteria || {};
+  const bars = (probs, names) => Object.entries(probs || {}).map(([k, p]) => `<div class="bar"><span>${esc(names?.[k] || k)}</span><span class="track"><i style="width:${p * 100}%"></i></span><span class="muted">${pct(p)}</span></div>`).join('');
+  let html = `<h2>${esc(nameOf(lfId))} · turn ${esc(row.label)}</h2><p>“${esc(row.turn.text)}”</p><p class="muted">Scope: ${esc(SC[r.scope] || '')} (draft)</p>`;
+  if (r.kind === 'error') html += `<div class="warn">${esc(r.error)}</div>`;
+  else {
+    html += `<h3 style="font-size:14px">${r.scope === 'multi_turn_move' ? 'How it’s going so far' : 'Rating'}</h3>${bars(r.probabilities, crit)}`;
+    if (r.scope === 'multi_turn_move') {
+      html += `<p><b>Part of a sequence:</b> ${pct(r.inProgress)} · <b>finished:</b> ${pct(r.complete)} · <b>event:</b> ${esc(r.event.type)}${r.event.startLabel ? ' (' + esc(spanText(r.event)) + ')' : ''}</p>`;
+      html += `<h3 style="font-size:14px">Step this turn carries out <span class="muted" style="font-weight:400">(confidence ${pct(r.stepConfidence)})</span></h3><p>${esc(r.stepText)}</p>`;
+      if (r.event.finalRating) html += `<h3 style="font-size:14px">Whole-sequence rating (${esc(spanText(r.event))})</h3>` + (r.event.finalRating.error ? `<div class="warn">${esc(r.event.finalRating.error)}</div>` : bars(r.event.finalRating.probabilities, crit)) +
+        `<details><summary>Whole-sequence request</summary><pre>${esc(JSON.stringify(r.event.finalRating.request, null, 2))}</pre></details>`;
+    }
+  }
+  html += `<details style="margin-top:12px"><summary>Exact request sent to Jev for this turn</summary><pre>${esc(JSON.stringify(r.request, null, 2))}</pre></details>`;
+  $('detailBody').innerHTML = html; $('detail').showModal();
+};
+
+init().catch((e) => { $('status').textContent = e.message; });
+</script>
+</body>
+</html>
