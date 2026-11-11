@@ -1,0 +1,31 @@
+﻿session_id,simulation,grade_level,turn,user_input,ai_response
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,1,"Good morning, everyone! Today we're going to keep working on equal parts.","Hannah: Smiles at the teacher.
+Mateo: Sits up.
+Priya: Opens her folder."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,2,"Okay so, um, basically what we're gonna do, kind of, is like, you know, the shapes thing again, but sort of different, and you'll kind of figure it out as we go, okay?","Hannah: Looks confused.
+Mateo: What are we doing?
+Priya: Looks at her neighbor."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,3,"Don't start yet. Don't touch your boards, don't talk to your neighbor, and don't draw anything until I say so.","Priya: Freezes with her marker in the air.
+Mateo: Can we start now?
+Ella: Puts her hands in her lap."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,4,Just do it.,"Hannah: Do what?
+Mateo: Starts drawing a dog.
+Ella: Looks around the room."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,5,"Take out your whiteboard and a marker. You have two minutes to draw a rectangle and divide it into two equal parts. Work on your own, quietly, and when you finish, put your marker down and look up at me.","Hannah: Draws a rectangle.
+Mateo: Draws a rectangle with a line near one end.
+Priya: Draws carefully, then looks up.
+Ella: Divides her rectangle down the middle."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,6,"Mateo, really? Again? I literally just explained this. Why do you never listen?","Mateo: Looks down at his desk.
+Hannah: Glances at Mateo.
+Priya: Stops drawing."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,7,"Okay. When I say go, flip your boards to face me. Ready... go.","Hannah: Flips her board.
+Mateo: Slowly flips his board.
+Priya: Flips her board.
+Ella: Flips her board."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,8,"Hmm, so, uh, whatever, some of you got it and some of you didn't, let's just move on to the next thing I guess.","Ella: Looks at her board.
+Mateo: Puts his board away.
+Hannah: Shrugs."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,9,"Carter, what do we call two equal parts?",Carter: Halves.
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,10,"Ella, do you agree with Carter? Why or why not?","Ella: I agree, because there are two parts and they're the same size."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,11,"Natalie, what would we call it if the two parts were not the same size?","Natalie: Then they're not halves, just two parts."
+00000000-test-4c0a-8c0a-coachtest001,Coach trigger test (made-up transcript),2,12,"Great thinking, all three of you. Two equal parts are called halves, and if the parts aren't equal, they aren't halves.",
