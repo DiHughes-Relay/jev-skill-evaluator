@@ -35,7 +35,9 @@ Code layout: `lib/core.js` has all the logic; `server.js` is the app (page + API
   over 70% makes the coach step in at once; 50–70% counts as ineffective. The count resets when the look-fors that were
   Insufficient come back Strong or Attempting, or after 4 turns with nothing ineffective.   `samples/coach-test.txt` is a short transcript with weak directions and put-downs for trying it.
   Logic: `liveTurn` in `lib/core.js`.
-- **How it works** (`/how-it-works.html`): the approach, for engineers (covers the full-transcript method so far).
+- **How it works** (`/how-it-works.html`): for engineers. The two scoring systems (turn by turn and end of session), how each works,
+  why there are two, and what they share. Band definitions and wording are read live from `prompt-template.json`;
+  example requests and responses come from `docs/examples.json` (recapture them if the prompts change a lot).
 
 ## How it works page
 The app's second page (`/how-it-works.html`, linked from the header) documents the Jev approach for engineers:
