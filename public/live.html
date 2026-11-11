@@ -98,8 +98,11 @@
       <h2>What happens each turn</h2>
       <ul style="padding-left:18px;margin:0">
         <li><b>Single-utterance / responsive</b> look-fors: rated as in the full run (the turn, plus 2 turns before for responsive).</li>
-        <li><b>Multi-turn</b> look-fors: Jev says whether this turn starts or continues a sequence, which of the look-for's observable behaviors it carries out, whether the sequence is finished, and how it's going so far.</li>
-        <li>A sequence <b>continues</b> when Jev says it's in one and either names a step or is very sure (&gt; 70%). Two teacher turns without a step <b>end</b> it.</li>
+        <li><b>Multi-turn</b> look-fors, two calls in parallel:
+          <ul style="padding-left:16px">
+            <li><b>Where the sequence is:</b> Jev says whether this turn starts or continues a sequence, which of the look-for's observable behaviors it carries out, and whether the sequence is finished. A turn continues a sequence only if Jev names a step (or is over 70% sure). Two teacher turns without one end it.</li>
+            <li><b>How it's going:</b> a five-band rating: Strong, Attempting, Building (partway, on track), Insufficient, Non-Example.</li>
+          </ul></li>
         <li>When a sequence <b>completes</b> or <b>ends</b>, it gets one whole-sequence rating.</li>
         <li>Jev never sees the students' reaction to the turn being rated, or anything after it.</li>
       </ul>
@@ -130,9 +133,10 @@
     </section>
     <section id="resultsSec" hidden>
       <h2><span class="n">3</span>Turn by turn</h2>
+      <div class="row" style="margin-top:0;margin-bottom:8px"><label><input type="checkbox" id="compare"> Also show the two earlier methods for comparison</label></div>
       <div class="tablewrap"><table id="results"></table></div>
       <div class="muted" style="margin-top:6px">“Signal after this turn” is what the simulator would know when generating the next student and coach responses.
-        Multi-turn cells show the sequence event, Jev's in-progress probability, the step it named, and the “so far” rating. Click any cell for the exact request and all of Jev's answers.</div>
+        Multi-turn cells show the sequence event, Jev's in-progress probability, the step it named, and the five-band rating (Building = partway, on track); a finished or ended sequence also gets one whole-sequence rating. Click any cell for the exact request and all of Jev's answers.</div>
     </section>
   </div>
 </main>
@@ -337,6 +341,7 @@ $('play').onclick = async () => {
 };
 $('stop').onclick = () => { playing = false; };
 $('reset').onclick = resetRun;
+$('compare').onchange = () => rows.length && draw();
 
 // ---------- drawing ----------
 const spanText = (e) => e.startLabel === e.endLabel ? 'turn ' + e.startLabel : 'turns ' + e.startLabel + '–' + e.endLabel;
@@ -346,7 +351,9 @@ const stepNo = (r) => r.step && r.step !== 'none' ? Number(r.step.slice(1)) : nu
 const short = (s, n = 70) => { s = String(s || ''); return s.length > n ? `<span title="${esc(s)}">${esc(s.slice(0, n).replace(/\s+\S*$/, ''))}…</span>` : esc(s); };
 
 // What the simulator would know after this turn (input for the next student and coach responses)
-function signal(row) {
+// Hybrid (default): step-based questions decide where a sequence starts and ends; the five-band rating
+// (with Building) is the rating students and the coach would get while it's under way.
+function signal(row, mode = 'hybrid') {
   const out = [];
   for (const r of row.results) {
     if (r.kind !== 'result') continue;
@@ -359,7 +366,7 @@ function signal(row) {
     if (e.type === 'completed' || e.type === 'ended')
       out.push([0, `<span class="ic">✓</span>${n} ${e.type === 'completed' ? 'completed' : 'ended'} (${esc(spanText(e))}): ${f?.label ? `<span class="b ${f.label}">${f.label}</span> <span class="conf">conf ${pct(f.confidence)}</span>` : '<span class="muted">rating failed</span>'}`]);
     else if (e.type === 'started' || e.type === 'continuing')
-      out.push([1, `<span class="ic">▶</span>${n} under way since turn ${esc(e.startLabel)} · ${e.steps.length} of ${r.stepCount} steps seen${stepNo(r) ? ` · this turn: <i>${short(r.stepText)}</i>` : ''} · so far <span class="b ${r.label}">${r.label}</span>`]);
+      out.push([1, `<span class="ic">▶</span>${n} under way since turn ${esc(e.startLabel)} · ${e.steps.length} of ${r.stepCount} steps seen${stepNo(r) ? ` · this turn: <i>${short(r.stepText)}</i>` : ''} · ${mode === 'hybrid' ? bBadge(r.building) : `so far <span class="b ${r.label}">${r.label}</span>`}`]);
     else if (e.type === 'paused') out.push([2, `<span class="ic">⏸</span><span class="muted">${n} (since turn ${esc(e.startLabel)}) not continued this turn</span>`]);
     else if (e.type === 'dropped') out.push([3, `<span class="ic">✕</span><span class="muted">${n}, started turn ${esc(e.startLabel)}, didn't continue</span>`]);
   }
@@ -396,13 +403,14 @@ function cell(row, r) {
   const final = e.finalRating?.label ? `<div style="margin-top:3px">${spanText(e)}: <span class="b ${e.finalRating.label}">${e.finalRating.label}</span></div>` : '';
   return `<td class="cell" data-k="${key}">${ev}<span class="small">in seq. ${pct(r.inProgress)}</span>
     <div class="small">${stepNo(r) ? `step ${stepNo(r)} of ${r.stepCount}` : 'no step'} · done ${pct(r.complete)}</div>
-    <div class="${r.confidence < 0.5 ? 'lowconf' : ''}" style="margin-top:2px"><span class="muted">so far</span> ${badge(r)}</div>${final}
-    <div style="margin-top:4px;padding-top:3px;border-top:1px dashed var(--line)"><span class="muted">5-band</span> ${bBadge(r.building)}</div></td>`;
+    <div style="margin-top:2px">${bBadge(r.building)}</div>${final}
+    ${$('compare').checked ? `<div class="${r.confidence < 0.5 ? 'lowconf' : ''}" style="margin-top:4px;padding-top:3px;border-top:1px dashed var(--line)"><span class="muted">earlier 4-band so far</span> ${badge(r)}</div>` : ''}</td>`;
 }
 function draw() {
-  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">step-based sequences</div></th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">5-band rating with Building</div></th>${lookFors.map((l) =>
+  const compare = $('compare').checked;
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">step-based sequences + 5-band rating</div></th>${compare ? '<th class="signal">Earlier: step-based only<div class="muted" style="font-weight:400">4-band “so far” rating</div></th><th class="signal">Earlier: 5-band only<div class="muted" style="font-weight:400">Building rating decides sequences</div></th>' : ''}${lookFors.map((l) =>
     `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${esc(SC[l.scope] || '')}</div></th>`).join('')}</tr></thead>`;
-  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td><td class="signal">${signalB(row)}</td>` +
+  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td>${compare ? `<td class="signal">${signal(row, 'step')}</td><td class="signal">${signalB(row)}</td>` : ''}` +
     lookFors.map((l) => cell(row, row.results.find((r) => r.lookForId === l.id))).join('') + '</tr>').join('');
   $('results').innerHTML = head + '<tbody>' + body + '</tbody>';
   const cur = $('results').querySelector('tr.current'); if (cur && playing) cur.scrollIntoView({ block: 'nearest' });
