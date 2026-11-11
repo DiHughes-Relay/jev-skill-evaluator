@@ -52,13 +52,18 @@ One call per (teacher turn × look-for), in exactly the playground shape:
 Edit `prompt-template.json` to change band definitions, the question, or the model
 (`jev-latest` by default). Edits apply on the next run, no restart needed.
 Bands: Strong / Attempting (partial: missing pieces, but what's there is done well) / Insufficient (part of it done
-actively badly, likely to hurt comprehension or engagement) / Non-Example. The turn-by-turn page adds Building for
-unfinished multi-turn moves.
+actively badly, likely to hurt comprehension or engagement) / Missed / Non-Example. The turn-by-turn page adds Building for
+unfinished multi-turn moves and drops Missed.
+**Missed** (full-transcript page only): the transcript shows a clear trigger the look-for names (a wrong answer, visible
+confusion, 3+ step directions…), this is the teacher's turn where the move was due, and the teacher didn't attempt it.
+It's offered only for look-fors that are Required or Conditional in a selected skill (an Optional look-for, one of several
+strategies the teacher may pick, can't really be missed), and those calls also send the look-for's `type_explanation`.
+The taxonomy's "missed opportunity" non-examples are its examples (on the turn-by-turn page they go under attempting).
 **Harm** is not a look-for band. It's one check per teacher turn (`harm_check` in `prompt-template.json`): a single noul
 question on the turn alone, with no earlier turns, so a harmful turn never colours later ones. Both pages use it. How long
 harm keeps affecting a student is left to the simulator's student-behavior logic.
 Taxonomy mapping: strong_examples → strong, attempting_examples → attempting. non_examples go by their `[type: ...]` note
-(`non_example_types`): missed opportunity → attempting; relational harm, learning harm and untyped → insufficient.
+(`non_example_types`): missed opportunity → missed; relational harm, learning harm and untyped → insufficient.
 Relational-harm non-examples are also the harm check's examples. Every look-for gets one off-topic non_example line.
 
 ## Taxonomy

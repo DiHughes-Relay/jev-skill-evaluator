@@ -8,7 +8,7 @@
   :root {
     --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
     --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
-    --ins: #b3261e; --ins-bg: #fbe4e2; --harm: #fff; --harm-bg: #7d1f5c; --non: #8a8a8f; --non-bg: #f0f0ee;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --harm: #fff; --harm-bg: #7d1f5c; --miss: #4f4a8c; --miss-bg: #e9e7f6; --non: #8a8a8f; --non-bg: #f0f0ee;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
@@ -40,6 +40,7 @@
   button:disabled { opacity: .5; cursor: default; }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
   .muted { color: var(--muted); font-size: 12px; }
+  .blocked { color: #8a5300; background: var(--att-bg); padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; }
   .warn { background: var(--att-bg); color: #6d4600; padding: 8px 10px; border-radius: 6px; font-size: 13px; margin-bottom: 10px; }
   .turns { max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; font-size: 12px; }
   .turns div { padding: 4px 8px; border-bottom: 1px solid var(--line); }
@@ -68,6 +69,7 @@
   .b.Strong { background: var(--strong-bg); color: var(--strong); }
   .b.Attempting { background: var(--att-bg); color: var(--att); }
   .b.Insufficient { background: var(--ins-bg); color: var(--ins); }
+  .b.Missed { background: var(--miss-bg); color: var(--miss); }
   .b.Harmful { background: var(--harm-bg); color: var(--harm); }
   .b.Non-Example { background: var(--non-bg); color: var(--non); }
   .conf { color: var(--muted); font-size: 11px; margin-left: 4px; }
@@ -130,6 +132,7 @@
         <button class="primary" id="run" disabled>Evaluate</button>
         <button id="stop" hidden>Stop</button>
         <span class="muted" id="estimate"></span>
+        <span class="blocked" id="blocked" hidden></span>
       </div>
     </section>
     <section id="resultsSec" hidden>
@@ -164,8 +167,8 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Non-Example'];
-const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', Harmful: 'var(--harm-bg)', 'Non-Example': 'var(--non)' };
+const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Missed', 'Non-Example'];
+const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', Missed: 'var(--miss)', Harmful: 'var(--harm-bg)', 'Non-Example': 'var(--non)' };
 
 let skills = [], selected = new Set(), turns = [], run = null;
 let excluded = new Set();
@@ -199,7 +202,9 @@ async function init() {
   $('keyWarn').hidden = cfg.hasKey;
   $('snap').textContent = `Taxonomy snapshot: ${cfg.snapshot_date}.` + (cfg.mock ? ' MOCK MODE — ratings are random.' : '');
   skills = await api('/api/skills').then((r) => r.json());
-  renderSkills();
+  // Remember the skills picked last time (shared with the turn-by-turn page)
+  try { const saved = JSON.parse(localStorage.getItem('selectedSkills') || localStorage.getItem('liveSkills') || '[]'); selected = new Set(saved.filter((id) => skills.some((s) => s.id === id))); } catch {}
+  renderSkills(); renderChips(); updateEstimate();
 }
 function renderSkills() {
   const q = $('skillSearch').value.toLowerCase();
@@ -215,6 +220,7 @@ function renderSkills() {
 $('skillSearch').oninput = renderSkills;
 $('skillList').onchange = (e) => {
   if (e.target.checked) selected.add(e.target.value); else selected.delete(e.target.value);
+  try { localStorage.setItem('selectedSkills', JSON.stringify([...selected])); } catch {}
   renderChips(); updateEstimate();
 };
 function selectedLookFors() {
@@ -324,9 +330,12 @@ function updateEstimate() {
     ? 'Single: just the turn. Responsive: + 2 turns before. Multi-turn: ± 3 turns, rated as a sequence. Lesson-wide: one rating for the whole transcript.'
     : 'Every look-for gets the same window; Jev rates only the target turn.';
   $('run').disabled = !n || !!run;
-  $('estimate').textContent = n ? `${n} Jev calls (${tt} teacher turns × ${act.length - lesson} look-fors${lesson ? ` + ${lesson} lesson-wide` : ''})` : !selected.size ? 'Pick at least one skill'
-    : !activeLookFors().length ? 'All look-fors are switched off. Click one above to include it'
-    : 'Add a transcript with at least one teacher turn';
+  // When Evaluate can't run, say why, prominently
+  const why = run ? '' : !selected.size ? 'Pick at least one skill in step 1 to evaluate.'
+    : !activeLookFors().length ? 'All look-fors for the selected skills are switched off. Click one in step 1 to include it.'
+    : !tt ? 'Add a transcript with at least one teacher turn (check the Teacher speaker setting).' : '';
+  $('estimate').textContent = n ? `${n} Jev calls (${tt} teacher turns × ${act.length - lesson} look-fors${lesson ? ` + ${lesson} lesson-wide` : ''})` : '';
+  $('blocked').textContent = why ? '⚠ ' + why : ''; $('blocked').hidden = !why;
 }
 
 // ---------- context mode ----------
@@ -365,7 +374,7 @@ $('run').onclick = async () => {
     if (msg.kind === 'more') total += msg.add;
     if (msg.kind === 'sequence') { for (const m of msg.members) if (m !== msg.end) seqMembers[m + '|' + msg.lookForId] = msg; pendingEnds[msg.end + '|' + msg.lookForId] = msg; }
     // A sequence whose own rating is Non-Example is not really a sequence: its turns keep their own ratings
-    if (msg.kind === 'result' && msg.sequence && msg.label === 'Non-Example') { for (const m of msg.sequence.members) { delete seqMembers[m + '|' + msg.lookForId]; delete pendingEnds[m + '|' + msg.lookForId]; } done++; return; }
+    if (msg.kind === 'result' && msg.sequence && (msg.label === 'Non-Example' || msg.label === 'Missed')) { for (const m of msg.sequence.members) { delete seqMembers[m + '|' + msg.lookForId]; delete pendingEnds[m + '|' + msg.lookForId]; } done++; return; }
     if (msg.kind === 'result' || msg.kind === 'error') { (msg.sequence ? finals : results)[msg.turn + '|' + msg.lookForId] = msg; done++; if (msg.kind === 'error') errors++; }
   };
   // One request per look-for (2 at a time) keeps each request short for the hosted version
@@ -411,10 +420,12 @@ $('hideNon').onchange = drawTable;
 // Look-fors Jev is >50% confident the teacher attempted on this turn (Non-Example = not attempted, so left out)
 function seenCell(cells) {
   const hits = cells.map((r, k) => ({ r, l: lookFors[k] }))
-    .filter(({ r }) => r?.kind === 'result' && r.label !== 'Non-Example' && r.confidence > 0.5)
+    .filter(({ r }) => r?.kind === 'result' && r.label !== 'Non-Example' && r.label !== 'Missed' && r.confidence > 0.5)
     .sort((a, b) => BANDS.indexOf(a.r.label) - BANDS.indexOf(b.r.label) || b.r.confidence - a.r.confidence);
-  return hits.length
-    ? hits.map(({ r, l }) => `<div class="seenitem"><span class="b ${r.label}">${r.label}</span> ${esc(l.name)}${r.sequence ? ` <span class="muted">(${esc(spanText(r.sequence))})</span>` : ''}</div>`).join('')
+  const missed = cells.map((r, k) => ({ r, l: lookFors[k] })).filter(({ r }) => r?.kind === 'result' && r.label === 'Missed' && r.confidence > 0.5);
+  const missedHtml = missed.map(({ l }) => `<div class="seenitem"><span class="b Missed">Missed</span> ${esc(l.name)}</div>`).join('');
+  return hits.length || missed.length
+    ? missedHtml + hits.map(({ r, l }) => `<div class="seenitem"><span class="b ${r.label}">${r.label}</span> ${esc(l.name)}${r.sequence ? ` <span class="muted">(${esc(spanText(r.sequence))})</span>` : ''}</div>`).join('')
     : '<span class="muted">—</span>';
 }
 
@@ -458,9 +469,9 @@ function drawTable() {
     if (hide && cells.length && cells.every((r) => r && r.kind !== 'seqmember' && r.kind !== 'pending' && r.label === 'Non-Example') && !(harm[t.index]?.p > harmCut)) continue;
     rows += `<tr><td class="muted">${esc(t.label)}</td><td class="quote">${esc(t.text)}</td><td class="seen">${seenCell(cells)}</td>${harmCell(harm[t.index])}` + cells.map((r, k) => ratingCell(r, t.index, lookFors[k].id)).join('') + '</tr>';
   }
-  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th><th class="harm" title="One check per teacher turn, on the turn alone, not tied to any look-for: is anything here likely to harm a student's relationship with the teacher, self-image, or standing with peers?">Harm check<div class="muted" style="font-weight:400">this turn only</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
-  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient</div></td><td></td><td>${(() => { const n = evalTurns.filter((t) => harm[t.index]?.p > harmCut).length; return n ? `<span class="b Harmful">${n} harmful</span>` : '<span class="muted">none</span>'; })()}</td>${lookFors.map((l) => {
-    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span></td>`; }).join('')}</tr>`;
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%, plus any rated Missed (called for, not attempted)">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th><th class="harm" title="One check per teacher turn, on the turn alone, not tied to any look-for: is anything here likely to harm a student's relationship with the teacher, self-image, or standing with peers?">Harm check<div class="muted" style="font-weight:400">this turn only</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
+  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient / Missed</div></td><td></td><td>${(() => { const n = evalTurns.filter((t) => harm[t.index]?.p > harmCut).length; return n ? `<span class="b Harmful">${n} harmful</span>` : '<span class="muted">none</span>'; })()}</td>${lookFors.map((l) => {
+    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span> <span class="b Missed">${c.Missed}</span></td>`; }).join('')}</tr>`;
   $('results').innerHTML = head + '<tbody>' + summary + rows + '</tbody>';
 }
 
@@ -485,7 +496,7 @@ $('lessonWide').onclick = showDetail;
 
 $('csv').onclick = () => {
   const q = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
-  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_non_example', 'harm_check_this_turn', 'error'].join(',')];
+  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', ...BANDS.map((b) => 'p_' + b.toLowerCase().replace('-', '_')), 'harm_check_this_turn', 'error'].join(',')];
   const row = (turnLabel, text, l, r) => {
     lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', ...BANDS.map((b) => r.bands?.[b]?.toFixed(3) ?? ''), r.harm?.toFixed(3) ?? '', q(r.error)].join(',')); };
   for (const l of lessonLookFors) { const r = results['lesson|' + l.id]; if (r) row('whole lesson', '', l, r); }

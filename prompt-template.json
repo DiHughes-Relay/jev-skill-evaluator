@@ -4,6 +4,7 @@
     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
     "attempting": "The teacher partially demonstrates the look-for: one or more of its components are missing or underdeveloped, but the components that are present are done well. Nothing in the attempt works against the observable behaviors; it is incomplete rather than done badly (e.g., directions name the task clearly but omit time or work mode). Students could likely proceed, with some risk of confusion.",
     "insufficient": "The teacher attempts the look-for, but some part of it is done actively badly, in a way that is likely to hurt students' comprehension or engagement: the language works against the observable behaviors (e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, revealing the answer before the questioning is complete). Missing components on their own are Attempting, not Insufficient.",
+    "missed": "The situation clearly called for this look-for and the teacher did not attempt it at all. Something in the transcript is a clear trigger that the look-for's definition, type, or type_explanation names (e.g., a student's wrong answer or visible confusion, directions with 3 or more steps), and the transcript_quote is the teacher's turn where the move was due (the first teacher turn after the trigger), but the teacher moved on without making it. Rate later turns on their own merits, not as Missed. Use Missed only when the trigger is clear and the move was expected; if the look-for merely could have been used here, rate Non-Example.",
     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
   },
   "instructions_with_context": "How well did the teacher do on this skill in the transcript_quote? Use turns_before_quote and turns_after_quote only as context; rate only the transcript_quote.",
@@ -71,9 +72,9 @@
     "counts_as_ineffective_above": 0.5
   },
   "non_example_types": {
-    "_note": "Where each taxonomy non-example goes in examples, by the [type: ...] note it carries. Untyped ones use 'default'. Harm itself is rated by harm_check, not by the look-for bands.",
+    "_note": "Where each taxonomy non-example goes in examples, by the [type: ...] note it carries. Untyped ones use 'default'. Where a band isn't offered (Missed on the turn-by-turn page), its examples go under attempting. Harm itself is rated by harm_check, not by the look-for bands.",
     "relational harm": "insufficient",
-    "missed opportunity": "attempting",
+    "missed opportunity": "missed",
     "learning harm": "insufficient",
     "default": "insufficient"
   },
@@ -85,7 +86,8 @@
         "option_a": "Strong",
         "option_b": "Attempting",
         "option_c": "Insufficient",
-        "option_d": "Non-Example"
+        "option_d": "Missed",
+        "option_e": "Non-Example"
       }
     }
   }

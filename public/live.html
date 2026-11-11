@@ -194,7 +194,7 @@ async function api(path, opts = {}) {
 let skills = [], selected = new Set(), turns = [];
 let excluded = new Set();
 try { excluded = new Set(JSON.parse(localStorage.getItem('excludedLookFors') || '[]')); } catch {}
-try { selected = new Set(JSON.parse(localStorage.getItem('liveSkills') || '[]')); } catch {}
+try { selected = new Set(JSON.parse(localStorage.getItem('selectedSkills') || localStorage.getItem('liveSkills') || '[]')); } catch {}
 async function init() {
   const cfg = await api('/api/config').then((r) => r.json());
   $('keyWarn').hidden = cfg.hasKey;
@@ -218,7 +218,7 @@ function renderSkills() {
 $('skillSearch').oninput = renderSkills;
 $('skillList').onchange = (e) => {
   if (e.target.checked) selected.add(e.target.value); else selected.delete(e.target.value);
-  try { localStorage.setItem('liveSkills', JSON.stringify([...selected])); } catch {}
+  try { localStorage.setItem('selectedSkills', JSON.stringify([...selected])); } catch {}
   renderChips(); updateButtons();
 };
 function selectedLookFors() {
