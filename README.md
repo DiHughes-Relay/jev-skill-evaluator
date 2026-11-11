@@ -59,6 +59,10 @@ confusion, 3+ step directions…), this is the teacher's turn where the move was
 It's offered only for look-fors that are Required or Conditional in a selected skill (an Optional look-for, one of several
 strategies the teacher may pick, can't really be missed), and those calls also send the look-for's `type_explanation`.
 The taxonomy's "missed opportunity" non-examples are its examples (on the turn-by-turn page they go under attempting).
+A missed move was due once, so runs of Missed for the same look-for (teacher turns at most two apart) are collapsed to the
+most probable turn (`collapseMissed` in `lib/core.js`); the other turns show their next most likely band with
+"Missed counted at turn N". Without this, look-fors that see neighbouring turns (Close the Loop) came back Missed on
+every turn around one missed moment.
 **Harm** is not a look-for band. It's one check per teacher turn (`harm_check` in `prompt-template.json`): a single noul
 question on the turn alone, with no earlier turns, so a harmful turn never colours later ones. Both pages use it. How long
 harm keeps affecting a student is left to the simulator's student-behavior logic.

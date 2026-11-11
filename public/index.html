@@ -375,6 +375,8 @@ $('run').onclick = async () => {
     if (msg.kind === 'sequence') { for (const m of msg.members) if (m !== msg.end) seqMembers[m + '|' + msg.lookForId] = msg; pendingEnds[msg.end + '|' + msg.lookForId] = msg; }
     // A sequence whose own rating is Non-Example is not really a sequence: its turns keep their own ratings
     if (msg.kind === 'result' && msg.sequence && (msg.label === 'Non-Example' || msg.label === 'Missed')) { for (const m of msg.sequence.members) { delete seqMembers[m + '|' + msg.lookForId]; delete pendingEnds[m + '|' + msg.lookForId]; } done++; return; }
+    // Repeated Missed collapsed to one turn: replace this turn's rating (already counted)
+    if (msg.kind === 'update') { results[msg.turn + '|' + msg.lookForId] = msg; return; }
     if (msg.kind === 'result' || msg.kind === 'error') { (msg.sequence ? finals : results)[msg.turn + '|' + msg.lookForId] = msg; done++; if (msg.kind === 'error') errors++; }
   };
   // One request per look-for (2 at a time) keeps each request short for the hosted version
@@ -445,6 +447,7 @@ function ratingCell(r, key, lfId) {
   if (r?.kind === 'error' && span) return `<td class="cell" data-k="${key}|${lfId}"><span class="b Insufficient">!</span>${span}</td>`;
   if (!r) return '<td class="cell muted">…</td>';
   if (r.kind === 'error') return `<td class="cell" data-k="${key}|${lfId}"><span class="b Insufficient">!</span></td>`;
+  if (r.missedMovedTo) return `<td class="cell lowconf" data-k="${key}|${lfId}" title="Jev also rated this turn Missed (${Math.round(r.originalMissed * 100)}%), but the same missed move is counted once, at turn ${esc(r.missedMovedTo)}. Shown: the next most likely band."><span class="b ${r.label}">${r.label} ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}%</span><div class="span">Missed counted at turn ${esc(r.missedMovedTo)}</div></td>`;
   return `<td class="cell ${r.confidence < 0.5 ? 'lowconf' : ''}" data-k="${key}|${lfId}"><span class="b ${r.label}">${r.label} ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}%</span><span class="conf" title="Jev's confidence in this choice">conf ${Math.round(r.confidence * 100)}%</span></td>`;
 }
 function harmCell(h) {
