@@ -292,10 +292,10 @@ $('file').onchange = async (e) => { const f = e.target.files[0]; if (f) { $('tra
 
 // ---------- the live run ----------
 // State carried from turn to turn, exactly what the simulator would keep: the open multi-turn sequences.
-let rows = [], open = {}, cursor = 0, playing = false, runTranscript = [], runSkills = [], runExcluded = [], lookFors = [];
+let rows = [], open = {}, openB = {}, cursor = 0, playing = false, runTranscript = [], runSkills = [], runExcluded = [], lookFors = [];
 const teacherTurns = () => runTranscript.filter((t) => t.isTeacher);
 function resetRun() {
-  rows = []; open = {}; cursor = 0; playing = false; runTranscript = []; lookFors = [];
+  rows = []; open = {}; openB = {}; cursor = 0; playing = false; runTranscript = []; lookFors = [];
   $('resultsSec').hidden = true; $('reset').hidden = true; $('status').textContent = '';
   updateButtons();
 }
@@ -318,10 +318,10 @@ async function runOne() {
   $('status').textContent = `Rating turn ${t.label} (${cursor + 1} of ${teacherTurns().length})…`;
   const r = await api('/api/live-turn', { method: 'POST', headers: { 'Content-Type': 'application/json' },
     // Only the turns up to and including this one are sent (the server also cuts anything later)
-    body: JSON.stringify({ skillIds: runSkills, excludeLookForIds: runExcluded, transcript: runTranscript.slice(0, t.index + 1), targetIndex: t.index, open }) });
+    body: JSON.stringify({ skillIds: runSkills, excludeLookForIds: runExcluded, transcript: runTranscript.slice(0, t.index + 1), targetIndex: t.index, open, openB }) });
   if (!r.ok) throw new Error((await r.json()).error || r.statusText);
   const out = await r.json();
-  lookFors = out.lookFors; open = out.open;
+  lookFors = out.lookFors; open = out.open; openB = out.openB || {};
   rows.push({ ...out, turn: t });
   cursor++;
   draw();
@@ -366,6 +366,26 @@ function signal(row) {
   out.sort((a, b) => a[0] - b[0]);
   return out.length ? out.map(([, h]) => `<div class="sig">${h}</div>`).join('') : '<span class="muted">Nothing named: students respond to the turn as it is</span>';
 }
+// The same signal, with multi-turn look-fors driven only by the five-band (Building) rating
+function signalB(row) {
+  const out = [];
+  for (const r of row.results) {
+    if (r.kind !== 'result') continue;
+    const n = esc(nameOf(r.lookForId));
+    if (r.scope !== 'multi_turn_move') {
+      if (r.label !== 'Non-Example' && r.confidence > 0.5) out.push([0, `<span class="ic">●</span><span class="b ${r.label}">${r.label}</span> ${n}`]);
+      continue;
+    }
+    const b = r.building; if (!b?.event) continue; const e = b.event;
+    if (e.type === 'completed') out.push([0, `<span class="ic">✓</span>${n} finished (${esc(spanText(e))}): ${bBadge(b)}`]);
+    else if (e.type === 'started' || e.type === 'continuing') out.push([1, `<span class="ic">▶</span>${n} since turn ${esc(e.startLabel)}: ${bBadge(b)}`]);
+    else if (e.type === 'paused') out.push([2, `<span class="ic">⏸</span><span class="muted">${n} (since turn ${esc(e.startLabel)}) not continued this turn</span>`]);
+    else if (e.type === 'unfinished') out.push([3, `<span class="ic">✕</span><span class="muted">${n} (${esc(spanText(e))}) left unfinished</span>`]);
+  }
+  out.sort((a, b) => a[0] - b[0]);
+  return out.length ? out.map(([, h]) => `<div class="sig">${h}</div>`).join('') : '<span class="muted">Nothing named</span>';
+}
+const bBadge = (b) => b?.label ? `<span class="b ${b.label}">${b.label} ${pct(b.probabilities?.[b.choice])}</span>` : '<span class="muted">—</span>';
 function cell(row, r) {
   const key = `${row.turn.index}|${r.lookForId}`;
   if (r.kind === 'skipped') return '<td class="muted">not rated live</td>';
@@ -376,12 +396,13 @@ function cell(row, r) {
   const final = e.finalRating?.label ? `<div style="margin-top:3px">${spanText(e)}: <span class="b ${e.finalRating.label}">${e.finalRating.label}</span></div>` : '';
   return `<td class="cell" data-k="${key}">${ev}<span class="small">in seq. ${pct(r.inProgress)}</span>
     <div class="small">${stepNo(r) ? `step ${stepNo(r)} of ${r.stepCount}` : 'no step'} · done ${pct(r.complete)}</div>
-    <div class="${r.confidence < 0.5 ? 'lowconf' : ''}" style="margin-top:2px"><span class="muted">so far</span> ${badge(r)}</div>${final}</td>`;
+    <div class="${r.confidence < 0.5 ? 'lowconf' : ''}" style="margin-top:2px"><span class="muted">so far</span> ${badge(r)}</div>${final}
+    <div style="margin-top:4px;padding-top:3px;border-top:1px dashed var(--line)"><span class="muted">5-band</span> ${bBadge(r.building)}</div></td>`;
 }
 function draw() {
-  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn</th>${lookFors.map((l) =>
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">step-based sequences</div></th><th class="signal">Signal after this turn<div class="muted" style="font-weight:400">5-band rating with Building</div></th>${lookFors.map((l) =>
     `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${esc(SC[l.scope] || '')}</div></th>`).join('')}</tr></thead>`;
-  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td>` +
+  const body = rows.map((row, i) => `<tr class="${i === rows.length - 1 ? 'current' : ''}"><td class="muted">${esc(row.label)}<div class="small">${row.ms} ms</div></td><td class="quote">${esc(row.turn.text)}</td><td class="signal">${signal(row)}</td><td class="signal">${signalB(row)}</td>` +
     lookFors.map((l) => cell(row, row.results.find((r) => r.lookForId === l.id))).join('') + '</tr>').join('');
   $('results').innerHTML = head + '<tbody>' + body + '</tbody>';
   const cur = $('results').querySelector('tr.current'); if (cur && playing) cur.scrollIntoView({ block: 'nearest' });
@@ -400,6 +421,12 @@ $('results').onclick = (ev) => {
     if (r.scope === 'multi_turn_move') {
       html += `<p><b>Part of a sequence:</b> ${pct(r.inProgress)} · <b>finished:</b> ${pct(r.complete)} · <b>event:</b> ${esc(r.event.type)}${r.event.startLabel ? ' (' + esc(spanText(r.event)) + ')' : ''}</p>`;
       html += `<h3 style="font-size:14px">Step this turn carries out <span class="muted" style="font-weight:400">(confidence ${pct(r.stepConfidence)})</span></h3><p>${esc(r.stepText)}</p>`;
+      if (r.building) {
+        const bc = r.building.request?.questions?.live_rating?.criteria || {};
+        html += `<h3 style="font-size:14px">Five-band rating with Building <span class="muted" style="font-weight:400">(separate call · event: ${esc(r.building.event?.type || '—')})</span></h3>` +
+          (r.building.error ? `<div class="warn">${esc(r.building.error)}</div>` : bars(r.building.probabilities, bc)) +
+          `<details><summary>Five-band request</summary><pre>${esc(JSON.stringify(r.building.request, null, 2))}</pre></details>`;
+      }
       if (r.event.finalRating) html += `<h3 style="font-size:14px">Whole-sequence rating (${esc(spanText(r.event))})</h3>` + (r.event.finalRating.error ? `<div class="warn">${esc(r.event.finalRating.error)}</div>` : bars(r.event.finalRating.probabilities, crit)) +
         `<details><summary>Whole-sequence request</summary><pre>${esc(JSON.stringify(r.event.finalRating.request, null, 2))}</pre></details>`;
     }

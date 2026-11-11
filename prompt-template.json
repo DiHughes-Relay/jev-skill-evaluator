@@ -39,6 +39,25 @@
     "complete_criteria": {
       "true": "Yes: the transcript_quote is the final step of the sequence",
       "false": "No: the sequence is still under way, or there is no sequence"
+    },
+
+    "building": {
+      "note": "Five-band variant for multi-turn look-fors, asked in its own call with these band definitions in place of scoring_band_definitions.",
+      "band_definitions": {
+        "strong": "The teacher has finished this skill, and the whole sequence fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+        "attempting": "The teacher has finished this skill and the attempt is partially successful: the sequence is complete, but one or more necessary components were missing, out of order, or underdeveloped. Students could likely proceed, but with some risk of confusion.",
+        "building": "The teacher has started this skill and the steps taken so far are on track, but the sequence isn't finished yet. Later turns could still complete it. Use this when the remaining steps simply haven't happened yet, not when they were skipped or done badly.",
+        "insufficient": "The teacher is attempting this skill, but the execution fails the look-for, whether or not the sequence is finished: the moves work against the observable behaviors, e.g., revealing the answer before the questioning is complete, or skipping a step the skill requires. Corresponds to the taxonomy's 'non-example'.",
+        "non_example": "The transcript_quote is not a step toward this skill. The text is unrelated to the skill (off-topic talk, a different move, student speech, noise), so there is nothing to evaluate against the look-for."
+      },
+      "instructions": "How is the teacher doing on this skill as of the transcript_quote, the teacher's latest turn? turns_before_quote are the turns before it; later turns haven't happened yet.",
+      "criteria": {
+        "option_a": "Strong",
+        "option_b": "Attempting",
+        "option_c": "Building",
+        "option_d": "Insufficient",
+        "option_e": "Non-Example"
+      }
     }
   },
 
