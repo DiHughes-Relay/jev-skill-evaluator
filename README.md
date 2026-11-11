@@ -31,12 +31,9 @@ Code layout: `lib/core.js` has all the logic; `server.js` is the app (page + API
   Building rating alone decides sequences) for comparison. Five-band alone confirmed false sequences and split real ones,
   because mid-move turns it was unsure about came back Strong/Attempting/Insufficient (read as "finished") at 30–40%.
   **Coach trigger** (`coachStep` in `lib/core.js`): a turn is ineffective if any look-for is Insufficient with confidence
-  > 50%. After 2 or 3 ineffective turns (page setting) the coach steps in. A separate **harm check** per turn
-  (`live.harm_check`, one noul question on the turn alone, with the taxonomy's "relational harm" non-examples as examples)
+  > 50%. After 2 or 3 ineffective turns (page setting) the coach steps in. The one-turn **harm check**
   over 70% makes the coach step in at once; 50–70% counts as ineffective. The count resets when the look-fors that were
-  Insufficient come back Strong or Attempting, or after 4 turns with nothing ineffective. Per-look-for Harmful ratings aren't
-  used by the coach, because multi-turn look-fors see earlier turns and a harmful turn bleeds into later ratings.
-  `samples/coach-test.txt` is a short transcript with weak directions and put-downs for trying it.
+  Insufficient come back Strong or Attempting, or after 4 turns with nothing ineffective.   `samples/coach-test.txt` is a short transcript with weak directions and put-downs for trying it.
   Logic: `liveTurn` in `lib/core.js`.
 - **How it works** (`/how-it-works.html`): the approach, for engineers (covers the full-transcript method so far).
 
@@ -55,11 +52,14 @@ One call per (teacher turn × look-for), in exactly the playground shape:
 Edit `prompt-template.json` to change band definitions, the question, or the model
 (`jev-latest` by default). Edits apply on the next run, no restart needed.
 Bands: Strong / Attempting (partial: missing pieces, but what's there is done well) / Insufficient (part of it done
-actively badly, likely to hurt comprehension or engagement) / Harmful (likely to damage a student's relationship with the
-teacher, self-image or standing with peers) / Non-Example. The turn-by-turn page adds Building for unfinished multi-turn moves.
+actively badly, likely to hurt comprehension or engagement) / Non-Example. The turn-by-turn page adds Building for
+unfinished multi-turn moves.
+**Harm** is not a look-for band. It's one check per teacher turn (`harm_check` in `prompt-template.json`): a single noul
+question on the turn alone, with no earlier turns, so a harmful turn never colours later ones. Both pages use it. How long
+harm keeps affecting a student is left to the simulator's student-behavior logic.
 Taxonomy mapping: strong_examples → strong, attempting_examples → attempting. non_examples go by their `[type: ...]` note
-(`non_example_types` in `prompt-template.json`): relational harm → harmful, missed opportunity → attempting,
-learning harm and untyped → insufficient. Every look-for also gets one fixed harmful line and one off-topic non_example line.
+(`non_example_types`): missed opportunity → attempting; relational harm, learning harm and untyped → insufficient.
+Relational-harm non-examples are also the harm check's examples. Every look-for gets one off-topic non_example line.
 
 ## Taxonomy
 `data/taxonomy.json` is a snapshot of the relay-taxonomy database (89 skills, 249 look-fors)

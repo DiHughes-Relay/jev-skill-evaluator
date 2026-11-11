@@ -14,6 +14,7 @@ const routes = {
   '/api/evaluate': core.handlers.evaluate,
   '/api/docs': core.handlers.docs,
   '/api/live-turn': core.handlers.liveTurn,
+  '/api/harm': core.handlers.harm,
 };
 
 // Read the pages once at startup. (On Vercel, files in public/ are also served directly.)

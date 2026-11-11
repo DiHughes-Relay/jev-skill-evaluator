@@ -4,7 +4,6 @@
     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
     "attempting": "The teacher partially demonstrates the look-for: one or more of its components are missing or underdeveloped, but the components that are present are done well. Nothing in the attempt works against the observable behaviors; it is incomplete rather than done badly (e.g., directions name the task clearly but omit time or work mode). Students could likely proceed, with some risk of confusion.",
     "insufficient": "The teacher attempts the look-for, but some part of it is done actively badly, in a way that is likely to hurt students' comprehension or engagement: the language works against the observable behaviors (e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, revealing the answer before the questioning is complete). Missing components on their own are Attempting, not Insufficient.",
-    "harmful": "Something the teacher says in the transcript_quote itself (or, when rating a whole lesson, anywhere in it) is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. Earlier turns are context only: a harmful earlier turn does not make the transcript_quote Harmful. This applies whatever the look-for is, and takes priority over the other bands.",
     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
   },
   "instructions_with_context": "How well did the teacher do on this skill in the transcript_quote? Use turns_before_quote and turns_after_quote only as context; rate only the transcript_quote.",
@@ -41,7 +40,6 @@
         "attempting": "The teacher has finished this skill with partial completion: one or more components were missing or underdeveloped, but the components that are present were done well. Nothing works against the observable behaviors; it is incomplete rather than done badly.",
         "building": "The teacher has started this skill and the steps taken so far are on track, but the sequence isn't finished yet. Later turns could still complete it. Use this when the remaining steps simply haven't happened yet, not when they were skipped or done badly.",
         "insufficient": "The teacher is attempting this skill, but some part of it is done actively badly, whether or not the sequence is finished, in a way that is likely to hurt students' comprehension or engagement: e.g., revealing the answer before the questioning is complete, or steps that work against the observable behaviors. Missing or not-yet-taken steps on their own are not Insufficient.",
-        "harmful": "Something the teacher says in the transcript_quote itself (or, when rating a whole lesson, anywhere in it) is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. Earlier turns are context only: a harmful earlier turn does not make the transcript_quote Harmful. This applies whatever the look-for is, and takes priority over the other bands.",
         "non_example": "The transcript_quote is not a step toward this skill. The text is unrelated to the skill (off-topic talk, a different move, student speech, noise), so there is nothing to evaluate against the look-for."
       },
       "instructions": "How is the teacher doing on this skill as of the transcript_quote, the teacher's latest turn? turns_before_quote are the turns before it; later turns haven't happened yet.",
@@ -50,32 +48,31 @@
         "option_b": "Attempting",
         "option_c": "Building",
         "option_d": "Insufficient",
-        "option_e": "Harmful",
-        "option_f": "Non-Example"
+        "option_e": "Non-Example"
       }
-    },
-    "harm_check": {
-      "_note": "One call per teacher turn, independent of look-fors, on the turn alone (no earlier turns, so a harmful turn can't bleed into later ones). The coach uses it for Harmful. Harmful examples: the fixed harmful_example plus every taxonomy non-example typed 'relational harm'.",
-      "definition": "A teacher turn is harmful when something the teacher says in it is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. Firm, respectful redirection, correcting a wrong answer, or holding a high bar is not harmful.",
-      "not_harmful_examples": [
-        "Mateo, I need your eyes up here, please. Thank you.",
-        "Not quite. Let's look at the line again: are the two parts the same size?",
-        "I'm going to wait until every voice is off. Thank you, Priya, Ella, and Carter, for being ready."
-      ],
-      "instructions": "Is the transcript_quote harmful, as defined in harm_definition?",
-      "criteria": {
-        "true": "Yes: something in the transcript_quote is likely to harm a student's relationship with the teacher, self-image, or standing with peers",
-        "false": "No: nothing in the transcript_quote is harmful"
-      },
-      "step_in_now_above": 0.7,
-      "counts_as_ineffective_above": 0.5
     }
   },
   "off_topic_non_example": "Monkeys are my favorite animal in the zoo, they are so funny!",
   "harmful_example": "Seriously, Jordan? We've gone over this three times. I don't know why you never get it.",
+  "harm_check": {
+    "_note": "One call per teacher turn, on the turn alone (no earlier turns), independent of look-fors. Used on both pages. Harm likely lasts for several turns, but that cooldown belongs in the simulator's student-behavior logic, not here. Harmful examples: harmful_example plus every taxonomy non-example typed 'relational harm'.",
+    "definition": "A teacher turn is harmful when something the teacher says in it is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. Firm, respectful redirection, correcting a wrong answer, or holding a high bar is not harmful.",
+    "not_harmful_examples": [
+      "Mateo, I need your eyes up here, please. Thank you.",
+      "Not quite. Let's look at the line again: are the two parts the same size?",
+      "I'm going to wait until every voice is off. Thank you, Priya, Ella, and Carter, for being ready."
+    ],
+    "instructions": "Is the transcript_quote harmful, as defined in harm_definition?",
+    "criteria": {
+      "true": "Yes: something in the transcript_quote is likely to harm a student's relationship with the teacher, self-image, or standing with peers",
+      "false": "No: nothing in the transcript_quote is harmful"
+    },
+    "step_in_now_above": 0.7,
+    "counts_as_ineffective_above": 0.5
+  },
   "non_example_types": {
-    "_note": "Where each taxonomy non-example goes in examples, by the [type: ...] note it carries. Untyped ones use 'default'.",
-    "relational harm": "harmful",
+    "_note": "Where each taxonomy non-example goes in examples, by the [type: ...] note it carries. Untyped ones use 'default'. Harm itself is rated by harm_check, not by the look-for bands.",
+    "relational harm": "insufficient",
     "missed opportunity": "attempting",
     "learning harm": "insufficient",
     "default": "insufficient"
@@ -88,8 +85,7 @@
         "option_a": "Strong",
         "option_b": "Attempting",
         "option_c": "Insufficient",
-        "option_d": "Harmful",
-        "option_e": "Non-Example"
+        "option_d": "Non-Example"
       }
     }
   }

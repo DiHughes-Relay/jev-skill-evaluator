@@ -54,6 +54,7 @@
   th.lf { min-width: 110px; }
   td.quote { min-width: 280px; max-width: 460px; }
   td.cell { cursor: pointer; white-space: nowrap; }
+  td.harm, th.harm { min-width: 110px; white-space: nowrap; }
   .seen { min-width: 220px; background: #fbfbf9; border-right: 2px solid var(--line); }
   thead th.seen { background: #f3f3f0; }
   .seenitem { margin: 2px 0; font-size: 12px; white-space: nowrap; }
@@ -163,7 +164,7 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Harmful', 'Non-Example'];
+const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Non-Example'];
 const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', Harmful: 'var(--harm-bg)', 'Non-Example': 'var(--non)' };
 
 let skills = [], selected = new Set(), turns = [], run = null;
@@ -337,13 +338,13 @@ $('ctx').onchange = () => { try { localStorage.setItem('contextMode', $('ctx').v
 const modeText = (m) => m === 'scope' ? 'context by look-for scope' : `context ±${m} turns`;
 
 // ---------- evaluation ----------
-let results = {}, finals = {}, seqMembers = {}, pendingEnds = {}, lookFors = [], lessonLookFors = [], evalTurns = [], runMode = 'scope', runTranscript = [], runSkills = [];
+let harm = {}, harmCut = 0.5, results = {}, finals = {}, seqMembers = {}, pendingEnds = {}, lookFors = [], lessonLookFors = [], evalTurns = [], runMode = 'scope', runTranscript = [], runSkills = [];
 $('run').onclick = async () => {
   runMode = $('ctx').value;
   runTranscript = turns.map((t) => ({ index: t.index, label: t.label, speaker: t.speaker, text: t.text, isTeacher: t.isTeacher }));
   runSkills = [...selected];
   evalTurns = turns.filter((t) => t.isTeacher);
-  results = {}; finals = {}; seqMembers = {}; pendingEnds = {};
+  results = {}; finals = {}; seqMembers = {}; pendingEnds = {}; harm = {};
   // Column list, built here so the order is stable while answers stream in
   const byScope = runMode === 'scope';
   const all = activeLookFors().map((l) => ({
@@ -390,9 +391,13 @@ $('run').onclick = async () => {
       progress();
     }
   };
+  // The one-turn harm check runs once per teacher turn, alongside the look-fors (not tied to any look-for)
+  const harmRun = api('/api/harm', { method: 'POST', signal: ctrl.signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: runTranscript }) })
+    .then((r) => r.json()).then((o) => { harmCut = o.ineffectiveAbove ?? 0.5; for (const x of o.results || []) harm[x.turn] = x; drawTable(); })
+    .catch((e) => { if (e.name !== 'AbortError') for (const t of evalTurns) harm[t.index] = { error: String(e.message || e) }; });
   try {
     const queue = [...all];
-    await Promise.all(Array.from({ length: 2 }, async () => { while (queue.length && !ctrl.signal.aborted) await evalOne(queue.shift()); }));
+    await Promise.all([harmRun, ...Array.from({ length: 2 }, async () => { while (queue.length && !ctrl.signal.aborted) await evalOne(queue.shift()); })]);
     $('status').textContent = ctrl.signal.aborted ? 'Stopped.' : `Done: ${done} ratings, ${modeText(runMode)}` + (errors ? ` · ${errors} errors (click a red ! to see why)` : '');
   } catch (e) {
     $('status').textContent = e.name === 'AbortError' ? 'Stopped.' : 'Error: ' + e.message;
@@ -431,6 +436,11 @@ function ratingCell(r, key, lfId) {
   if (r.kind === 'error') return `<td class="cell" data-k="${key}|${lfId}"><span class="b Insufficient">!</span></td>`;
   return `<td class="cell ${r.confidence < 0.5 ? 'lowconf' : ''}" data-k="${key}|${lfId}"><span class="b ${r.label}">${r.label} ${Math.round((r.probabilities?.[r.choice] ?? 0) * 100)}%</span><span class="conf" title="Jev's confidence in this choice">conf ${Math.round(r.confidence * 100)}%</span></td>`;
 }
+function harmCell(h) {
+  if (!h) return '<td class="harm muted">…</td>';
+  if (h.error) return `<td class="harm" title="${esc(h.error)}"><span class="b Insufficient">!</span></td>`;
+  return h.p > harmCut ? `<td class="harm"><span class="b Harmful">Harmful ${Math.round(h.p * 100)}%</span></td>` : `<td class="harm muted">${Math.round(h.p * 100)}%</td>`;
+}
 const scopeLine = (l) => `${esc([...new Set(l.skills.map((s) => s.type))].join(' / '))} · ${esc(SCOPE_LABEL[l.scope] || '')}`;
 
 function drawTable() {
@@ -445,12 +455,12 @@ function drawTable() {
   for (const t of evalTurns) {
     const cells = lookFors.map((l) => cellFor(t, l));
     cells.forEach((r, k) => { if (r?.label) counts[lookFors[k].id][r.label]++; });
-    if (hide && cells.length && cells.every((r) => r && r.kind !== 'seqmember' && r.kind !== 'pending' && r.label === 'Non-Example')) continue;
-    rows += `<tr><td class="muted">${esc(t.label)}</td><td class="quote">${esc(t.text)}</td><td class="seen">${seenCell(cells)}</td>` + cells.map((r, k) => ratingCell(r, t.index, lookFors[k].id)).join('') + '</tr>';
+    if (hide && cells.length && cells.every((r) => r && r.kind !== 'seqmember' && r.kind !== 'pending' && r.label === 'Non-Example') && !(harm[t.index]?.p > harmCut)) continue;
+    rows += `<tr><td class="muted">${esc(t.label)}</td><td class="quote">${esc(t.text)}</td><td class="seen">${seenCell(cells)}</td>${harmCell(harm[t.index])}` + cells.map((r, k) => ratingCell(r, t.index, lookFors[k].id)).join('') + '</tr>';
   }
-  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
-  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient / Harmful</div></td><td></td>${lookFors.map((l) => {
-    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span> <span class="b Harmful">${c.Harmful}</span></td>`; }).join('')}</tr>`;
+  const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th><th class="harm" title="One check per teacher turn, on the turn alone, not tied to any look-for: is anything here likely to harm a student's relationship with the teacher, self-image, or standing with peers?">Harm check<div class="muted" style="font-weight:400">this turn only</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
+  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient</div></td><td></td><td>${(() => { const n = evalTurns.filter((t) => harm[t.index]?.p > harmCut).length; return n ? `<span class="b Harmful">${n} harmful</span>` : '<span class="muted">none</span>'; })()}</td>${lookFors.map((l) => {
+    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span></td>`; }).join('')}</tr>`;
   $('results').innerHTML = head + '<tbody>' + summary + rows + '</tbody>';
 }
 
@@ -475,11 +485,11 @@ $('lessonWide').onclick = showDetail;
 
 $('csv').onclick = () => {
   const q = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
-  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_harmful', 'p_non_example', 'error'].join(',')];
+  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_non_example', 'harm_check_this_turn', 'error'].join(',')];
   const row = (turnLabel, text, l, r) => {
-    lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', ...['Strong', 'Attempting', 'Insufficient', 'Harmful', 'Non-Example'].map((b) => r.bands?.[b]?.toFixed(3) ?? ''), q(r.error)].join(',')); };
+    lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', ...BANDS.map((b) => r.bands?.[b]?.toFixed(3) ?? ''), r.harm?.toFixed(3) ?? '', q(r.error)].join(',')); };
   for (const l of lessonLookFors) { const r = results['lesson|' + l.id]; if (r) row('whole lesson', '', l, r); }
-  for (const t of evalTurns) for (const l of lookFors) { const r = cellFor(t, l); if (r && r.kind !== 'pending') row(t.label, t.text, l, r.kind === 'seqmember' ? { ...r, label: '' } : r); }
+  for (const t of evalTurns) for (const l of lookFors) { const r = cellFor(t, l); if (r && r.kind !== 'pending') row(t.label, t.text, l, { ...(r.kind === 'seqmember' ? { ...r, label: '' } : r), harm: harm[t.index]?.p }); }
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
   a.download = 'jev-ratings.csv'; a.click();
 };
