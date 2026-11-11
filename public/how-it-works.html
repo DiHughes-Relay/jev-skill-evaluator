@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How It Works</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
+    --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --non: #8a8a8f; --non-bg: #f0f0ee;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+  header { padding: 18px 24px 8px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  header h1 { font-size: 20px; margin: 0; }
+  header a { color: var(--accent); font-size: 14px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 12px 24px 60px; max-width: 1180px; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; padding: 12px 16px 40px; } nav { display: none; } }
+  nav { position: sticky; top: 12px; align-self: start; font-size: 13px; }
+  nav a { display: block; color: var(--muted); text-decoration: none; padding: 3px 0; }
+  nav a:hover { color: var(--accent); }
+  #doc section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; margin-bottom: 16px; }
+  #doc h2 { font-size: 18px; margin: 0 0 10px; }
+  #doc h3 { font-size: 15px; margin: 20px 0 6px; }
+  #doc p, #doc li { max-width: 78ch; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; background: #f1f1ee; padding: 1px 4px; border-radius: 4px; }
+  pre { background: #f6f6f4; border: 1px solid var(--line); padding: 10px 12px; border-radius: 6px; max-height: 420px; overflow: auto; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
+  pre.q { max-height: none; background: #f4f7ff; border-color: #dfe6f7; font-size: 12.5px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 8px 0 12px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top; }
+  thead th { background: #fafaf8; font-size: 12.5px; }
+  table.kv th { width: 190px; font-weight: 600; background: none; }
+  td.bad { color: var(--ins); }
+  .callout { background: #f4f7ff; border: 1px solid #dfe6f7; border-radius: 8px; padding: 10px 12px; font-size: 14px; margin: 12px 0; }
+  .muted { color: var(--muted); font-size: 12.5px; }
+  details { margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+  .strip { margin: 10px 0 14px; overflow-x: auto; }
+  .strip .name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .strip .cells { display: flex; gap: 3px; min-width: 560px; }
+  .strip .c { flex: 1; min-width: 36px; text-align: center; border-radius: 5px; padding: 4px 2px; font-size: 11px; border: 2px solid transparent; }
+  .strip .c b { display: block; font-size: 12px; }
+  .strip .c.seq { border-color: var(--accent); }
+  .strip .legend { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  #gate { padding: 40px 24px; color: var(--muted); }
+  dialog { border: 1px solid var(--line); border-radius: 10px; max-width: 420px; width: 92vw; padding: 18px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>How we work with Jev</h1>
+    <div class="sub">How the evaluator prompts Jev, what it sends and gets back, and why it's built this way.</div>
+  </div>
+  <a href="/">← Back to the evaluator</a>
+</header>
+
+<div id="gate">Loading…</div>
+<div class="layout" id="layout" hidden>
+  <nav id="toc"></nav>
+  <div id="doc"></div>
+</div>
+
+<dialog id="pwDialog">
+  <form id="pwForm" method="dialog">
+    <h2 style="font-size:16px;margin:0 0 8px">Password</h2>
+    <p class="muted" id="pwMsg"></p>
+    <input type="password" id="pwInput" autocomplete="current-password" style="width:100%; font:inherit; padding:7px 9px; border:1px solid var(--line); border-radius:6px">
+    <div style="display:flex;justify-content:flex-end;margin-top:10px"><button type="submit">Continue</button></div>
+  </form>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// Same shared password as the evaluator (stored under the same key)
+const PW_KEY = 'jevAppPassword';
+const getPw = () => { try { return localStorage.getItem(PW_KEY) || ''; } catch { return ''; } };
+function askPassword(wrong) {
+  return new Promise((resolve) => {
+    $('pwMsg').textContent = wrong ? 'That password didn’t work. Try again.' : 'Enter the password your team shared for this app.';
+    $('pwInput').value = '';
+    $('pwDialog').showModal();
+    $('pwForm').onsubmit = (e) => { e.preventDefault(); const v = $('pwInput').value; try { localStorage.setItem(PW_KEY, v); } catch {} $('pwDialog').close(); resolve(v); };
+    $('pwDialog').oncancel = () => resolve(null);
+  });
+}
+async function api(path) {
+  let pw = getPw(), tries = 0;
+  for (;;) {
+    const r = await fetch(path, { headers: { 'x-app-password': pw } });
+    if (r.status !== 401) return r;
+    pw = await askPassword(tries++ > 0 || !!getPw());
+    if (pw === null) throw new Error('This page needs the app password.');
+  }
+}
+
+const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
+const STRIP_BG = (p) => `rgba(43, 89, 195, ${(0.08 + 0.6 * p).toFixed(2)})`;
+
+function drawStrip(el, name, run) {
+  if (!run) return;
+  const inSeq = new Set();
+  const labels = run.turns.map((t) => t.label);
+  for (const s of run.sequences) { const a = labels.indexOf(s.start), b = labels.indexOf(s.end); for (let i = a; i <= b; i++) inSeq.add(labels[i]); }
+  el.innerHTML = `<div class="name">${esc(name)} <span class="muted" style="font-weight:400">· sequences found: ${run.sequences.map((s) => `turns ${esc(s.start)}–${esc(s.end)}`).join(', ') || 'none'}</span></div>` +
+    `<div class="cells">${run.turns.map((t) => `<div class="c ${inSeq.has(t.label) ? 'seq' : ''}" style="background:${STRIP_BG(t.inSequence)};color:${t.inSequence > 0.6 ? '#fff' : 'inherit'}" title="Turn ${esc(t.label)}: in_sequence ${Math.round(t.inSequence * 100)}%, says start ${esc(t.start)} / end ${esc(t.end)}; pass-1 rating ${esc(t.rating)} ${Math.round(t.p * 100)}%">` +
+      `<b>${esc(t.label)}</b>${Math.round(t.inSequence * 100)}%</div>`).join('')}</div>` +
+    `<div class="legend">Turn number, then Jev's in_sequence probability. Hover a turn for its start/end answer and pass-1 rating.</div>`;
+}
+
+(async () => {
+  try {
+    const r = await api('/api/docs');
+    if (!r.ok) throw new Error((await r.json()).error || r.statusText);
+    const { html, examples } = await r.json();
+    $('doc').innerHTML = html;
+    for (const el of document.querySelectorAll('[data-ex]')) {
+      const v = get(examples, el.dataset.ex);
+      el.textContent = el.hasAttribute('data-json') ? JSON.stringify(v, null, 2) : (v ?? '');
+    }
+    for (const el of document.querySelectorAll('[data-strip]')) drawStrip(el, el.dataset.strip, examples.pass1_runs?.[el.dataset.strip]);
+    $('toc').innerHTML = [...document.querySelectorAll('#doc section')].map((s) => `<a href="#${s.id}">${esc(s.querySelector('h2').textContent)}</a>`).join('');
+    $('gate').hidden = true; $('layout').hidden = false;
+    if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+  } catch (e) {
+    $('gate').textContent = e.message;
+  }
+})();
+</script>
+</body>
+</html>

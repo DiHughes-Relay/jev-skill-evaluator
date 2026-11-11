@@ -16,6 +16,12 @@ Set `APP_PASSWORD` in `.env` (or in Vercel) to require a password for every API 
 
 Code layout: `lib/core.js` has all the logic; `server.js` is the app (page + API), used both on your laptop and as Vercel's entrypoint.
 
+## How it works page
+The app's second page (`/how-it-works.html`, linked from the header) documents the Jev approach for engineers:
+how the taxonomy is pulled in, the exact requests and responses, and why context is sent the way it is.
+Its content is in `docs/how-it-works.js`; the real Jev requests and responses it shows are in `docs/examples.json`.
+It's behind the same password as the rest of the app, because the examples include taxonomy text.
+
 ## How each Jev call is built
 One call per (teacher turn × look-for), in exactly the playground shape:
 - **state**: `teacher_skill` (one look-for from the taxonomy), `scoring_band_definitions`,

@@ -1,0 +1,1132 @@
+{
+ "single": {
+  "lookFor": "Specific Directions",
+  "turn": "7",
+  "scope": "single_utterance",
+  "request": {
+   "model": "jev-latest",
+   "state": {
+    "teacher_skill": [
+     {
+      "name": "Specific Directions",
+      "type": "Required",
+      "teacher_facing": "Tell students exactly what they should be doing.",
+      "observable_behaviors": [
+       "Tells students what to do (not what not to do)",
+       "Directions include necessary details for task success"
+      ],
+      "acceptable_variations": [
+       "Routine tasks may require less specificity. New or complex tasks, routines or procedures, or routines or procedures that need to be retaught may require more specificty.",
+       "For multi-step routines or procedures, specificity should apply to each step",
+       "Necessary details for task success might include components like time length, task location in room or on paper/screen, voice/volume level, task goal or criteria for success, task rationale or what to do if finished early. Specific directions only need the components from this list that are needed for student success; they do not need to include ALL components all the time.",
+       "When given as feedback during a task, directions may target only the specific portion of the task the student is struggling with rather than the full task."
+      ],
+      "examples": {
+       "strong": [
+        "Take 5 minutes to independently find key evidence that supports the author's claim in the text. When you find a key piece of evidence, underline it.",
+        "Before you move on to question 2, add a diagram to your response for question 1."
+       ],
+       "attempting": [
+        {
+         "text": "Find the key evidence in the text and underline it.",
+         "why": "Missing time, independent/group mode, specification of key evidence in context"
+        }
+       ],
+       "insufficient": [
+        {
+         "text": "Don't just underline everything.",
+         "why": "What not to do, vague"
+        }
+       ],
+       "non_example": [
+        {
+         "text": "Monkeys are my favorite animal in the zoo, they are so funny!"
+        }
+       ]
+      }
+     }
+    ],
+    "scoring_band_definitions": {
+     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+     "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+     "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+    },
+    "teacher_statement_to_score": {
+     "transcript_quote": "Take a second and, if you think your parts are unequal, you can erase and redraw them. In 60 seconds, hold your whiteboard up - I want to see a sea of shapes, neatly divided into equal parts!"
+    }
+   },
+   "questions": {
+    "new_choice_1": {
+     "type": "choice",
+     "instructions": "How well did the teacher do on this skill?",
+     "criteria": {
+      "option_a": "Strong",
+      "option_b": "Attempting",
+      "option_c": "Insufficient",
+      "option_d": "Non-Example"
+     }
+    }
+   }
+  },
+  "response": {
+   "model": "jev-1.14.0",
+   "answers": {
+    "new_choice_1": {
+     "type": "choice",
+     "choice": "option_a",
+     "confidence": 0.92,
+     "probabilities": {
+      "option_a": 0.94,
+      "option_b": 0.06,
+      "option_c": 0,
+      "option_d": 0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 1120,
+    "output_tokens": 53
+   }
+  }
+ },
+ "responsive": {
+  "lookFor": "Cue with Definition, Rule or Procedure",
+  "turn": "14",
+  "scope": "responsive_utterance",
+  "request": {
+   "model": "jev-latest",
+   "state": {
+    "teacher_skill": [
+     {
+      "name": "Cue with Definition, Rule or Procedure",
+      "type": "Optional",
+      "teacher_facing": "Remind students of a definition, rule or procedure to help students clarify thinking.",
+      "observable_behaviors": [
+       "States or references a previously taught definition, rule or procedure",
+       "Directs students to apply the definition, rule, or procedure"
+      ],
+      "acceptable_variations": [
+       "Teacher may explain/provide the definition, rule or procedure or ask students to recall or find it",
+       "General rather than specific cues (e.g., “Remember that we always read in one direction”) can put more cognitive lift on students, but teacher should get more specific if students do not self-correct after first cue"
+      ],
+      "examples": {
+       "strong": [
+        "Always measure the volume in a graduated cylinder by getting eye level and reading from the bottom of the meniscus. Everyone check your most recent volume measurement.\" <Students self-correct; Teacher moves on>",
+        "Remember that we always read in one direction. Start again on page three.\" <Students continue to struggle> “Ok, let’s get a little more specific. Remember that we always read from left to right. Watch my finger as I read on this page\" <Teacher reads, moving finger from left to right>. \"Now, turn the page and put your finger where you will start reading.\" <Teacher scans and circulates> \"Next, move your finger in the direction you will read.\" <Teacher scans and circulates>",
+        "Remember, like terms have the same variable and exponent. Go back and make sure you have only combined like terms\" <Students self-correct; teacher moves on>"
+       ],
+       "attempting": [
+        {
+         "text": "Remember that we always read in one direction. Start again on page three.\" <Students continue to struggle; Teacher repeats same cue>"
+        },
+        {
+         "text": "Remember like terms share letters or variables, and also share exponents. That is, the exponents have to be the same",
+         "why": "Definition imprecise, no direction as to what to apply"
+        }
+       ],
+       "insufficient": [
+        {
+         "text": "Remember to measure carefully.",
+         "why": "type: missed opportunity"
+        }
+       ],
+       "non_example": [
+        {
+         "text": "Monkeys are my favorite animal in the zoo, they are so funny!"
+        }
+       ]
+      }
+     }
+    ],
+    "scoring_band_definitions": {
+     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+     "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+     "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+    },
+    "teacher_statement_to_score": {
+     "transcript_quote": "You are exactly right, Natalie (and Ella, and Carter). This circle is divded into two equal parts, which means each part is called a half.",
+     "turns_before_quote": [
+      {
+       "turn": "12",
+       "speaker": "Teacher",
+       "text": "Ella, what do you think? Do we call two parts halves?"
+      },
+      {
+       "turn": "12",
+       "speaker": "Students",
+       "text": "Hannah: Looks toward Ella quietly\nElizabeth: Watches Ella for confirmation\nMei: Turns to listen quietly\nValentina: Looks at teacher's circle\nCarter: Looks toward Ella attentively\nNatalie: Turns toward Ella quietly\nMateo: Points at teacher's circle\nPriya: Watches Ella answer quietly\nElla: Yes, if there are two pieces, they're halves."
+      },
+      {
+       "turn": "13",
+       "speaker": "Teacher",
+       "text": "Natalie, agree or disagree? Do I have halves on this circle?"
+      },
+      {
+       "turn": "13",
+       "speaker": "Students",
+       "text": "Hannah: Watches Natalie answer quietly\nElizabeth: Looks toward Natalie uncertainly\nMei: Turns to listen quietly\nValentina: Looks at the circle\nCarter: Watches Natalie answer quietly\nNatalie: I agree. They're halves because the circle has two equal parts.\nMateo: Points at the circle\nPriya: Looks toward Natalie quietly\nElla: Watches Natalie, hands folded"
+      }
+     ]
+    }
+   },
+   "questions": {
+    "new_choice_1": {
+     "type": "choice",
+     "instructions": "How well did the teacher do on this skill in the transcript_quote? Use turns_before_quote and turns_after_quote only as context; rate only the transcript_quote.",
+     "criteria": {
+      "option_a": "Strong",
+      "option_b": "Attempting",
+      "option_c": "Insufficient",
+      "option_d": "Non-Example"
+     }
+    }
+   }
+  },
+  "response": {
+   "model": "jev-1.14.0",
+   "answers": {
+    "new_choice_1": {
+     "type": "choice",
+     "choice": "option_a",
+     "confidence": 0.83,
+     "probabilities": {
+      "option_a": 0.87,
+      "option_b": 0.07,
+      "option_c": 0.03,
+      "option_d": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 1537,
+    "output_tokens": 53
+   }
+  }
+ },
+ "pass1": {
+  "lookFor": "Ask, Ask, Ask",
+  "turn": "12",
+  "scope": "multi_turn_move",
+  "request": {
+   "model": "jev-latest",
+   "state": {
+    "teacher_skill": [
+     {
+      "name": "Ask, Ask, Ask",
+      "type": "Optional",
+      "teacher_facing": "A verbal method of checking for understanding where the teacher asks the same or a similar question to several students to make an inference about students’ understanding.",
+      "observable_behaviors": [
+       "Calls on 3+ different students, asking the same root question repeatedly",
+       "Evidence that teacher is strategically sampling rather than just calling on those who raise hands first or know answer (e.g., gives wait time to get 50% or more of hands up before calling on anyone, uses cold call instead of hands, builds on knowledge of previous writing/speaking - e.g., \"Katja, you agreed that 0 is an even number, can you explain why?\", etc.)",
+       "Does NOT reveal correct answer until questioning sequence is complete"
+      ],
+      "acceptable_variations": [
+       "May use randomization tools to select students",
+       "May ask the same root question in different ways (e.g., \"Marco, what's one character trait of Amos?\" then \"Fatima, do you agree or disagree with Marco, why?\" then \"Arecely, what's one character trait **you** would choose for Amos?\")",
+       "May ask follow up questions (e.g., \"why?\", \"how do you know?\", \"what's an example?\", etc.)"
+      ],
+      "examples": {
+       "strong": [
+        "What is the main idea of the paragraph, Eli?\" <Student responds> \"What do you think the main idea of the paragraph is, Maricruz?\" <Student responds> \"Christian, do you agree with Maricruz? Why or why not?\" <Student responds> \"Thank you for sharing!\" <Teacher states correct answer>"
+       ],
+       "attempting": [
+        {
+         "text": "Calls on some non-volunteers but only 1-2 students total"
+        },
+        {
+         "text": "Calls on 3+ students but always those who raise hands within first 3 seconds"
+        },
+        {
+         "text": "Calls on 3+ students using cold call, but asks different root question to each (e.g., \"Marco, what's one character trait of Amos?\", \"Fatima, how does Amos feel about the ocean?\", \"Arecely, why do you think Amos packed two barrels of fresh water for his trip?\")",
+         "why": "Multiple students but different questions"
+        }
+       ],
+       "insufficient": [
+        {
+         "text": "Only calling on students with raised hands or accepting responses from those who call out",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Always calling on the same 2-3 students",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Asking one student, getting correct answer, and moving on",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Revealing correct answer before end of questioning sequence (e.g., \"you are close but not quite, Marco\")",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Giving cues as to whether answers are correct before questioning ends (e.g., only saying \"great\" or nodding when correct; only frowning when incorrect)",
+         "why": "type: missed opportunity"
+        }
+       ],
+       "non_example": [
+        {
+         "text": "Monkeys are my favorite animal in the zoo, they are so funny!"
+        }
+       ]
+      }
+     }
+    ],
+    "scoring_band_definitions": {
+     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+     "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+     "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+    },
+    "teacher_statement_to_score": {
+     "transcript_quote_turn": "12",
+     "transcript_quote": "Ella, what do you think? Do we call two parts halves?",
+     "turns_before_quote": [
+      {
+       "turn": "9",
+       "speaker": "Teacher",
+       "text": "Mixed opinions, I see. These parts are _not_ the same size. You can see that this one here is larger than this one. So if I want to fix that, I just erase the line like this, and then draw it...here, like this. See how both are the same size now?"
+      },
+      {
+       "turn": "9",
+       "speaker": "Students",
+       "text": "Hannah: Watches the dividing line\nElizabeth: Looks between both parts\nMei: Studies the redrawn triangle\nValentina: Watches Priya's board closely\nCarter: Looks at both sections\nNatalie: Watches the teacher draw\nMateo: Glances at his board\nPriya: Studies her redrawn triangle\nElla: Looks at her circle"
+      },
+      {
+       "turn": "10",
+       "speaker": "Teacher",
+       "text": "Okay, let's all do this together. On your whiteboard, erase your dividing lines. No matter what shape you have, divide it into two equal parts."
+      },
+      {
+       "turn": "10",
+       "speaker": "Students",
+       "text": "Hannah: Erases her lines and draws two parts, one noticeably larger.\nElizabeth: Erases her line and redraws two unequal sections in her square.\nMei: Erases her lines and divides her rectangle into two equal-looking parts.\nValentina: Erases her line and divides her circle into two unequal parts.\nCarter: Erases his lines and divides his rectangle into two equal-looking parts.\nNatalie: Erases her line and redraws two equal-looking halves in her circle.\nMateo: Erases his lines and quickly draws two unequal parts in his square.\nPriya: Erases her line and redraws it, leaving one triangular section larger.\nElla: Erases her lines and draws two unequal parts in her circle."
+      },
+      {
+       "turn": "11",
+       "speaker": "Teacher",
+       "text": "Okay, eyes back up front - let's take a look at my shape. I also redid mine, so my circle is in two parts. And we know the parts are equal, because they are the same size, right? Okay, remember on Friday, we talked about naming parts, and how that has to do with how many there are? Carter, do you remember the name for two parts?"
+      },
+      {
+       "turn": "11",
+       "speaker": "Students",
+       "text": "Hannah: Looks at the circle\nElizabeth: Watches Carter, hands folded\nMei: Looks toward Carter quietly\nValentina: Looks at teacher's circle\nCarter: Two parts are called halves.\nNatalie: Turns to watch Carter\nMateo: Glances at his board\nPriya: Watches the circle quietly\nElla: Looks toward Carter quietly"
+      }
+     ],
+     "turns_after_quote": [
+      {
+       "turn": "12",
+       "speaker": "Students",
+       "text": "Hannah: Looks toward Ella quietly\nElizabeth: Watches Ella for confirmation\nMei: Turns to listen quietly\nValentina: Looks at teacher's circle\nCarter: Looks toward Ella attentively\nNatalie: Turns toward Ella quietly\nMateo: Points at teacher's circle\nPriya: Watches Ella answer quietly\nElla: Yes, if there are two pieces, they're halves."
+      },
+      {
+       "turn": "13",
+       "speaker": "Teacher",
+       "text": "Natalie, agree or disagree? Do I have halves on this circle?"
+      },
+      {
+       "turn": "13",
+       "speaker": "Students",
+       "text": "Hannah: Watches Natalie answer quietly\nElizabeth: Looks toward Natalie uncertainly\nMei: Turns to listen quietly\nValentina: Looks at the circle\nCarter: Watches Natalie answer quietly\nNatalie: I agree. They're halves because the circle has two equal parts.\nMateo: Points at the circle\nPriya: Looks toward Natalie quietly\nElla: Watches Natalie, hands folded"
+      },
+      {
+       "turn": "14",
+       "speaker": "Teacher",
+       "text": "You are exactly right, Natalie (and Ella, and Carter). This circle is divded into two equal parts, which means each part is called a half."
+      },
+      {
+       "turn": "14",
+       "speaker": "Students",
+       "text": "Hannah: Watches the circle quietly\nElizabeth: Looks at both sections\nMei: Watches the teacher quietly\nValentina: Looks at the circle\nCarter: Watches the teacher quietly\nNatalie: Looks at both halves\nMateo: Glances at his board\nPriya: Studies the teacher's circle\nElla: Looks at her circle"
+      }
+     ]
+    }
+   },
+   "questions": {
+    "new_choice_1": {
+     "type": "choice",
+     "instructions": "How well did the teacher do on this skill in the transcript_quote? A look-for may unfold across several turns: if the transcript_quote is part of a sequence shown in turns_before_quote or turns_after_quote, rate how well that sequence demonstrates the skill. If the transcript_quote is not part of such a sequence, rate the transcript_quote alone.",
+     "criteria": {
+      "option_a": "Strong",
+      "option_b": "Attempting",
+      "option_c": "Insufficient",
+      "option_d": "Non-Example"
+     }
+    },
+    "in_sequence": {
+     "type": "noul",
+     "instructions": "Is the transcript_quote one step of a sequence of several teacher turns that together demonstrate or attempt this skill?",
+     "criteria": {
+      "true": "Yes: the transcript_quote is part of a multi-turn sequence for this skill",
+      "false": "No: the transcript_quote is unrelated to this skill, or the skill is not spread across several turns here"
+     }
+    },
+    "seq_start": {
+     "type": "choice",
+     "instructions": "If the transcript_quote is part of such a sequence, which teacher turn starts the sequence?",
+     "criteria": {
+      "t16": "Turn 9",
+      "t18": "Turn 10",
+      "t20": "Turn 11",
+      "t22": "Turn 12",
+      "t24": "Turn 13",
+      "t26": "Turn 14"
+     }
+    },
+    "seq_end": {
+     "type": "choice",
+     "instructions": "If the transcript_quote is part of such a sequence, which teacher turn ends the sequence?",
+     "criteria": {
+      "t16": "Turn 9",
+      "t18": "Turn 10",
+      "t20": "Turn 11",
+      "t22": "Turn 12",
+      "t24": "Turn 13",
+      "t26": "Turn 14"
+     }
+    }
+   }
+  },
+  "response": {
+   "model": "jev-1.14.0",
+   "answers": {
+    "new_choice_1": {
+     "type": "choice",
+     "choice": "option_a",
+     "confidence": 0.59,
+     "probabilities": {
+      "option_a": 0.69,
+      "option_b": 0.25,
+      "option_c": 0.05,
+      "option_d": 0.01
+     }
+    },
+    "in_sequence": {
+     "type": "noul",
+     "noul": 0.91
+    },
+    "seq_start": {
+     "type": "choice",
+     "choice": "t20",
+     "confidence": 0.82,
+     "probabilities": {
+      "t16": 0.05,
+      "t18": 0.01,
+      "t20": 0.85,
+      "t22": 0.08,
+      "t24": 0.01,
+      "t26": 0
+     }
+    },
+    "seq_end": {
+     "type": "choice",
+     "choice": "t26",
+     "confidence": 0.93,
+     "probabilities": {
+      "t16": 0,
+      "t18": 0,
+      "t20": 0,
+      "t22": 0.02,
+      "t24": 0.04,
+      "t26": 0.94
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 2927,
+    "output_tokens": 212
+   }
+  }
+ },
+ "pass2": {
+  "lookFor": "Ask, Ask, Ask",
+  "turn": "14",
+  "request": {
+   "model": "jev-latest",
+   "state": {
+    "teacher_skill": [
+     {
+      "name": "Ask, Ask, Ask",
+      "type": "Optional",
+      "teacher_facing": "A verbal method of checking for understanding where the teacher asks the same or a similar question to several students to make an inference about students’ understanding.",
+      "observable_behaviors": [
+       "Calls on 3+ different students, asking the same root question repeatedly",
+       "Evidence that teacher is strategically sampling rather than just calling on those who raise hands first or know answer (e.g., gives wait time to get 50% or more of hands up before calling on anyone, uses cold call instead of hands, builds on knowledge of previous writing/speaking - e.g., \"Katja, you agreed that 0 is an even number, can you explain why?\", etc.)",
+       "Does NOT reveal correct answer until questioning sequence is complete"
+      ],
+      "acceptable_variations": [
+       "May use randomization tools to select students",
+       "May ask the same root question in different ways (e.g., \"Marco, what's one character trait of Amos?\" then \"Fatima, do you agree or disagree with Marco, why?\" then \"Arecely, what's one character trait **you** would choose for Amos?\")",
+       "May ask follow up questions (e.g., \"why?\", \"how do you know?\", \"what's an example?\", etc.)"
+      ],
+      "examples": {
+       "strong": [
+        "What is the main idea of the paragraph, Eli?\" <Student responds> \"What do you think the main idea of the paragraph is, Maricruz?\" <Student responds> \"Christian, do you agree with Maricruz? Why or why not?\" <Student responds> \"Thank you for sharing!\" <Teacher states correct answer>"
+       ],
+       "attempting": [
+        {
+         "text": "Calls on some non-volunteers but only 1-2 students total"
+        },
+        {
+         "text": "Calls on 3+ students but always those who raise hands within first 3 seconds"
+        },
+        {
+         "text": "Calls on 3+ students using cold call, but asks different root question to each (e.g., \"Marco, what's one character trait of Amos?\", \"Fatima, how does Amos feel about the ocean?\", \"Arecely, why do you think Amos packed two barrels of fresh water for his trip?\")",
+         "why": "Multiple students but different questions"
+        }
+       ],
+       "insufficient": [
+        {
+         "text": "Only calling on students with raised hands or accepting responses from those who call out",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Always calling on the same 2-3 students",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Asking one student, getting correct answer, and moving on",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Revealing correct answer before end of questioning sequence (e.g., \"you are close but not quite, Marco\")",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Giving cues as to whether answers are correct before questioning ends (e.g., only saying \"great\" or nodding when correct; only frowning when incorrect)",
+         "why": "type: missed opportunity"
+        }
+       ],
+       "non_example": [
+        {
+         "text": "Monkeys are my favorite animal in the zoo, they are so funny!"
+        }
+       ]
+      }
+     }
+    ],
+    "scoring_band_definitions": {
+     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+     "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+     "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+    },
+    "teacher_statement_to_score": {
+     "transcript_quote_turn": "14",
+     "transcript_quote": "You are exactly right, Natalie (and Ella, and Carter). This circle is divded into two equal parts, which means each part is called a half.",
+     "turns_before_quote": [
+      {
+       "turn": "11",
+       "speaker": "Teacher",
+       "text": "Okay, eyes back up front - let's take a look at my shape. I also redid mine, so my circle is in two parts. And we know the parts are equal, because they are the same size, right? Okay, remember on Friday, we talked about naming parts, and how that has to do with how many there are? Carter, do you remember the name for two parts?"
+      },
+      {
+       "turn": "11",
+       "speaker": "Students",
+       "text": "Hannah: Looks at the circle\nElizabeth: Watches Carter, hands folded\nMei: Looks toward Carter quietly\nValentina: Looks at teacher's circle\nCarter: Two parts are called halves.\nNatalie: Turns to watch Carter\nMateo: Glances at his board\nPriya: Watches the circle quietly\nElla: Looks toward Carter quietly"
+      },
+      {
+       "turn": "12",
+       "speaker": "Teacher",
+       "text": "Ella, what do you think? Do we call two parts halves?"
+      },
+      {
+       "turn": "12",
+       "speaker": "Students",
+       "text": "Hannah: Looks toward Ella quietly\nElizabeth: Watches Ella for confirmation\nMei: Turns to listen quietly\nValentina: Looks at teacher's circle\nCarter: Looks toward Ella attentively\nNatalie: Turns toward Ella quietly\nMateo: Points at teacher's circle\nPriya: Watches Ella answer quietly\nElla: Yes, if there are two pieces, they're halves."
+      },
+      {
+       "turn": "13",
+       "speaker": "Teacher",
+       "text": "Natalie, agree or disagree? Do I have halves on this circle?"
+      },
+      {
+       "turn": "13",
+       "speaker": "Students",
+       "text": "Hannah: Watches Natalie answer quietly\nElizabeth: Looks toward Natalie uncertainly\nMei: Turns to listen quietly\nValentina: Looks at the circle\nCarter: Watches Natalie answer quietly\nNatalie: I agree. They're halves because the circle has two equal parts.\nMateo: Points at the circle\nPriya: Looks toward Natalie quietly\nElla: Watches Natalie, hands folded"
+      }
+     ]
+    }
+   },
+   "questions": {
+    "new_choice_1": {
+     "type": "choice",
+     "instructions": "How well did the teacher do on this skill across the sequence of turns in turns_before_quote that ends with the transcript_quote?",
+     "criteria": {
+      "option_a": "Strong",
+      "option_b": "Attempting",
+      "option_c": "Insufficient",
+      "option_d": "Non-Example"
+     }
+    }
+   }
+  },
+  "response": {
+   "model": "jev-1.14.0",
+   "answers": {
+    "new_choice_1": {
+     "type": "choice",
+     "choice": "option_a",
+     "confidence": 0.63,
+     "probabilities": {
+      "option_a": 0.72,
+      "option_b": 0.17,
+      "option_c": 0.1,
+      "option_d": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 1988,
+    "output_tokens": 53
+   }
+  }
+ },
+ "lesson": {
+  "lookFor": "Right Time (CFU)",
+  "request": {
+   "model": "jev-latest",
+   "state": {
+    "teacher_skill": [
+     {
+      "name": "Right Time (CFU)",
+      "type": "Required",
+      "teacher_facing": "Check for understanding at strategic moments in the lesson",
+      "observable_behaviors": [
+       "CFUs after key points and key steps in content or skill instruction",
+       "CFUs when instruction can still be adjusted based on results",
+       "CFUs before releasing students to lengthy independent work"
+      ],
+      "acceptable_variations": [
+       "May do a formative check for understanding to assess prior knowledge before instruction on key points or steps, but must also check for updated understanding after instruction in this case",
+       "If key points do not require sequence and are short, check for understanding questions may be asked after each individual point or in a group after instruction on multiple key points",
+       "A short stop and jot or independent task can be a well-timed check for understanding and should not be penalized as an example of releasing students to independent work without a check"
+      ],
+      "examples": {
+       "strong": [
+        "Teacher explains metamorphic rock formation process, immediately checks if students can explain how heat and pressure create metamorphic rocks, adjusts explanation based on responses, then continues to next rock type",
+        "Teacher models solving two-step equations, checks that students can identify which operation to undo first (trickiest part), adjusts based on CFU results, then has students practice"
+       ],
+       "attempting": [
+        {
+         "text": "Introduces three key steps for solving inequalities, checks for understanding after steps 1 and 2, but moves directly to practice after teaching step 3 without checking",
+         "why": "CFUs at some strategic points but misses checking after the final key step before release"
+        },
+        {
+         "text": "Conducts a pre-assessment on fractions before the lesson but doesn't check for understanding after teaching the new content",
+         "why": "Uses formative check for prior knowledge but fails to check updated understanding after instruction"
+        }
+       ],
+       "insufficient": [
+        {
+         "text": "Delivers a lecture on rock formation and then has students work on 5 independent practice problems without checking for understanding",
+         "why": "type: missed opportunity"
+        },
+        {
+         "text": "Checks for understanding after students have completed independent practice",
+         "why": "type: missed opportunity"
+        }
+       ],
+       "non_example": [
+        {
+         "text": "Monkeys are my favorite animal in the zoo, they are so funny!"
+        }
+       ]
+      }
+     }
+    ],
+    "scoring_band_definitions": {
+     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
+     "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
+     "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
+    },
+    "lesson_transcript_to_score": {
+     "transcript": [
+      {
+       "turn": "1",
+       "speaker": "Teacher",
+       "text": "Good morning, everyone! I hope you all had excellent weekends, and are ready to go for today!"
+      },
+      {
+       "turn": "1",
+       "speaker": "Students",
+       "text": "Hannah: Looks toward the teacher\nElizabeth: Smiles at the teacher\nMei: Smiles at her classmates\nValentina: Waves at the teacher\nCarter: Turns toward his neighbor\nNatalie: Glances around the room\nMateo: Waves from his seat\nPriya: Looks toward the teacher\nElla: Smiles at her classmates"
+      },
+      {
+       "turn": "2",
+       "speaker": "Teacher",
+       "text": "Let's pick up where we left off last week - dividing shapes into equal parts, and then naming those parts. Go ahead and get out your whiteboards, please."
+      },
+      {
+       "turn": "2",
+       "speaker": "Students",
+       "text": "Hannah: Gets her whiteboard out\nElizabeth: Places whiteboard on desk\nMei: Sets out her whiteboard\nValentina: Pulls out her whiteboard\nCarter: Sets whiteboard on desk\nNatalie: Retrieves her whiteboard slowly\nMateo: Quickly grabs his whiteboard\nPriya: Places whiteboard in front\nElla: Gets her whiteboard ready"
+      },
+      {
+       "turn": "3",
+       "speaker": "Teacher",
+       "text": "Great, thanks for getting ready quickly! Okay, I want each of you to draw a shape on your board. It can be any shape you like - square, circle, rectangle, and so on. You can see on my board, I've drawn a circle."
+      },
+      {
+       "turn": "3",
+       "speaker": "Students",
+       "text": "Hannah: Draws a circle on her whiteboard.\nElizabeth: Draws a square on her whiteboard.\nMei: Draws a neat rectangle on her whiteboard.\nValentina: Draws a large circle on her whiteboard.\nCarter: Draws a rectangle on his whiteboard.\nNatalie: Draws a circle on her whiteboard.\nMateo: Draws a large square on his whiteboard.\nPriya: Draws a triangle on her whiteboard.\nElla: Draws a circle on her whiteboard."
+      },
+      {
+       "turn": "4",
+       "speaker": "Teacher",
+       "text": "All right, now - using lines, divide your shape into equal parts. That is, every part should be the same size. See, I've divided my circle into four parts. You can divide your shape into as many parts as you like."
+      },
+      {
+       "turn": "4",
+       "speaker": "Students",
+       "text": "Hannah: Divides her circle into four parts, with one noticeably larger.\nElizabeth: Divides her square into two noticeably unequal parts.\nMei: Divides her rectangle into four equal-looking parts.\nValentina: Divides her circle into two unequal parts.\nCarter: Divides his rectangle into three equal-looking parts.\nNatalie: Divides her circle into two equal-looking halves.\nMateo: Divides his square into four parts, with one noticeably smaller.\nPriya: Divides her triangle into two unequal parts.\nElla: Divides her circle into three noticeably unequal parts."
+      },
+      {
+       "turn": "5",
+       "speaker": "Teacher",
+       "text": "Okay, hold your whiteboards up so I can see? Take a look around at what your classmates have drawn."
+      },
+      {
+       "turn": "5",
+       "speaker": "Students",
+       "text": "Hannah: Holds board, looks around\nElizabeth: Raises board, watches classmates\nMei: Holds board, notices classmates\nValentina: Raises board, looks around\nCarter: Holds board, scans classmates\nNatalie: Raises board, glances sideways\nMateo: Raises board, looks around\nPriya: Holds board, watches classmates\nElla: Raises board, looks around"
+      },
+      {
+       "turn": "6",
+       "speaker": "Teacher",
+       "text": "Okay, I see some rectangles, some circles, Priya drew a triangle, nice! Take a look at my shape again - see how it's divided into equal parts? Meaning, each part is the same size? Look at your own shape. Are your parts equal?"
+      },
+      {
+       "turn": "6",
+       "speaker": "Students",
+       "text": "Hannah: Studies her circle quietly\nElizabeth: Looks closely at square\nMei: Checks her rectangle's sections\nValentina: Stares at her circle\nCarter: Points to rectangle sections\nNatalie: Looks at both halves\nMateo: Glances quickly at square\nPriya: Studies her triangle's sections\nElla: Looks between her sections"
+      },
+      {
+       "turn": "7",
+       "speaker": "Teacher",
+       "text": "Take a second and, if you think your parts are unequal, you can erase and redraw them. In 60 seconds, hold your whiteboard up - I want to see a sea of shapes, neatly divided into equal parts!"
+      },
+      {
+       "turn": "7",
+       "speaker": "Students",
+       "text": "Hannah: Keeps her circle divided into four parts, one noticeably larger.\nElizabeth: Redraws her square's dividing line, but one part remains larger.\nMei: Keeps her rectangle divided into four equal-looking parts.\nValentina: Redraws her circle's line, leaving two unequal parts.\nCarter: Keeps his rectangle divided into three equal-looking parts.\nNatalie: Keeps her circle divided into two equal-looking halves.\nMateo: Quickly redraws his square with four parts, one still smaller.\nPriya: Moves the line in her triangle, but its two parts remain unequal.\nElla: Keeps three unequal sections in her circle."
+      },
+      {
+       "turn": "8",
+       "speaker": "Teacher",
+       "text": "Priya, can you hand me your whiteboard? Okay, let's look at this shape together. We have a triangle, with a line dividing it into two parts. Are these parts the same size? Thumbs up if yes, thumbs down if no"
+      },
+      {
+       "turn": "8",
+       "speaker": "Students",
+       "text": "Hannah: Holds her thumb up\nElizabeth: Holds her thumb up\nMei: Holds her thumb down\nValentina: Holds her thumb up\nCarter: Holds his thumb down\nNatalie: Holds her thumb down\nMateo: Quickly holds thumb up\nPriya: Hesitantly raises thumb up\nElla: Holds her thumb up"
+      },
+      {
+       "turn": "9",
+       "speaker": "Teacher",
+       "text": "Mixed opinions, I see. These parts are _not_ the same size. You can see that this one here is larger than this one. So if I want to fix that, I just erase the line like this, and then draw it...here, like this. See how both are the same size now?"
+      },
+      {
+       "turn": "9",
+       "speaker": "Students",
+       "text": "Hannah: Watches the dividing line\nElizabeth: Looks between both parts\nMei: Studies the redrawn triangle\nValentina: Watches Priya's board closely\nCarter: Looks at both sections\nNatalie: Watches the teacher draw\nMateo: Glances at his board\nPriya: Studies her redrawn triangle\nElla: Looks at her circle"
+      },
+      {
+       "turn": "10",
+       "speaker": "Teacher",
+       "text": "Okay, let's all do this together. On your whiteboard, erase your dividing lines. No matter what shape you have, divide it into two equal parts."
+      },
+      {
+       "turn": "10",
+       "speaker": "Students",
+       "text": "Hannah: Erases her lines and draws two parts, one noticeably larger.\nElizabeth: Erases her line and redraws two unequal sections in her square.\nMei: Erases her lines and divides her rectangle into two equal-looking parts.\nValentina: Erases her line and divides her circle into two unequal parts.\nCarter: Erases his lines and divides his rectangle into two equal-looking parts.\nNatalie: Erases her line and redraws two equal-looking halves in her circle.\nMateo: Erases his lines and quickly draws two unequal parts in his square.\nPriya: Erases her line and redraws it, leaving one triangular section larger.\nElla: Erases her lines and draws two unequal parts in her circle."
+      },
+      {
+       "turn": "11",
+       "speaker": "Teacher",
+       "text": "Okay, eyes back up front - let's take a look at my shape. I also redid mine, so my circle is in two parts. And we know the parts are equal, because they are the same size, right? Okay, remember on Friday, we talked about naming parts, and how that has to do with how many there are? Carter, do you remember the name for two parts?"
+      },
+      {
+       "turn": "11",
+       "speaker": "Students",
+       "text": "Hannah: Looks at the circle\nElizabeth: Watches Carter, hands folded\nMei: Looks toward Carter quietly\nValentina: Looks at teacher's circle\nCarter: Two parts are called halves.\nNatalie: Turns to watch Carter\nMateo: Glances at his board\nPriya: Watches the circle quietly\nElla: Looks toward Carter quietly"
+      },
+      {
+       "turn": "12",
+       "speaker": "Teacher",
+       "text": "Ella, what do you think? Do we call two parts halves?"
+      },
+      {
+       "turn": "12",
+       "speaker": "Students",
+       "text": "Hannah: Looks toward Ella quietly\nElizabeth: Watches Ella for confirmation\nMei: Turns to listen quietly\nValentina: Looks at teacher's circle\nCarter: Looks toward Ella attentively\nNatalie: Turns toward Ella quietly\nMateo: Points at teacher's circle\nPriya: Watches Ella answer quietly\nElla: Yes, if there are two pieces, they're halves."
+      },
+      {
+       "turn": "13",
+       "speaker": "Teacher",
+       "text": "Natalie, agree or disagree? Do I have halves on this circle?"
+      },
+      {
+       "turn": "13",
+       "speaker": "Students",
+       "text": "Hannah: Watches Natalie answer quietly\nElizabeth: Looks toward Natalie uncertainly\nMei: Turns to listen quietly\nValentina: Looks at the circle\nCarter: Watches Natalie answer quietly\nNatalie: I agree. They're halves because the circle has two equal parts.\nMateo: Points at the circle\nPriya: Looks toward Natalie quietly\nElla: Watches Natalie, hands folded"
+      },
+      {
+       "turn": "14",
+       "speaker": "Teacher",
+       "text": "You are exactly right, Natalie (and Ella, and Carter). This circle is divded into two equal parts, which means each part is called a half."
+      },
+      {
+       "turn": "14",
+       "speaker": "Students",
+       "text": "Hannah: Watches the circle quietly\nElizabeth: Looks at both sections\nMei: Watches the teacher quietly\nValentina: Looks at the circle\nCarter: Watches the teacher quietly\nNatalie: Looks at both halves\nMateo: Glances at his board\nPriya: Studies the teacher's circle\nElla: Looks at her circle"
+      }
+     ]
+    }
+   },
+   "questions": {
+    "new_choice_1": {
+     "type": "choice",
+     "instructions": "How well did the teacher do on this skill across the whole lesson_transcript_to_score?",
+     "criteria": {
+      "option_a": "Strong",
+      "option_b": "Attempting",
+      "option_c": "Insufficient",
+      "option_d": "Non-Example"
+     }
+    }
+   }
+  },
+  "response": {
+   "model": "jev-1.14.0",
+   "answers": {
+    "new_choice_1": {
+     "type": "choice",
+     "choice": "option_a",
+     "confidence": 0.77,
+     "probabilities": {
+      "option_a": 0.83,
+      "option_b": 0.14,
+      "option_c": 0.02,
+      "option_d": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 3840,
+    "output_tokens": 53
+   }
+  }
+ },
+ "pass1_runs": {
+  "Ask, Ask, Ask": {
+   "turns": [
+    {
+     "key": 0,
+     "label": "1",
+     "rating": "Non-Example",
+     "p": 0.99,
+     "conf": 0.99,
+     "inSequence": 0.07,
+     "start": "1",
+     "end": "4"
+    },
+    {
+     "key": 2,
+     "label": "2",
+     "rating": "Non-Example",
+     "p": 0.93,
+     "conf": 0.91,
+     "inSequence": 0.11,
+     "start": "2",
+     "end": "5"
+    },
+    {
+     "key": 4,
+     "label": "3",
+     "rating": "Non-Example",
+     "p": 0.86,
+     "conf": 0.81,
+     "inSequence": 0.22,
+     "start": "3",
+     "end": "6"
+    },
+    {
+     "key": 6,
+     "label": "4",
+     "rating": "Non-Example",
+     "p": 0.8,
+     "conf": 0.73,
+     "inSequence": 0.21,
+     "start": "4",
+     "end": "7"
+    },
+    {
+     "key": 8,
+     "label": "5",
+     "rating": "Non-Example",
+     "p": 0.7,
+     "conf": 0.6,
+     "inSequence": 0.32,
+     "start": "2",
+     "end": "5"
+    },
+    {
+     "key": 10,
+     "label": "6",
+     "rating": "Insufficient",
+     "p": 0.38,
+     "conf": 0.17,
+     "inSequence": 0.57,
+     "start": "5",
+     "end": "9"
+    },
+    {
+     "key": 12,
+     "label": "7",
+     "rating": "Non-Example",
+     "p": 0.7,
+     "conf": 0.6,
+     "inSequence": 0.29,
+     "start": "4",
+     "end": "7"
+    },
+    {
+     "key": 14,
+     "label": "8",
+     "rating": "Insufficient",
+     "p": 0.51,
+     "conf": 0.35,
+     "inSequence": 0.59,
+     "start": "5",
+     "end": "9"
+    },
+    {
+     "key": 16,
+     "label": "9",
+     "rating": "Insufficient",
+     "p": 0.3,
+     "conf": 0.07,
+     "inSequence": 0.62,
+     "start": "6",
+     "end": "12"
+    },
+    {
+     "key": 18,
+     "label": "10",
+     "rating": "Non-Example",
+     "p": 0.39,
+     "conf": 0.19,
+     "inSequence": 0.33,
+     "start": "11",
+     "end": "13"
+    },
+    {
+     "key": 20,
+     "label": "11",
+     "rating": "Strong",
+     "p": 0.82,
+     "conf": 0.76,
+     "inSequence": 0.93,
+     "start": "11",
+     "end": "14"
+    },
+    {
+     "key": 22,
+     "label": "12",
+     "rating": "Strong",
+     "p": 0.54,
+     "conf": 0.39,
+     "inSequence": 0.9,
+     "start": "11",
+     "end": "14"
+    },
+    {
+     "key": 24,
+     "label": "13",
+     "rating": "Attempting",
+     "p": 0.44,
+     "conf": 0.25,
+     "inSequence": 0.86,
+     "start": "11",
+     "end": "14"
+    },
+    {
+     "key": 26,
+     "label": "14",
+     "rating": "Strong",
+     "p": 0.63,
+     "conf": 0.51,
+     "inSequence": 0.9,
+     "start": "11",
+     "end": "14"
+    }
+   ],
+   "sequences": [
+    {
+     "start": "8",
+     "end": "9"
+    },
+    {
+     "start": "11",
+     "end": "14"
+    }
+   ]
+  },
+  "Whiteboards": {
+   "turns": [
+    {
+     "key": 0,
+     "label": "1",
+     "rating": "Non-Example",
+     "p": 0.9,
+     "conf": 0.87,
+     "inSequence": 0.2,
+     "start": "1",
+     "end": "4"
+    },
+    {
+     "key": 2,
+     "label": "2",
+     "rating": "Attempting",
+     "p": 0.43,
+     "conf": 0.24,
+     "inSequence": 0.73,
+     "start": "2",
+     "end": "5"
+    },
+    {
+     "key": 4,
+     "label": "3",
+     "rating": "Attempting",
+     "p": 0.58,
+     "conf": 0.44,
+     "inSequence": 0.79,
+     "start": "1",
+     "end": "6"
+    },
+    {
+     "key": 6,
+     "label": "4",
+     "rating": "Attempting",
+     "p": 0.46,
+     "conf": 0.28,
+     "inSequence": 0.88,
+     "start": "2",
+     "end": "7"
+    },
+    {
+     "key": 8,
+     "label": "5",
+     "rating": "Attempting",
+     "p": 0.56,
+     "conf": 0.41,
+     "inSequence": 0.86,
+     "start": "2",
+     "end": "5"
+    },
+    {
+     "key": 10,
+     "label": "6",
+     "rating": "Strong",
+     "p": 0.43,
+     "conf": 0.24,
+     "inSequence": 0.77,
+     "start": "3",
+     "end": "9"
+    },
+    {
+     "key": 12,
+     "label": "7",
+     "rating": "Strong",
+     "p": 0.69,
+     "conf": 0.59,
+     "inSequence": 0.88,
+     "start": "4",
+     "end": "10"
+    },
+    {
+     "key": 14,
+     "label": "8",
+     "rating": "Attempting",
+     "p": 0.47,
+     "conf": 0.29,
+     "inSequence": 0.82,
+     "start": "5",
+     "end": "11"
+    },
+    {
+     "key": 16,
+     "label": "9",
+     "rating": "Non-Example",
+     "p": 0.49,
+     "conf": 0.32,
+     "inSequence": 0.56,
+     "start": "6",
+     "end": "12"
+    },
+    {
+     "key": 18,
+     "label": "10",
+     "rating": "Strong",
+     "p": 0.44,
+     "conf": 0.25,
+     "inSequence": 0.83,
+     "start": "7",
+     "end": "13"
+    },
+    {
+     "key": 20,
+     "label": "11",
+     "rating": "Non-Example",
+     "p": 0.5,
+     "conf": 0.33,
+     "inSequence": 0.42,
+     "start": "8",
+     "end": "14"
+    },
+    {
+     "key": 22,
+     "label": "12",
+     "rating": "Non-Example",
+     "p": 0.7,
+     "conf": 0.6,
+     "inSequence": 0.22,
+     "start": "9",
+     "end": "14"
+    },
+    {
+     "key": 24,
+     "label": "13",
+     "rating": "Non-Example",
+     "p": 0.5,
+     "conf": 0.33,
+     "inSequence": 0.33,
+     "start": "10",
+     "end": "14"
+    },
+    {
+     "key": 26,
+     "label": "14",
+     "rating": "Non-Example",
+     "p": 0.93,
+     "conf": 0.91,
+     "inSequence": 0.11,
+     "start": "11",
+     "end": "14"
+    }
+   ],
+   "sequences": [
+    {
+     "start": "2",
+     "end": "10"
+    }
+   ]
+  }
+ },
+ "captured": "2026-11-11",
+ "transcript_note": "Relay Teaching Simulator session export, 14 teacher turns (grade 1 fractions lesson)"
+}
