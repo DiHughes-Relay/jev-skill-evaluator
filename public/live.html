@@ -8,7 +8,7 @@
   :root {
     --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
     --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
-    --ins: #b3261e; --ins-bg: #fbe4e2; --non: #8a8a8f; --non-bg: #f0f0ee;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --harm: #fff; --harm-bg: #7d1f5c; --non: #8a8a8f; --non-bg: #f0f0ee;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
@@ -59,6 +59,7 @@
   .b.Strong { background: var(--strong-bg); color: var(--strong); }
   .b.Attempting { background: var(--att-bg); color: var(--att); }
   .b.Insufficient { background: var(--ins-bg); color: var(--ins); }
+  .b.Harmful { background: var(--harm-bg); color: var(--harm); }
   .b.Non-Example { background: var(--non-bg); color: var(--non); }
   .ev { display: inline-block; border-radius: 4px; padding: 1px 6px; font-size: 11px; font-weight: 600; background: #eef2fb; color: var(--accent); }
   .ev.completed, .ev.ended { background: var(--accent); color: #fff; }

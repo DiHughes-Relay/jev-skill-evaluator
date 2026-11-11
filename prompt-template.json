@@ -1,19 +1,15 @@
 {
   "model": "jev-latest",
-
   "scoring_band_definitions": {
     "strong": "The teacher's language fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
-    "attempting": "The teacher is clearly trying to demonstrate the look-for, and the attempt is partially successful. Some observable behaviors are present, but one or more necessary components are missing, out of order, or underdeveloped (e.g., directions name the task but omit time or work mode). Students could likely proceed, but with some risk of confusion.",
-    "insufficient": "The teacher is attempting the relevant move (giving directions, explaining a task), but the execution fails the look-for. The language works against the observable behaviors, e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, verbal-only delivery. Corresponds to the taxonomy's 'non-example'.",
+    "attempting": "The teacher partially demonstrates the look-for: one or more of its components are missing or underdeveloped, but the components that are present are done well. Nothing in the attempt works against the observable behaviors; it is incomplete rather than done badly (e.g., directions name the task clearly but omit time or work mode). Students could likely proceed, with some risk of confusion.",
+    "insufficient": "The teacher attempts the look-for, but some part of it is done actively badly, in a way that is likely to hurt students' comprehension or engagement: the language works against the observable behaviors (e.g., stating what not to do, disordered steps with no sequencing language, excessive filler, revealing the answer before the questioning is complete). Missing components on their own are Attempting, not Insufficient.",
+    "harmful": "Something in the teacher's language is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. This applies whatever the look-for is, and takes priority over the other bands.",
     "non_example": "The transcript segment contains no attempt at the relevant move. The text is unrelated to the skill (off-topic talk, content unrelated to directions or instruction, student speech, noise), so there is nothing to evaluate against the look-for."
   },
-
   "instructions_with_context": "How well did the teacher do on this skill in the transcript_quote? Use turns_before_quote and turns_after_quote only as context; rate only the transcript_quote.",
-
   "instructions_sequence": "How well did the teacher do on this skill in the transcript_quote? A look-for may unfold across several turns: if the transcript_quote is part of a sequence shown in turns_before_quote or turns_after_quote, rate how well that sequence demonstrates the skill. If the transcript_quote is not part of such a sequence, rate the transcript_quote alone.",
-
   "instructions_sequence_final": "How well did the teacher do on this skill across the sequence of turns in turns_before_quote that ends with the transcript_quote?",
-
   "sequence_questions": {
     "in_sequence": "Is the transcript_quote one step of a sequence of several teacher turns that together demonstrate or attempt this skill?",
     "in_sequence_criteria": {
@@ -23,9 +19,7 @@
     "seq_start": "If the transcript_quote is part of such a sequence, which teacher turn starts the sequence?",
     "seq_end": "If the transcript_quote is part of such a sequence, which teacher turn ends the sequence?"
   },
-
   "instructions_lesson": "How well did the teacher do on this skill across the whole lesson_transcript_to_score?",
-
   "live": {
     "instructions_so_far": "How well is the teacher doing on this skill so far? The transcript_quote is the teacher's latest turn and turns_before_quote are the turns before it. This skill may unfold across several turns and may not be finished yet: rate only the steps the teacher has taken so far, and do not mark the teacher down for steps that could still come in later turns.",
     "in_progress": "Is the transcript_quote a step in a sequence of teacher turns that demonstrates or attempts this skill, either starting with the transcript_quote or continuing a sequence from turns_before_quote?",
@@ -40,14 +34,14 @@
       "true": "Yes: the transcript_quote is the final step of the sequence",
       "false": "No: the sequence is still under way, or there is no sequence"
     },
-
     "building": {
       "note": "Five-band variant for multi-turn look-fors, asked in its own call with these band definitions in place of scoring_band_definitions.",
       "band_definitions": {
         "strong": "The teacher has finished this skill, and the whole sequence fully demonstrates the look-for as defined by its observable behaviors. All components needed for student success are present, with no meaningful gaps. Comparable in quality to the taxonomy's strong examples.",
-        "attempting": "The teacher has finished this skill and the attempt is partially successful: the sequence is complete, but one or more necessary components were missing, out of order, or underdeveloped. Students could likely proceed, but with some risk of confusion.",
+        "attempting": "The teacher has finished this skill with partial completion: one or more components were missing or underdeveloped, but the components that are present were done well. Nothing works against the observable behaviors; it is incomplete rather than done badly.",
         "building": "The teacher has started this skill and the steps taken so far are on track, but the sequence isn't finished yet. Later turns could still complete it. Use this when the remaining steps simply haven't happened yet, not when they were skipped or done badly.",
-        "insufficient": "The teacher is attempting this skill, but the execution fails the look-for, whether or not the sequence is finished: the moves work against the observable behaviors, e.g., revealing the answer before the questioning is complete, or skipping a step the skill requires. Corresponds to the taxonomy's 'non-example'.",
+        "insufficient": "The teacher is attempting this skill, but some part of it is done actively badly, whether or not the sequence is finished, in a way that is likely to hurt students' comprehension or engagement: e.g., revealing the answer before the questioning is complete, or steps that work against the observable behaviors. Missing or not-yet-taken steps on their own are not Insufficient.",
+        "harmful": "Something in the teacher's language is likely to damage one or more students' relationship with the teacher, their self-image, or their standing with peers: e.g., putting a student down, expressing frustration or contempt toward a student, or singling a student out in a shaming way. This applies whatever the look-for is, and takes priority over the other bands.",
         "non_example": "The transcript_quote is not a step toward this skill. The text is unrelated to the skill (off-topic talk, a different move, student speech, noise), so there is nothing to evaluate against the look-for."
       },
       "instructions": "How is the teacher doing on this skill as of the transcript_quote, the teacher's latest turn? turns_before_quote are the turns before it; later turns haven't happened yet.",
@@ -56,13 +50,20 @@
         "option_b": "Attempting",
         "option_c": "Building",
         "option_d": "Insufficient",
-        "option_e": "Non-Example"
+        "option_e": "Harmful",
+        "option_f": "Non-Example"
       }
     }
   },
-
   "off_topic_non_example": "Monkeys are my favorite animal in the zoo, they are so funny!",
-
+  "harmful_example": "Seriously, Jordan? We've gone over this three times. I don't know why you never get it.",
+  "non_example_types": {
+    "_note": "Where each taxonomy non-example goes in examples, by the [type: ...] note it carries. Untyped ones use 'default'.",
+    "relational harm": "harmful",
+    "missed opportunity": "attempting",
+    "learning harm": "insufficient",
+    "default": "insufficient"
+  },
   "questions": {
     "new_choice_1": {
       "type": "choice",
@@ -71,7 +72,8 @@
         "option_a": "Strong",
         "option_b": "Attempting",
         "option_c": "Insufficient",
-        "option_d": "Non-Example"
+        "option_d": "Harmful",
+        "option_e": "Non-Example"
       }
     }
   }

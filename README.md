@@ -47,8 +47,12 @@ One call per (teacher turn × look-for), in exactly the playground shape:
 
 Edit `prompt-template.json` to change band definitions, the question, or the model
 (`jev-latest` by default). Edits apply on the next run, no restart needed.
-Taxonomy mapping: strong_examples → strong, attempting_examples → attempting,
-non_examples → insufficient, plus one fixed off-topic line as non_example.
+Bands: Strong / Attempting (partial: missing pieces, but what's there is done well) / Insufficient (part of it done
+actively badly, likely to hurt comprehension or engagement) / Harmful (likely to damage a student's relationship with the
+teacher, self-image or standing with peers) / Non-Example. The turn-by-turn page adds Building for unfinished multi-turn moves.
+Taxonomy mapping: strong_examples → strong, attempting_examples → attempting. non_examples go by their `[type: ...]` note
+(`non_example_types` in `prompt-template.json`): relational harm → harmful, missed opportunity → attempting,
+learning harm and untyped → insufficient. Every look-for also gets one fixed harmful line and one off-topic non_example line.
 
 ## Taxonomy
 `data/taxonomy.json` is a snapshot of the relay-taxonomy database (89 skills, 249 look-fors)

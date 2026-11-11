@@ -8,7 +8,7 @@
   :root {
     --bg: #f7f7f5; --panel: #fff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --accent: #2b59c3;
     --strong: #1f8a4c; --strong-bg: #e3f4ea; --att: #a86a00; --att-bg: #fdf1dc;
-    --ins: #b3261e; --ins-bg: #fbe4e2; --non: #8a8a8f; --non-bg: #f0f0ee;
+    --ins: #b3261e; --ins-bg: #fbe4e2; --harm: #fff; --harm-bg: #7d1f5c; --non: #8a8a8f; --non-bg: #f0f0ee;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
@@ -67,6 +67,7 @@
   .b.Strong { background: var(--strong-bg); color: var(--strong); }
   .b.Attempting { background: var(--att-bg); color: var(--att); }
   .b.Insufficient { background: var(--ins-bg); color: var(--ins); }
+  .b.Harmful { background: var(--harm-bg); color: var(--harm); }
   .b.Non-Example { background: var(--non-bg); color: var(--non); }
   .conf { color: var(--muted); font-size: 11px; margin-left: 4px; }
   .lowconf { opacity: .55; }
@@ -162,8 +163,8 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Non-Example'];
-const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', 'Non-Example': 'var(--non)' };
+const BANDS = ['Strong', 'Attempting', 'Insufficient', 'Harmful', 'Non-Example'];
+const COLORS = { Strong: 'var(--strong)', Attempting: 'var(--att)', Insufficient: 'var(--ins)', Harmful: 'var(--harm-bg)', 'Non-Example': 'var(--non)' };
 
 let skills = [], selected = new Set(), turns = [], run = null;
 let excluded = new Set();
@@ -448,8 +449,8 @@ function drawTable() {
     rows += `<tr><td class="muted">${esc(t.label)}</td><td class="quote">${esc(t.text)}</td><td class="seen">${seenCell(cells)}</td>` + cells.map((r, k) => ratingCell(r, t.index, lookFors[k].id)).join('') + '</tr>';
   }
   const head = `<thead><tr><th>#</th><th>Teacher turn</th><th class="seen" title="Look-fors rated Strong, Attempting or Insufficient with confidence above 50%">Look-fors attempted<div class="muted" style="font-weight:400">confidence &gt; 50%</div></th>${lookFors.map((l) => `<th class="lf" title="${esc(l.skills.map((s) => s.name + ' (' + s.type + ')').join('\n'))}">${esc(l.name)}<div class="muted" style="font-weight:400">${scopeLine(l)}</div></th>`).join('')}</tr></thead>`;
-  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient</div></td><td></td>${lookFors.map((l) => {
-    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span></td>`; }).join('')}</tr>`;
+  const summary = `<tr class="summary"><td></td><td><b>Attempts across the transcript</b><div class="muted">Strong / Attempting / Insufficient / Harmful</div></td><td></td>${lookFors.map((l) => {
+    const c = counts[l.id]; return `<td><span class="b Strong">${c.Strong}</span> <span class="b Attempting">${c.Attempting}</span> <span class="b Insufficient">${c.Insufficient}</span> <span class="b Harmful">${c.Harmful}</span></td>`; }).join('')}</tr>`;
   $('results').innerHTML = head + '<tbody>' + summary + rows + '</tbody>';
 }
 
@@ -474,9 +475,9 @@ $('lessonWide').onclick = showDetail;
 
 $('csv').onclick = () => {
   const q = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
-  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_non_example', 'error'].join(',')];
-  const row = (turnLabel, text, l, r) => { const p = r.probabilities || {};
-    lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', p.option_a?.toFixed(3) ?? '', p.option_b?.toFixed(3) ?? '', p.option_c?.toFixed(3) ?? '', p.option_d?.toFixed(3) ?? '', q(r.error)].join(',')); };
+  const lines = [['turn', 'teacher_turn', 'look_for', 'scope', 'sequence_turns', 'skills', 'rating', 'confidence', 'p_strong', 'p_attempting', 'p_insufficient', 'p_harmful', 'p_non_example', 'error'].join(',')];
+  const row = (turnLabel, text, l, r) => {
+    lines.push([q(turnLabel), q(text), q(l.name), q(SCOPE_LABEL[l.scope] || ''), q(r.sequence ? spanText(r.sequence) : r.seq ? 'part of ' + spanText(r.seq) : ''), q(l.skills.map((s) => s.name).join('; ')), r.label || '', r.confidence?.toFixed(3) ?? '', ...['Strong', 'Attempting', 'Insufficient', 'Harmful', 'Non-Example'].map((b) => r.bands?.[b]?.toFixed(3) ?? ''), q(r.error)].join(',')); };
   for (const l of lessonLookFors) { const r = results['lesson|' + l.id]; if (r) row('whole lesson', '', l, r); }
   for (const t of evalTurns) for (const l of lookFors) { const r = cellFor(t, l); if (r && r.kind !== 'pending') row(t.label, t.text, l, r.kind === 'seqmember' ? { ...r, label: '' } : r); }
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
